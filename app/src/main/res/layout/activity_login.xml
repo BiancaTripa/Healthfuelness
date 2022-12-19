@@ -5,9 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical"
     android:background="@drawable/login_background"
-    tools:context=".RegisterActivity">
+    tools:context=".LoginActivity"
+    android:orientation="vertical">
+
 
     <ImageView
         android:layout_width="100dp"
@@ -16,19 +17,6 @@
         android:src="@drawable/ic_logo">
     </ImageView>
 
-    <EditText
-        android:id="@+id/fullname"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:hint="Full Name"
-        android:maxLines="1"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:paddingStart="20dp"
-        android:paddingEnd="0dp"
-        android:background="@drawable/login_edit_background">
-    </EditText>
 
     <EditText
         android:id="@+id/email"
@@ -41,7 +29,6 @@
         android:layout_marginEnd="20dp"
         android:paddingStart="20dp"
         android:paddingEnd="0dp"
-        android:layout_marginTop="10dp"
         android:background="@drawable/login_edit_background">
     </EditText>
 
@@ -57,33 +44,18 @@
         android:paddingStart="20dp"
         android:paddingEnd="0dp"
         android:background="@drawable/login_edit_background"
-        android:layout_marginTop="10dp">
-    </EditText>
-
-    <EditText
-        android:id="@+id/conPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:hint="Confirm your Password"
-        android:maxLines="1"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:paddingStart="20dp"
-        android:paddingEnd="0dp"
-        android:background="@drawable/login_edit_background"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="20dp">
     </EditText>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button_register"
+        android:id="@+id/button_login"
         android:layout_width="124dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/login_edit_background"
-        android:text="Register"></androidx.appcompat.widget.AppCompatButton>
+        android:text="Login"></androidx.appcompat.widget.AppCompatButton>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -95,18 +67,22 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Already have a account?">
+            android:text="Don't have an account?">
         </TextView>
 
         <TextView
             android:layout_marginStart="5dp"
-            android:id="@+id/button_login"
+            android:id="@+id/button_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Login now"
+            android:text="Register now"
             android:textStyle="bold">
         </TextView>
 
     </LinearLayout>
+
+
+
+
 
 </LinearLayout>

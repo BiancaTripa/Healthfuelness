@@ -8,82 +8,84 @@ import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.NonNull
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : AppCompatActivity(){
 
-   // private lateinit var auth: FirebaseAuth
+    //create object of DatabaseReference class to access firebase's Realtime Database
+    val databaseReference =  FirebaseDatabase.getInstance().getReferenceFromUrl("https://healthfuelness-d8e8a-default-rtdb.firebaseio.com/")
 
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-     //   auth = FirebaseAuth.getInstance()
-/*
-        btn_register2.setOnClickListener{
-            registerUser()
-        }*/
+        val fullName = findViewById<EditText>(R.id.fullname)
+        val email = findViewById<EditText>(R.id.email)
+        val password = findViewById<EditText>(R.id.password)
+        val conPassword = findViewById<EditText>(R.id.conPassword)
+        val registerButton = findViewById<Button>(R.id.button_register)
+        val loginNowButton = findViewById<TextView>(R.id.button_login)
 
-        val loginTextView: TextView = findViewById<TextView>(R.id.tv_login2)
-        loginTextView.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+
+        registerButton.setOnClickListener {
+            //get data from EditTexts into String variables
+            val fullNameTxt = fullName.text.toString()
+            val emailTxt = email.text.toString()
+            val passwordTxt = password.text.toString()
+            val conPasswordTxt = conPassword.text.toString()
+
+            //check if user fill the fields before sending data to firebase
+            if (fullNameTxt.isEmpty() || emailTxt.isEmpty() || passwordTxt.isEmpty() || conPasswordTxt.isEmpty()) {
+                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+            }
+
+            //check if passwords match
+            else if (passwordTxt != conPasswordTxt) {
+                Toast.makeText(this, "Passwords are not matching", Toast.LENGTH_SHORT).show()
+            }
+
+            //send data to firebase RealTime Database
+            else {
+                val getContext = this
+                databaseReference.child("users").addListenerForSingleValueEvent(object :
+                    ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        //check if email is not registered before
+                        if (snapshot.hasChild(emailTxt)){
+                            Toast.makeText(getContext, "Email already used", Toast.LENGTH_SHORT).show()
+                            finish()
+                        }
+                        else {
+                            //use email as unique identity of every user
+                            // other details comes under email
+                            databaseReference.child("users").child(emailTxt).child("fullname").setValue(fullNameTxt)
+                            databaseReference.child("users").child(emailTxt).child("password").setValue(passwordTxt)
+
+                            Toast.makeText(getContext, "User registered successfully", Toast.LENGTH_SHORT).show()
+                            finish()
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+
+                    }
+                })
+            }
+        }
+
+        loginNowButton.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
-            // finish()
         }
-    }
-
-    private fun registerUser() {
-
-        if(tv_full_name.text.toString().isEmpty()) {
-            tv_full_name.error = "Please enter your full name"
-            tv_full_name.requestFocus()
-            return
-        }
-
-        if(tv_email.text.toString().isEmpty()) {
-            tv_email.error = "Please enter your email"
-            tv_email.requestFocus()
-            return
-        }
-
-        if (!Patterns.EMAIL_ADDRESS.matcher(tv_email.text.toString()).matches()){
-            tv_email.error = "Please enter valid email"
-            tv_email.requestFocus()
-            return
-        }
-
-        if(tv_password.text.toString().isEmpty()) {
-            tv_password.error = "Please enter your password"
-            tv_password.requestFocus()
-            return
-        }
-
-        if(tv_confirm_password.text.toString().isEmpty()) {
-            tv_confirm_password.error = "Please confirm your password"
-            tv_confirm_password.requestFocus()
-            return
-        }
-
-        if(tv_confirm_password.text.toString() != tv_password.text.toString()) {
-            tv_confirm_password.error = "Passwords do not match"
-            tv_confirm_password.requestFocus()
-            return
-        }
-
-       /* auth.createUserWithEmailAndPassword(tv_email.text.toString(), tv_password.text.toString() )
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
-                } else {
-                    Toast.makeText(baseContext, "Register failed.",
-                        Toast.LENGTH_SHORT).show()
-                }
-            }*/
 
     }
 }
