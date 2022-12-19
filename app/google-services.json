@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1046680508123",
+    "project_id": "healthfuelness-d8e8a",
+    "storage_bucket": "healthfuelness-d8e8a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1046680508123:android:c408c554a8fdd0c2c99efe",
+        "android_client_info": {
+          "package_name": "com.example.healthfuelness"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1046680508123-1f0rlv1c19e61v2f5o362e3go6sj362d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBtl8tquJfEfRySakC9MffPNamSz9BWy8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1046680508123-1f0rlv1c19e61v2f5o362e3go6sj362d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
