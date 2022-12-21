@@ -21,17 +21,17 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        val email = findViewById<EditText>(R.id.email)
+        val fullName = findViewById<EditText>(R.id.fullName)
         val password = findViewById<EditText>(R.id.password)
         val loginButton = findViewById<Button>(R.id.button_login)
         val registerNowButton = findViewById<TextView>(R.id.button_register)
 
         loginButton.setOnClickListener {
-            val emailTxt = email.text.toString()
+            val fullNameTxt = fullName.text.toString()
             val passwordTxt = password.text.toString()
 
-            if (emailTxt.isEmpty() || passwordTxt.isEmpty()) {
-                Toast.makeText(this, "Please enter your email or password", Toast.LENGTH_SHORT).show()
+            if (fullNameTxt.isEmpty() || passwordTxt.isEmpty()) {
+                Toast.makeText(this, "Please enter your username or password", Toast.LENGTH_SHORT).show()
             }
             else {
                 val getContext = this
@@ -40,20 +40,22 @@ class LoginActivity : AppCompatActivity() {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         //check if email is exist in firebase database
 
-                        if (snapshot.hasChild(emailTxt)) {
-                            val getPassword = snapshot.child(emailTxt).child("password").getValue(String.javaClass)
+                        if (snapshot.hasChild(fullNameTxt)) {
+                            val getPassword = snapshot.child(fullNameTxt).child("password").getValue(String.javaClass)
 
                             if (getPassword != null) {
                                 if (getPassword.equals(passwordTxt)) {
                                     Toast.makeText(getContext, "Successfully logged in", Toast.LENGTH_SHORT).show()
-                                    //open another activity
+                                    //go to home page
+                                    val intent = Intent(getContext, MainActivity::class.java)
+                                    startActivity(intent)
                                 }
                                 else {
                                     Toast.makeText(getContext, "Wrong password", Toast.LENGTH_SHORT).show()
                                 }
                             }
                         }else {
-                            Toast.makeText(getContext, "Wrong email", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(getContext, "Wrong username", Toast.LENGTH_SHORT).show()
                         }
                     }
 
