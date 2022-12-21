@@ -1,5 +1,6 @@
 package com.example.healthfuelness
 
+import User
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.content.Intent
@@ -21,8 +22,9 @@ import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : AppCompatActivity(){
 
+
     //create object of DatabaseReference class to access firebase's Realtime Database
-    val databaseReference =  FirebaseDatabase.getInstance().getReferenceFromUrl("https://healthfuelness-d8e8a-default-rtdb.firebaseio.com/")
+    private val databaseReference =  FirebaseDatabase.getInstance().getReferenceFromUrl("https://healthfuelness-d8e8a-default-rtdb.firebaseio.com/")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,23 +57,61 @@ class RegisterActivity : AppCompatActivity(){
 
             //send data to firebase RealTime Database
             else {
+                /*
+                val user = User(fullNameTxt, emailTxt, passwordTxt)
+                databaseReference.child("users").child(fullNameTxt).setValue(user).addOnSuccessListener {
+                    Toast.makeText(this, "User registered successfully", Toast.LENGTH_SHORT).show()
+
+                    //go to home page
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                }.addOnFailureListener {
+                    Toast.makeText(this, "User registered FAILED", Toast.LENGTH_SHORT).show()
+                }*/
+
+                databaseReference.child("users").child(fullNameTxt).child("email").setValue(emailTxt)
+                databaseReference.child("users").child(fullNameTxt).child("fullname").setValue(fullNameTxt)
+                databaseReference.child("users").child(fullNameTxt).child("password").setValue(passwordTxt)
+
+                Toast.makeText(this, "User registered successfully", Toast.LENGTH_SHORT).show()
+
+                //go to home page
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                //finish()
+                // this part is good for updating data, not for adding new one
+
+
+                /*
                 val getContext = this
                 databaseReference.child("users").addListenerForSingleValueEvent(object :
                     ValueEventListener {
+
                     override fun onDataChange(snapshot: DataSnapshot) {
+
                         //check if email is not registered before
-                        if (snapshot.hasChild(emailTxt)){
-                            Toast.makeText(getContext, "Email already used", Toast.LENGTH_SHORT).show()
+                        if (snapshot.hasChild(fullNameTxt)){
+                            Toast.makeText(getContext, "Name already used", Toast.LENGTH_SHORT).show()
                             finish()
                         }
                         else {
                             //use email as unique identity of every user
                             // other details comes under email
-                            databaseReference.child("users").child(emailTxt).child("fullname").setValue(fullNameTxt)
-                            databaseReference.child("users").child(emailTxt).child("password").setValue(passwordTxt)
+
+                            //val user = User(fullNameTxt, emailTxt, passwordTxt)
+                            //databaseReference.child("users").child(fullNameTxt).setValue(user)
+
+                            databaseReference.child("users").child(fullNameTxt).child("email").setValue(emailTxt)
+                            databaseReference.child("users").child(fullNameTxt).child("fullname").setValue(fullNameTxt)
+                            databaseReference.child("users").child(fullNameTxt).child("password").setValue(passwordTxt)
+
 
                             Toast.makeText(getContext, "User registered successfully", Toast.LENGTH_SHORT).show()
-                            finish()
+
+                            //go to home page
+                            val intent = Intent(getContext, MainActivity::class.java)
+                            startActivity(intent)
+                            //finish()
                         }
                     }
 
@@ -79,6 +119,9 @@ class RegisterActivity : AppCompatActivity(){
 
                     }
                 })
+*/
+
+
             }
         }
 
