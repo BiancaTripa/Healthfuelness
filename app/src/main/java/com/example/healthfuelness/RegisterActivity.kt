@@ -57,71 +57,35 @@ class RegisterActivity : AppCompatActivity(){
 
             //send data to firebase RealTime Database
             else {
-                /*
-                val user = User(fullNameTxt, emailTxt, passwordTxt)
-                databaseReference.child("users").child(fullNameTxt).setValue(user).addOnSuccessListener {
-                    Toast.makeText(this, "User registered successfully", Toast.LENGTH_SHORT).show()
-
-                    //go to home page
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                }.addOnFailureListener {
-                    Toast.makeText(this, "User registered FAILED", Toast.LENGTH_SHORT).show()
-                }*/
-
-                databaseReference.child("users").child(fullNameTxt).child("email").setValue(emailTxt)
-                databaseReference.child("users").child(fullNameTxt).child("fullname").setValue(fullNameTxt)
-                databaseReference.child("users").child(fullNameTxt).child("password").setValue(passwordTxt)
-
-                Toast.makeText(this, "User registered successfully", Toast.LENGTH_SHORT).show()
-
-                //go to home page
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                //finish()
-                // this part is good for updating data, not for adding new one
-
-
-                /*
                 val getContext = this
                 databaseReference.child("users").addListenerForSingleValueEvent(object :
                     ValueEventListener {
 
                     override fun onDataChange(snapshot: DataSnapshot) {
 
-                        //check if email is not registered before
+                        //check if username is not registered before
                         if (snapshot.hasChild(fullNameTxt)){
-                            Toast.makeText(getContext, "Name already used", Toast.LENGTH_SHORT).show()
-                            finish()
+                            Toast.makeText(getContext, "Username already used", Toast.LENGTH_SHORT).show()
                         }
                         else {
-                            //use email as unique identity of every user
-                            // other details comes under email
-
-                            //val user = User(fullNameTxt, emailTxt, passwordTxt)
-                            //databaseReference.child("users").child(fullNameTxt).setValue(user)
+                            //use username(full name) as unique identity of every user
+                            // other details comes under username(full name)
 
                             databaseReference.child("users").child(fullNameTxt).child("email").setValue(emailTxt)
                             databaseReference.child("users").child(fullNameTxt).child("fullname").setValue(fullNameTxt)
                             databaseReference.child("users").child(fullNameTxt).child("password").setValue(passwordTxt)
-
 
                             Toast.makeText(getContext, "User registered successfully", Toast.LENGTH_SHORT).show()
 
                             //go to home page
                             val intent = Intent(getContext, MainActivity::class.java)
                             startActivity(intent)
-                            //finish()
                         }
                     }
-
                     override fun onCancelled(error: DatabaseError) {
-
+                        println("The write failed: " + error.code);
                     }
                 })
-*/
-
-
             }
         }
 
