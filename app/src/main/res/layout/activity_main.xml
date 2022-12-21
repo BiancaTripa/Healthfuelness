@@ -17,6 +17,15 @@
         android:src="@drawable/ic_logo">
     </ImageView>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_logout"
+        android:layout_width="124dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/login_edit_background"
+        android:text="Log Out"></androidx.appcompat.widget.AppCompatButton>
 
 
 
