@@ -18,7 +18,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : AppCompatActivity(){
 
@@ -78,7 +77,7 @@ class RegisterActivity : AppCompatActivity(){
                             Toast.makeText(getContext, "User registered successfully", Toast.LENGTH_SHORT).show()
 
                             //go to home page
-                            val intent = Intent(getContext, MainActivity::class.java)
+                            val intent = Intent(getContext, HomeActivity::class.java)
                             startActivity(intent)
                         }
                     }

@@ -48,7 +48,7 @@ class LoginActivity : AppCompatActivity() {
                                 if (getPassword.equals(passwordTxt)) {
                                     Toast.makeText(getContext, "Successfully logged in", Toast.LENGTH_SHORT).show()
                                     //go to home page
-                                    val intent = Intent(getContext, MainActivity::class.java)
+                                    val intent = Intent(getContext, HomeActivity::class.java)
                                     startActivity(intent)
                                 }
                                 else {
