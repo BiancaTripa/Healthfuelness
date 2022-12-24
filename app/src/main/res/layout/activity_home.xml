@@ -49,16 +49,16 @@
                 android:textStyle="italic"></TextView>
         </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
+    <ImageView
             android:id="@+id/button_message"
             android:layout_width="70dp"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/login_edit_background"
-            android:text="Message"></androidx.appcompat.widget.AppCompatButton>
+            android:src="@drawable/ic_message">
+        </ImageView>
 
     </LinearLayout>
 
@@ -94,36 +94,35 @@
         android:layout_gravity="center"
         android:orientation="horizontal">
 
-        <androidx.appcompat.widget.AppCompatButton
+        <ImageView
             android:id="@+id/button_map"
-            android:layout_width="70dp"
+            android:layout_width="80dp"
             android:layout_height="50dp"
             android:layout_marginStart="25dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="25dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/login_edit_background"
-            android:text="Map"></androidx.appcompat.widget.AppCompatButton>
+            android:src="@drawable/ic_map">
+        </ImageView>
 
         <ImageView
             android:id="@+id/button_home"
-            android:layout_width="75dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
+            android:layout_width="80dp"
+            android:layout_height="70dp"
             android:layout_marginBottom="20dp"
             android:src="@drawable/ic_logo">
         </ImageView>
 
-        <androidx.appcompat.widget.AppCompatButton
+        <ImageView
             android:id="@+id/button_happy"
-            android:layout_width="70dp"
+            android:layout_width="80dp"
             android:layout_height="50dp"
             android:layout_marginStart="25dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="25dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/login_edit_background"
-            android:text="Camera"></androidx.appcompat.widget.AppCompatButton>
+            android:src="@drawable/ic_camera">
+        </ImageView>
 
     </LinearLayout>
 
