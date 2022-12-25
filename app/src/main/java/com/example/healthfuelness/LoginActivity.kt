@@ -33,35 +33,6 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please enter your username or password", Toast.LENGTH_SHORT).show()
             }
             else {
-                /*
-                val getContext = this
-                databaseReference.child("users").addListenerForSingleValueEvent(object :
-                    ValueEventListener {
-
-                    override fun onDataChange(snapshot: DataSnapshot) {
-
-                        //check if username is not registered before
-                        if (snapshot.hasChild(fullNameTxt)){
-                            Toast.makeText(getContext, "Username already used", Toast.LENGTH_SHORT).show()
-                        }
-                        else {
-                            //use username(full name) as unique identity of every user
-                            // other details comes under username(full name)
-
-                            databaseReference.child("users").child(fullNameTxt).child("email").setValue(emailTxt)
-                            databaseReference.child("users").child(fullNameTxt).child("fullname").setValue(fullNameTxt)
-                            databaseReference.child("users").child(fullNameTxt).child("password").setValue(passwordTxt)
-
-                            Toast.makeText(getContext, "User registered successfully", Toast.LENGTH_SHORT).show()
-
-                            //go to home page
-                            val intent = Intent(getContext, MainActivity::class.java)
-                            startActivity(intent)
-                        }
-                    }
-                    override fun onCancelled(error: DatabaseError) {}
-                })
-                 */
                 val getContext = this
                 databaseReference.child("users").addListenerForSingleValueEvent(object :
                     ValueEventListener {
@@ -73,11 +44,11 @@ class LoginActivity : AppCompatActivity() {
 
                             val getPassword = snapshot.child(fullNameTxt).child("password").getValue(String::class.java)
                             if (getPassword != null) {
-                                
+
                                 if (getPassword.equals(passwordTxt)) {
                                     Toast.makeText(getContext, "Successfully logged in", Toast.LENGTH_SHORT).show()
                                     //go to home page
-                                    val intent = Intent(getContext, MainActivity::class.java)
+                                    val intent = Intent(getContext, HomeActivity::class.java)
                                     startActivity(intent)
                                 }
                                 else {
