@@ -76,8 +76,9 @@
         android:textStyle="bold"></TextView>
 
     <CalendarView
+        android:id="@+id/cv_calendar"
         android:layout_width="wrap_content"
-        android:layout_height="341dp"
+        android:layout_height="294dp"
         android:layout_gravity="center"
         android:layout_marginStart="25dp"
         android:layout_marginTop="10dp"
