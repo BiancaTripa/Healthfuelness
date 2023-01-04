@@ -40,6 +40,9 @@
         <activity
             android:name=".WhatMakeMeHappyActivity"
             android:exported="false" />
+        <activity
+            android:name=".HappyActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

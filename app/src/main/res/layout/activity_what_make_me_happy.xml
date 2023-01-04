@@ -75,25 +75,18 @@
         android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"></TextView>
 
-    <TextView
-        android:id="@+id/calendar"
-        android:layout_width="334dp"
-        android:layout_height="244dp"
-        android:layout_gravity="center"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="20dp"
-        android:text="Aici vor fi pozele. Momentan e doar pentru aranjarea in pagina -> #TBD#"
-        android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold"></TextView>
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/list_item"></ListView>
 
-        <ImageView
-            android:id="@+id/button_home"
-            android:layout_width="80dp"
-            android:layout_height="70dp"
-            android:layout_marginBottom="20dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_logo">
-        </ImageView>
+    <ImageView
+        android:id="@+id/button_home"
+        android:layout_width="80dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_logo">
+    </ImageView>
 </LinearLayout>
