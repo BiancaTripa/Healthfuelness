@@ -1,6 +1,7 @@
 package com.example.healthfuelness
 
 import User
+import User.setUsername
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.content.Intent
@@ -73,6 +74,8 @@ class RegisterActivity : AppCompatActivity(){
                             databaseReference.child("users").child(fullNameTxt).child("email").setValue(emailTxt)
                             databaseReference.child("users").child(fullNameTxt).child("fullname").setValue(fullNameTxt)
                             databaseReference.child("users").child(fullNameTxt).child("password").setValue(passwordTxt)
+
+                            setUsername(fullNameTxt)
 
                             Toast.makeText(getContext, "User registered successfully", Toast.LENGTH_SHORT).show()
 

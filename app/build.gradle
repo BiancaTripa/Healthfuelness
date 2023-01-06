@@ -7,6 +7,12 @@ plugins {
     //to import from xml to kt
     id 'kotlin-android'
     id 'kotlin-android-extensions'
+
+    //for Safe Args
+    //To generate Java language code suitable for Java or mixed Java and Kotlin modules
+    id("androidx.navigation.safeargs")
+    //to generate Kotlin code suitable for Kotlin-only modules
+    //id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -42,7 +48,6 @@ android {
 }
 
 dependencies {
-
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:31.1.1')
 
@@ -69,4 +74,21 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+
+    //Include Navigation support to the project
+
+    // Kotlin
+    implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
+    implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
+
+    // Feature module Support
+    implementation("androidx.navigation:navigation-dynamic-features-fragment:2.5.3")
+
+    // Testing Navigation
+    androidTestImplementation("androidx.navigation:navigation-testing:2.5.3")
+
+    // Jetpack Compose Integration
+    implementation("androidx.navigation:navigation-compose:2.5.3")
+
+
 }
