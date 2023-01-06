@@ -30,7 +30,7 @@ class HomeActivity : AppCompatActivity() {
 
         goToDateButton.setOnClickListener {
             val intent = Intent(this, HomeMeasurementsActivity::class.java)
-            intent.putExtra("date", selectedDate)
+            //intent.putExtra("date", selectedDate)
             startActivity(intent)
         }
 
