@@ -1,5 +1,6 @@
 package com.example.healthfuelness
 
+import User.setUsername
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -46,6 +47,7 @@ class LoginActivity : AppCompatActivity() {
                             if (getPassword != null) {
 
                                 if (getPassword.equals(passwordTxt)) {
+                                    setUsername(fullNameTxt)
                                     Toast.makeText(getContext, "Successfully logged in", Toast.LENGTH_SHORT).show()
                                     //go to home page
                                     val intent = Intent(getContext, HomeActivity::class.java)

@@ -3,26 +3,48 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/loginActivity">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.example.healthfuelness.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first" >
-
+        android:id="@+id/homeActivity"
+        android:name="com.example.healthfuelness.HomeActivity"
+        android:label="activity_home"
+        tools:layout="@layout/activity_home">
+        <argument
+            android:name="selectedDate"
+            app:argType="string"/>
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_selectedDate"
+            app:destination="@id/homeMeasurementsActivity" />
     </fragment>
-    <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.example.healthfuelness.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second" >
 
+    <fragment
+        android:id="@+id/homeMeasurementsActivity"
+        android:name="com.example.healthfuelness.HomeMeasurementsActivity"
+        android:label="activity_home_measurements"
+        tools:layout="@layout/activity_home_measurements" >
+        <argument
+            android:name="selectedDate"
+            app:argType="string"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginActivity"
+        android:name="com.example.healthfuelness.LoginActivity"
+        android:label="activity_login"
+        tools:layout="@layout/activity_login">
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_loginActivity_to_homeActivity"
+            app:destination="@id/homeActivity" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registerActivity"
+        android:name="com.example.healthfuelness.RegisterActivity"
+        android:label="activity_register"
+        tools:layout="@layout/activity_register">
+        <action
+            android:id="@+id/action_registerActivity_to_homeActivity"
+            app:destination="@id/homeActivity" />
     </fragment>
 </navigation>
