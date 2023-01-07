@@ -1,7 +1,6 @@
 package com.example.healthfuelness
 
-import User.setCurrentDateOrNot
-import User.setDate
+import User.*
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -45,22 +44,32 @@ class HomeActivity : AppCompatActivity() {
             if (day < 10) {
                 dayAsString = "0$day"
             }
-            date.text = "$day/$monthAsString/$dayAsString"
+            date.text = "$dayAsString/$monthAsString/$year"
             dateToBeSaved = "$year/$monthAsString/$dayAsString"
             setDate(dateToBeSaved)
             if (dateToBeSaved == currentDate) {
                 setCurrentDateOrNot(0)
+                println("selected date: ${getCurrentDateOrNot()}")
             } else if (dateToBeSaved > currentDate){
                 setCurrentDateOrNot(1)
+                println("selected date: ${getCurrentDateOrNot()}")
             } else {
                 setCurrentDateOrNot(-1)
+                println("selected date: ${getCurrentDateOrNot()}")
             }
         }
 
 
+        // go to measurement to see/add/update possible only if selected date is the current/previous one
         goToDateButton.setOnClickListener { //view ->
-            val intent = Intent(this, HomeMeasurementsActivity::class.java)
-            startActivity(intent)
+            if (getCurrentDateOrNot() != 1) {
+                println("selected date goToDateButton: ${getCurrentDateOrNot()}")
+                val intent = Intent(this, HomeMeasurementsActivity::class.java)
+                startActivity(intent)
+            } else {
+                println("selected date goToDateButton: ${getCurrentDateOrNot()}")
+                Toast.makeText(this, "Sorry. You can't predict the future and neither can we ", Toast.LENGTH_SHORT).show()
+            }
 
             //val action = HomeActivityDirections.actionSelectedDate(selectedDate)
             //view.findNavController().navigate(action)
