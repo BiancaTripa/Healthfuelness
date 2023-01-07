@@ -1,7 +1,6 @@
 package com.example.healthfuelness
 
-import User.getDate
-import User.getUsername
+import User.*
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
@@ -59,39 +58,64 @@ class HomeMeasurementsActivity : AppCompatActivity() {
         val glassesOfWater = findViewById<TextView>(R.id.tv_water)
 
         incrementWaterButton.setOnClickListener {
-            //increment the variable and display it
-            currentWater += 1
-            glassesOfWater.text = currentWater.toString()
 
-            //add to realtime database
-            databaseReference.child("users").child(username).addListenerForSingleValueEvent(object :
-                ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val measurements = Measurements(currentWater, currentStressLevel, currentSleep, currentWeight, currentShoulders, currentChest, currentWeist, currentUpperLeg, currentAnkle, currentHeight, currentTorso, currentLegs)
-                    val measurementsValues = measurements.toMap()
-                    databaseReference.child("users").child(username).child("measurements").child(getDate()).updateChildren(measurementsValues);
-                }
-                override fun onCancelled(error: DatabaseError) { }
-            })
+            // add/update the measurements can be possible only if the current date is selected
+            if (getCurrentDateOrNot() == 0) {
+                //increment the variable and display it
+                currentWater += 1
+                glassesOfWater.text = currentWater.toString()
+
+                //add to realtime database
+                databaseReference.child("users").child(username).addListenerForSingleValueEvent(object :
+                    ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val measurements = Measurements(currentWater, currentStressLevel, currentSleep, currentWeight, currentShoulders, currentChest, currentWeist, currentUpperLeg, currentAnkle, currentHeight, currentTorso, currentLegs)
+                        val measurementsValues = measurements.toMap()
+                        databaseReference.child("users").child(username).child("measurements").child(getDate()).updateChildren(measurementsValues);
+                    }
+                    override fun onCancelled(error: DatabaseError) { }
+                })
+            }
+
         }
 
         decrementWaterButton.setOnClickListener {
-            //decrement the variable and display it
-            if (glassesOfWater.text != "0") {
-                currentWater -= 1
-                glassesOfWater.text = currentWater.toString()
-            }
 
-            //add to realtime database
-            databaseReference.child("users").child(username).addListenerForSingleValueEvent(object :
-                ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val measurements = Measurements(currentWater, currentStressLevel, currentSleep, currentWeight, currentShoulders, currentChest, currentWeist, currentUpperLeg, currentAnkle, currentHeight, currentTorso, currentLegs)
-                    val measurementsValues = measurements.toMap()
-                    databaseReference.child("users").child(username).child("measurements").child(getDate()).updateChildren(measurementsValues);
+            // add/update the measurements can be possible only if the current date is selected
+            if (getCurrentDateOrNot() == 0) {
+                //decrement the variable and display it
+                if (glassesOfWater.text != "0") {
+                    currentWater -= 1
+                    glassesOfWater.text = currentWater.toString()
                 }
-                override fun onCancelled(error: DatabaseError) { }
-            })
+
+                //add to realtime database
+                databaseReference.child("users").child(username)
+                    .addListenerForSingleValueEvent(object :
+                        ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val measurements = Measurements(
+                                currentWater,
+                                currentStressLevel,
+                                currentSleep,
+                                currentWeight,
+                                currentShoulders,
+                                currentChest,
+                                currentWeist,
+                                currentUpperLeg,
+                                currentAnkle,
+                                currentHeight,
+                                currentTorso,
+                                currentLegs
+                            )
+                            val measurementsValues = measurements.toMap()
+                            databaseReference.child("users").child(username).child("measurements")
+                                .child(getDate()).updateChildren(measurementsValues);
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {}
+                    })
+            }
         }
 
         //Stress Level
@@ -103,83 +127,178 @@ class HomeMeasurementsActivity : AppCompatActivity() {
         val stress5Button = findViewById<ImageView>(R.id.button_stress5)
 
         stress1Button.setOnClickListener {
-            currentStressLevel = 1
-            outputForStressLevel.text = currentStressLevel.toString()
+            // add/update the measurements can be possible only if the current date is selected
+            if (getCurrentDateOrNot() == 0) {
+                currentStressLevel = 1
+                outputForStressLevel.text = currentStressLevel.toString()
 
-            //add to realtime database
-            databaseReference.child("users").child(username).addListenerForSingleValueEvent(object :
-                ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val measurements = Measurements(currentWater, currentStressLevel, currentSleep, currentWeight, currentShoulders, currentChest, currentWeist, currentUpperLeg, currentAnkle, currentHeight, currentTorso, currentLegs)
-                    val measurementsValues = measurements.toMap()
-                    databaseReference.child("users").child(username).child("measurements").child(getDate()).updateChildren(measurementsValues);
-                }
-                override fun onCancelled(error: DatabaseError) { }
-            })
+                //add to realtime database
+                databaseReference.child("users").child(username)
+                    .addListenerForSingleValueEvent(object :
+                        ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val measurements = Measurements(
+                                currentWater,
+                                currentStressLevel,
+                                currentSleep,
+                                currentWeight,
+                                currentShoulders,
+                                currentChest,
+                                currentWeist,
+                                currentUpperLeg,
+                                currentAnkle,
+                                currentHeight,
+                                currentTorso,
+                                currentLegs
+                            )
+                            val measurementsValues = measurements.toMap()
+                            databaseReference.child("users").child(username).child("measurements")
+                                .child(getDate()).updateChildren(measurementsValues);
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {}
+                    })
+            }
         }
 
         stress2Button.setOnClickListener {
-            currentStressLevel = 2
-            outputForStressLevel.text = currentStressLevel.toString()
+            // add/update the measurements can be possible only if the current date is selected
+            if (getCurrentDateOrNot() == 0) {
+                currentStressLevel = 2
+                outputForStressLevel.text = currentStressLevel.toString()
 
-            //add to realtime database
-            databaseReference.child("users").child(username).addListenerForSingleValueEvent(object :
-                ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val measurements = Measurements(currentWater, currentStressLevel, currentSleep, currentWeight, currentShoulders, currentChest, currentWeist, currentUpperLeg, currentAnkle, currentHeight, currentTorso, currentLegs)
-                    val measurementsValues = measurements.toMap()
-                    databaseReference.child("users").child(username).child("measurements").child(getDate()).updateChildren(measurementsValues);
-                }
-                override fun onCancelled(error: DatabaseError) { }
-            })
+                //add to realtime database
+                databaseReference.child("users").child(username)
+                    .addListenerForSingleValueEvent(object :
+                        ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val measurements = Measurements(
+                                currentWater,
+                                currentStressLevel,
+                                currentSleep,
+                                currentWeight,
+                                currentShoulders,
+                                currentChest,
+                                currentWeist,
+                                currentUpperLeg,
+                                currentAnkle,
+                                currentHeight,
+                                currentTorso,
+                                currentLegs
+                            )
+                            val measurementsValues = measurements.toMap()
+                            databaseReference.child("users").child(username).child("measurements")
+                                .child(getDate()).updateChildren(measurementsValues);
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {}
+                    })
+            }
         }
 
         stress3Button.setOnClickListener {
-            currentStressLevel = 3
-            outputForStressLevel.text = currentStressLevel.toString()
+            // add/update the measurements can be possible only if the current date is selected
+            if (getCurrentDateOrNot() == 0) {
+                currentStressLevel = 3
+                outputForStressLevel.text = currentStressLevel.toString()
 
-            //add to realtime database
-            databaseReference.child("users").child(username).addListenerForSingleValueEvent(object :
-                ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val measurements = Measurements(currentWater, currentStressLevel, currentSleep, currentWeight, currentShoulders, currentChest, currentWeist, currentUpperLeg, currentAnkle, currentHeight, currentTorso, currentLegs)
-                    val measurementsValues = measurements.toMap()
-                    databaseReference.child("users").child(username).child("measurements").child(getDate()).updateChildren(measurementsValues);
-                }
-                override fun onCancelled(error: DatabaseError) { }
-            })
+                //add to realtime database
+                databaseReference.child("users").child(username)
+                    .addListenerForSingleValueEvent(object :
+                        ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val measurements = Measurements(
+                                currentWater,
+                                currentStressLevel,
+                                currentSleep,
+                                currentWeight,
+                                currentShoulders,
+                                currentChest,
+                                currentWeist,
+                                currentUpperLeg,
+                                currentAnkle,
+                                currentHeight,
+                                currentTorso,
+                                currentLegs
+                            )
+                            val measurementsValues = measurements.toMap()
+                            databaseReference.child("users").child(username).child("measurements")
+                                .child(getDate()).updateChildren(measurementsValues);
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {}
+                    })
+            }
         }
 
         stress4Button.setOnClickListener {
-            currentStressLevel = 4
-            outputForStressLevel.text = currentStressLevel.toString()
+            // add/update the measurements can be possible only if the current date is selected
+            if (getCurrentDateOrNot() == 0) {
+                currentStressLevel = 4
+                outputForStressLevel.text = currentStressLevel.toString()
 
-            //add to realtime database
-            databaseReference.child("users").child(username).addListenerForSingleValueEvent(object :
-                ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val measurements = Measurements(currentWater, currentStressLevel, currentSleep, currentWeight, currentShoulders, currentChest, currentWeist, currentUpperLeg, currentAnkle, currentHeight, currentTorso, currentLegs)
-                    val measurementsValues = measurements.toMap()
-                    databaseReference.child("users").child(username).child("measurements").child(getDate()).updateChildren(measurementsValues);
-                }
-                override fun onCancelled(error: DatabaseError) { }
-            })
+                //add to realtime database
+                databaseReference.child("users").child(username)
+                    .addListenerForSingleValueEvent(object :
+                        ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val measurements = Measurements(
+                                currentWater,
+                                currentStressLevel,
+                                currentSleep,
+                                currentWeight,
+                                currentShoulders,
+                                currentChest,
+                                currentWeist,
+                                currentUpperLeg,
+                                currentAnkle,
+                                currentHeight,
+                                currentTorso,
+                                currentLegs
+                            )
+                            val measurementsValues = measurements.toMap()
+                            databaseReference.child("users").child(username).child("measurements")
+                                .child(getDate()).updateChildren(measurementsValues);
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {}
+                    })
+            }
         }
 
         stress5Button.setOnClickListener {
-            currentStressLevel = 5
-            outputForStressLevel.text = currentStressLevel.toString()
+            // add/update the measurements can be possible only if the current date is selected
+            if (getCurrentDateOrNot() == 0) {
+                currentStressLevel = 5
+                outputForStressLevel.text = currentStressLevel.toString()
 
-            //add to realtime database
-            databaseReference.child("users").child(username).addListenerForSingleValueEvent(object :
-                ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val measurements = Measurements(currentWater, currentStressLevel, currentSleep, currentWeight, currentShoulders, currentChest, currentWeist, currentUpperLeg, currentAnkle, currentHeight, currentTorso, currentLegs)
-                    val measurementsValues = measurements.toMap()
-                    databaseReference.child("users").child(username).child("measurements").child(getDate()).updateChildren(measurementsValues);
-                }
-                override fun onCancelled(error: DatabaseError) { }
-            })
+                //add to realtime database
+                databaseReference.child("users").child(username)
+                    .addListenerForSingleValueEvent(object :
+                        ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val measurements = Measurements(
+                                currentWater,
+                                currentStressLevel,
+                                currentSleep,
+                                currentWeight,
+                                currentShoulders,
+                                currentChest,
+                                currentWeist,
+                                currentUpperLeg,
+                                currentAnkle,
+                                currentHeight,
+                                currentTorso,
+                                currentLegs
+                            )
+                            val measurementsValues = measurements.toMap()
+                            databaseReference.child("users").child(username).child("measurements")
+                                .child(getDate()).updateChildren(measurementsValues);
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {}
+                    })
+            }
         }
 
 
@@ -189,39 +308,77 @@ class HomeMeasurementsActivity : AppCompatActivity() {
         val weight = findViewById<TextView>(R.id.tv_weight)
 
         incrementWeightButton.setOnClickListener {
-            //increment the variable and display it
-            currentWeight += 1
-            weight.text = currentWeight.toString()
+            // add/update the measurements can be possible only if the current date is selected
+            if (getCurrentDateOrNot() == 0) {
+                //increment the variable and display it
+                currentWeight += 1
+                weight.text = currentWeight.toString()
 
-            //add to realtime database
-            databaseReference.child("users").child(username).addListenerForSingleValueEvent(object :
-                ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val measurements = Measurements(currentWater, currentStressLevel, currentSleep, currentWeight, currentShoulders, currentChest, currentWeist, currentUpperLeg, currentAnkle, currentHeight, currentTorso, currentLegs)
-                    val measurementsValues = measurements.toMap()
-                    databaseReference.child("users").child(username).child("measurements").child(getDate()).updateChildren(measurementsValues);
-                }
-                override fun onCancelled(error: DatabaseError) { }
-            })
+                //add to realtime database
+                databaseReference.child("users").child(username)
+                    .addListenerForSingleValueEvent(object :
+                        ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val measurements = Measurements(
+                                currentWater,
+                                currentStressLevel,
+                                currentSleep,
+                                currentWeight,
+                                currentShoulders,
+                                currentChest,
+                                currentWeist,
+                                currentUpperLeg,
+                                currentAnkle,
+                                currentHeight,
+                                currentTorso,
+                                currentLegs
+                            )
+                            val measurementsValues = measurements.toMap()
+                            databaseReference.child("users").child(username).child("measurements")
+                                .child(getDate()).updateChildren(measurementsValues);
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {}
+                    })
+            }
         }
 
         decrementWeightButton.setOnClickListener {
-            //decrement the variable and display it
-            if (weight.text != "0") {
-                currentWeight -= 1
-                weight.text = currentWeight.toString()
-            }
-
-            //add to realtime database
-            databaseReference.child("users").child(username).addListenerForSingleValueEvent(object :
-                ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val measurements = Measurements(currentWater, currentStressLevel, currentSleep, currentWeight, currentShoulders, currentChest, currentWeist, currentUpperLeg, currentAnkle, currentHeight, currentTorso, currentLegs)
-                    val measurementsValues = measurements.toMap()
-                    databaseReference.child("users").child(username).child("measurements").child(getDate()).updateChildren(measurementsValues);
+            // add/update the measurements can be possible only if the current date is selected
+            if (getCurrentDateOrNot() == 0) {
+                //decrement the variable and display it
+                if (weight.text != "0") {
+                    currentWeight -= 1
+                    weight.text = currentWeight.toString()
                 }
-                override fun onCancelled(error: DatabaseError) { }
-            })
+
+                //add to realtime database
+                databaseReference.child("users").child(username)
+                    .addListenerForSingleValueEvent(object :
+                        ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val measurements = Measurements(
+                                currentWater,
+                                currentStressLevel,
+                                currentSleep,
+                                currentWeight,
+                                currentShoulders,
+                                currentChest,
+                                currentWeist,
+                                currentUpperLeg,
+                                currentAnkle,
+                                currentHeight,
+                                currentTorso,
+                                currentLegs
+                            )
+                            val measurementsValues = measurements.toMap()
+                            databaseReference.child("users").child(username).child("measurements")
+                                .child(getDate()).updateChildren(measurementsValues);
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {}
+                    })
+            }
         }
     }
 }

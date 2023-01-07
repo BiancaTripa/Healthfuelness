@@ -2,6 +2,7 @@ public class User {
     private String fullName, email, password;
     private static String date;
     private static String username;
+    private static int currentDateOrNot; // -1: previous; 0: current; 1: future
 
     public User(String fullName, String email, String password) {
         this.email = email;
@@ -23,5 +24,13 @@ public class User {
 
     public static String getUsername() {
         return username;
+    }
+
+    public static void setCurrentDateOrNot(int currentDateOrNot) {
+        User.currentDateOrNot = currentDateOrNot;
+    }
+
+    public static int getCurrentDateOrNot() {
+        return currentDateOrNot;
     }
 }
