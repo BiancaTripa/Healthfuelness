@@ -2,6 +2,7 @@ package com.example.healthfuelness
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 
 class HomeMeasurementsActivity : AppCompatActivity() {
 
@@ -12,5 +13,9 @@ class HomeMeasurementsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home_measurements)
 
         selectedDate = intent.getStringExtra("date").toString()
+    }
+
+    fun popTimePicker(view: View) {
+
     }
 }
