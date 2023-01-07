@@ -12,6 +12,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_home_measurements.*
+import kotlin.properties.Delegates
 
 class HomeMeasurementsActivity : AppCompatActivity() {
 
@@ -38,10 +39,61 @@ class HomeMeasurementsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home_measurements)
 
         val username = getUsername()
+        val selectedDate = getDate()
+        val tvDate = findViewById<TextView>(R.id.tv_selectedDate)
+        val incrementWaterButton = findViewById<ImageView>(R.id.button_increment)
+        val decrementWaterButton = findViewById<ImageView>(R.id.button_decrement)
+        val glassesOfWater = findViewById<TextView>(R.id.tv_water)
+        val outputForStressLevel = findViewById<TextView>(R.id.tv_stress_level)
+        val stress1Button = findViewById<ImageView>(R.id.button_stress1)
+        val stress2Button = findViewById<ImageView>(R.id.button_stress2)
+        val stress3Button = findViewById<ImageView>(R.id.button_stress3)
+        val stress4Button = findViewById<ImageView>(R.id.button_stress4)
+        val stress5Button = findViewById<ImageView>(R.id.button_stress5)
+        val weight = findViewById<TextView>(R.id.tv_weight)
+        val incrementWeightButton = findViewById<ImageView>(R.id.button_increment_weight)
+        val decrementWeightButton = findViewById<ImageView>(R.id.button_decrement_weight)
+
+        //get the measurements from database
+        //if selected date is before current date => the measurements will be only displayed
+        //if selected date is the current date => the measurements will be updated on the corresponding actions
+        databaseReference.child("users").child(username).addListenerForSingleValueEvent(object :
+            ValueEventListener {
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                //check if measurements exists in firebase database
+                if (snapshot.hasChild("measurements")) {
+
+                    //check if measurements for current date exists
+                    if (snapshot.child("measurements").hasChild(selectedDate)){
+                        currentWater = snapshot.child("measurements").child(selectedDate).child("water").getValue(Int::class.java)!!
+                        glassesOfWater.text = currentWater.toString()
+                    } else { // if data not exits => add to database with default values
+                        val measurements = Measurements(currentWater, currentStressLevel, currentSleep, currentWeight, currentShoulders, currentChest, currentWeist, currentUpperLeg, currentAnkle, currentHeight, currentTorso, currentLegs)
+                        val measurementsValues = measurements.toMap()
+                        databaseReference.child("users").child(username).child("measurements").child(getDate()).updateChildren(measurementsValues);
+                        glassesOfWater.text = currentWater.toString()
+                        outputForStressLevel.text = currentStressLevel.toString()
+                        weight.text = currentWeight.toString()
+
+                    }
+                } else {// if data not exits => add to database with default values
+                    val measurements = Measurements(currentWater, currentStressLevel, currentSleep, currentWeight, currentShoulders, currentChest, currentWeist, currentUpperLeg, currentAnkle, currentHeight, currentTorso, currentLegs)
+                    val measurementsValues = measurements.toMap()
+                    databaseReference.child("users").child(username).child("measurements").child(getDate()).updateChildren(measurementsValues);
+                    glassesOfWater.text = currentWater.toString()
+                    outputForStressLevel.text = currentStressLevel.toString()
+                    weight.text = currentWeight.toString()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                println("The read failed: " + error.code);
+            }
+        })
 
         //Selected date
-        val tvDate = findViewById<TextView>(R.id.tv_selectedDate)
-        val selectedDate = getDate()
         tvDate.text = selectedDate
 
         //Logout button
@@ -53,10 +105,6 @@ class HomeMeasurementsActivity : AppCompatActivity() {
         }
 
         //Water
-        val incrementWaterButton = findViewById<ImageView>(R.id.button_increment)
-        val decrementWaterButton = findViewById<ImageView>(R.id.button_decrement)
-        val glassesOfWater = findViewById<TextView>(R.id.tv_water)
-
         incrementWaterButton.setOnClickListener {
 
             // add/update the measurements can be possible only if the current date is selected
@@ -119,13 +167,6 @@ class HomeMeasurementsActivity : AppCompatActivity() {
         }
 
         //Stress Level
-        val outputForStressLevel = findViewById<TextView>(R.id.tv_stress_level)
-        val stress1Button = findViewById<ImageView>(R.id.button_stress1)
-        val stress2Button = findViewById<ImageView>(R.id.button_stress2)
-        val stress3Button = findViewById<ImageView>(R.id.button_stress3)
-        val stress4Button = findViewById<ImageView>(R.id.button_stress4)
-        val stress5Button = findViewById<ImageView>(R.id.button_stress5)
-
         stress1Button.setOnClickListener {
             // add/update the measurements can be possible only if the current date is selected
             if (getCurrentDateOrNot() == 0) {
@@ -303,10 +344,6 @@ class HomeMeasurementsActivity : AppCompatActivity() {
 
 
         //Weight
-        val incrementWeightButton = findViewById<ImageView>(R.id.button_increment_weight)
-        val decrementWeightButton = findViewById<ImageView>(R.id.button_decrement_weight)
-        val weight = findViewById<TextView>(R.id.tv_weight)
-
         incrementWeightButton.setOnClickListener {
             // add/update the measurements can be possible only if the current date is selected
             if (getCurrentDateOrNot() == 0) {
