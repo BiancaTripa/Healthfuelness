@@ -137,7 +137,7 @@
             android:layout_width="361dp"
             android:layout_height="32dp"
             android:layout_gravity="left"
-            android:text="12345"
+            android:text=" "
             android:textColor="@color/black"
             android:textSize="20dp"
             android:textStyle="italic">
