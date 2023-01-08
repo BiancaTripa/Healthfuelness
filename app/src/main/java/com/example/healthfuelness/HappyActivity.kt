@@ -1,5 +1,6 @@
 package com.example.healthfuelness
 
+import User.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.healthfuelness.databinding.ActivityHappyBinding
@@ -14,9 +15,9 @@ class HappyActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //get data from previous activity
-        val description = intent.getStringExtra("description")
-        val date = intent.getStringExtra("date")
-        val imageId = intent.getIntExtra("imageId", R.drawable.ic_logo)
+        val description = /*intent.getStringExtra("description")*/ getSelectedDescription()
+        val date = /*intent.getStringExtra("date")*/ getSelectedDate()
+        val imageId = /*intent.getIntExtra("imageId", R.drawable.ic_logo)*/ getSelectedImageId()
 
         binding.tvDescription.text = description
         binding.tvDate.text = date

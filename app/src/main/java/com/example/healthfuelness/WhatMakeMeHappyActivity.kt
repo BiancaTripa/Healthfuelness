@@ -1,5 +1,6 @@
 package com.example.healthfuelness
 
+import User.*
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,8 +13,6 @@ class WhatMakeMeHappyActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityWhatMakeMeHappyBinding
     private lateinit var happyPhotoArrayList: ArrayList<HappyPhoto>
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,15 +56,18 @@ class WhatMakeMeHappyActivity : AppCompatActivity() {
         binding.listview.adapter = MyAdapter(this, happyPhotoArrayList)
         binding.listview.setOnItemClickListener { parent, view, position, id ->
 
-            val description = description[position]
-            val date = date[position]
-            val imageId  = imageId[position]
+            val selectedDescription = description[position]
+            val selectedDate = date[position]
+            val selectedImageId  = imageId[position]
 
             val i = Intent(this, HappyActivity::class.java)
             //to send the data to the next activity
-            i.putExtra("description", description)
-            i.putExtra("date", date)
-            i.putExtra("imageId", imageId)
+            // i.putExtra("description", description)
+            setSelectedDescription(selectedDescription)
+            // i.putExtra("date", date)
+            setSelectedDate(selectedDate)
+            // i.putExtra("imageId", imageId)
+            setSelectedImageId(selectedImageId)
             startActivity(i)
         }
 
