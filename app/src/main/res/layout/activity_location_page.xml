@@ -69,6 +69,30 @@
                     android:textSize="15dp" ></TextView>
             </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginStart="5dp"
+                android:text="Saved locations:"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="italic"
+                android:textSize="25dp" ></TextView>
+
+            <ListView
+                android:id="@+id/lv_saved_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"></ListView>
+        </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
