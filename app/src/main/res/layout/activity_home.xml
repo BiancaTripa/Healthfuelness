@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:gravity="top"
     android:background="@color/white"
     tools:context=".HomeActivity"
@@ -23,7 +23,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:background="@color/colorPrimary"
                 android:orientation="horizontal">
@@ -32,9 +32,9 @@
                     android:id="@+id/button_logout"
                     android:layout_width="70dp"
                     android:layout_height="40dp"
-                    android:layout_marginStart="25dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginEnd="25dp"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/login_edit_background"
                     android:text="Log Out"></androidx.appcompat.widget.AppCompatButton>
@@ -66,9 +66,9 @@
                     android:id="@+id/button_message"
                     android:layout_width="58dp"
                     android:layout_height="40dp"
-                    android:layout_marginStart="25dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginEnd="15dp"
+                    android:layout_marginEnd="5dp"
                     android:layout_marginBottom="20dp"
                     android:src="@drawable/ic_message"></ImageView>
 
@@ -129,7 +129,7 @@
                     android:paddingEnd="10dp"
                     android:paddingBottom="10dp"
                     android:text="SELECT DATE"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@color/white"
                     android:textStyle="bold"></TextView>
             </LinearLayout>
 
