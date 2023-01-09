@@ -335,15 +335,15 @@
                     android:layout_marginEnd="15dp"
                     android:orientation="vertical">
 
-                    <TextView
+                    <EditText
                         android:id="@+id/tv_torso"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
-                        android:text="torso"
+                        android:hint="torso"
                         android:textColor="@color/colorAccent"
                         android:textStyle="bold"
-                        android:textSize="15dp" ></TextView>
+                        android:textSize="15dp" ></EditText>
 
                     <ImageView
                         android:layout_width="30dp"
@@ -351,14 +351,14 @@
                         android:layout_gravity="center"
                         android:background="@drawable/doublesidedarrow"></ImageView>
 
-                    <TextView
+                    <EditText
                         android:id="@+id/tv_legs"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="legs"
+                        android:hint="legs"
                         android:textColor="@color/colorAccent"
                         android:textStyle="bold"
-                        android:textSize="15dp" ></TextView>
+                        android:textSize="15dp" ></EditText>
 
                     <ImageView
                         android:layout_width="30dp"
@@ -373,15 +373,15 @@
                     android:layout_marginEnd="15dp"
                     android:orientation="vertical">
 
-                    <TextView
+                    <EditText
                         android:id="@+id/tv_height"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="height"
+                        android:hint="height"
                         android:textColor="@color/colorAccent"
                         android:textStyle="bold"
-                        android:textSize="15dp" ></TextView>
+                        android:textSize="15dp" ></EditText>
 
                     <ImageView
                         android:layout_width="50dp"
@@ -410,55 +410,55 @@
                     android:layout_marginEnd="5dp"
                     android:orientation="vertical">
 
-                    <TextView
+                    <EditText
                         android:id="@+id/tv_shoulders"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="50dp"
-                        android:text="shoulders"
+                        android:hint="shoulders"
                         android:textColor="@color/colorAccent"
                         android:textStyle="bold"
                         android:layout_gravity="center"
-                        android:textSize="15dp" ></TextView>
-                    <TextView
+                        android:textSize="15dp" ></EditText>
+                    <EditText
                         android:id="@+id/tv_chest"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="chest"
+                        android:hint="chest"
                         android:textColor="@color/colorAccent"
                         android:textStyle="bold"
                         android:layout_gravity="center"
-                        android:textSize="15dp" ></TextView>
-                    <TextView
+                        android:textSize="15dp" ></EditText>
+                    <EditText
                         android:id="@+id/tv_waist"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="18dp"
-                        android:text="waist"
+                        android:hint="waist"
                         android:textColor="@color/colorAccent"
                         android:textStyle="bold"
                         android:layout_gravity="center"
-                        android:textSize="15dp" ></TextView>
-                    <TextView
+                        android:textSize="15dp" ></EditText>
+                    <EditText
                         android:id="@+id/tv_upperleg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="upper leg"
+                        android:hint="upper leg"
                         android:layout_gravity="center"
                         android:textColor="@color/colorAccent"
                         android:textStyle="bold"
-                        android:textSize="15dp" ></TextView>
-                    <TextView
+                        android:textSize="15dp" ></EditText>
+                    <EditText
                         android:id="@+id/tv_ankle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
-                        android:text="ankle"
+                        android:hint="ankle"
                         android:layout_gravity="center"
                         android:textColor="@color/colorAccent"
                         android:textStyle="bold"
-                        android:textSize="15dp" ></TextView>
+                        android:textSize="15dp" ></EditText>
                 </LinearLayout>
 
             </LinearLayout>
