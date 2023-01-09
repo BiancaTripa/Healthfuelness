@@ -3,6 +3,7 @@ package com.example.healthfuelness
 import User.*
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_home_measurements.*
 import kotlin.properties.Delegates
+
 
 class HomeMeasurementsActivity : AppCompatActivity() {
 
@@ -417,5 +419,9 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                     })
             }
         }
+    }
+
+    fun popTimePicker(view: View) {
+
     }
 }
