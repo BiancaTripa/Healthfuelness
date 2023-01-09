@@ -16,6 +16,13 @@
         android:theme="@style/Theme.Healthfuelness"
         tools:targetApi="31">
         <activity
+            android:name=".GalleryActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
@@ -36,12 +43,10 @@
             android:exported="false" />
         <activity
             android:name=".HomeMeasurementsActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".HomeActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
     </application>
 
 </manifest>
