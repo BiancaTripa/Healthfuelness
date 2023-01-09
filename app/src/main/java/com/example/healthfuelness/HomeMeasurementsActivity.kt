@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.navArgs
 import com.google.firebase.database.DataSnapshot
@@ -61,14 +62,14 @@ class HomeMeasurementsActivity : AppCompatActivity() {
         val incrementWeightButton = findViewById<ImageView>(R.id.button_increment_weight)
         val decrementWeightButton = findViewById<ImageView>(R.id.button_decrement_weight)
 
-        val height = findViewById<TextView>(R.id.tv_height)
-        val torso = findViewById<TextView>(R.id.tv_torso)
-        val legs = findViewById<TextView>(R.id.tv_legs)
-        val shoulders = findViewById<TextView>(R.id.tv_shoulders)
-        val chest = findViewById<TextView>(R.id.tv_chest)
-        val waist  = findViewById<TextView>(R.id.tv_waist)
-        val upperLeg = findViewById<TextView>(R.id.tv_upperleg)
-        val ankle = findViewById<TextView>(R.id.tv_ankle)
+        val height = findViewById<EditText>(R.id.tv_height)
+        val torso = findViewById<EditText>(R.id.tv_torso)
+        val legs = findViewById<EditText>(R.id.tv_legs)
+        val shoulders = findViewById<EditText>(R.id.tv_shoulders)
+        val chest = findViewById<EditText>(R.id.tv_chest)
+        val waist  = findViewById<EditText>(R.id.tv_waist)
+        val upperLeg = findViewById<EditText>(R.id.tv_upperleg)
+        val ankle = findViewById<EditText>(R.id.tv_ankle)
 
         //get the measurements from database
         //if selected date is before current date => the measurements will be only displayed
@@ -105,24 +106,24 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                         //sleep
 
                         //weight
-                        weight.text = currentWeight.toString()
+                        weight.hint = currentWeight.toString()
                         //body:
                         //height
-                        height.text = currentHeight.toString()
+                        height.hint = currentHeight.toString()
                         //torso
-                        torso.text = currentTorso.toString()
+                        torso.hint = currentTorso.toString()
                         //legs
-                        legs.text = currentLegs.toString()
+                        legs.hint = currentLegs.toString()
                         //shoulders
-                        shoulders.text = currentShoulders.toString()
+                        shoulders.hint = currentShoulders.toString()
                         //chest
-                        chest.text = currentChest.toString()
+                        chest.hint = currentChest.toString()
                         //waist
-                        waist.text = currentWaist.toString()
+                        waist.hint = currentWaist.toString()
                         //upperLeg
-                        upperLeg.text = currentUpperLeg.toString()
+                        upperLeg.hint = currentUpperLeg.toString()
                         //ankle
-                        ankle.text = currentAnkle.toString()
+                        ankle.hint = currentAnkle.toString()
 
                     }
                 } else {// if data not exits => add to database with default values
@@ -139,21 +140,21 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                     weight.text = currentWeight.toString()
                     //body:
                     //height
-                    height.text = currentHeight.toString()
+                    height.hint = currentHeight.toString()
                     //torso
-                    torso.text = currentTorso.toString()
+                    torso.hint = currentTorso.toString()
                     //legs
-                    legs.text = currentLegs.toString()
+                    legs.hint = currentLegs.toString()
                     //shoulders
-                    shoulders.text = currentShoulders.toString()
+                    shoulders.hint = currentShoulders.toString()
                     //chest
-                    chest.text = currentChest.toString()
+                    chest.hint = currentChest.toString()
                     //waist
-                    waist.text = currentWaist.toString()
+                    waist.hint = currentWaist.toString()
                     //upperLeg
-                    upperLeg.text = currentUpperLeg.toString()
+                    upperLeg.hint = currentUpperLeg.toString()
                     //ankle
-                    ankle.text = currentAnkle.toString()
+                    ankle.hint = currentAnkle.toString()
                 }
             }
 
@@ -170,14 +171,6 @@ class HomeMeasurementsActivity : AppCompatActivity() {
 
         logoutNowButton.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-        }
-
-        //Home button
-        val homeButton = findViewById<ImageView>(R.id.button_homemeasurements)
-
-        homeButton.setOnClickListener {
-            val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
         }
 
@@ -518,14 +511,107 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                             )
                             val measurementsValues = measurements.toMap()
                             databaseReference.child("users").child(username).child("measurements")
-                                .child(getDate()).updateChildren(measurementsValues);
+                                .child(selectedDate).updateChildren(measurementsValues);
                         }
 
                         override fun onCancelled(error: DatabaseError) {}
                     })
             }
         }
+
+        //Home button
+        val homeButton = findViewById<ImageView>(R.id.button_homemeasurements)
+
+        homeButton.setOnClickListener {
+            //get data from EditTexts into String variables
+            //body:
+            //height
+            val heightTxt = height.text.toString()
+            currentHeight = if (heightTxt.isEmpty()) {
+                0
+            } else {
+                heightTxt.toInt()
+            }
+            //torso
+            val torsoTxt = torso.text.toString()
+            currentTorso = if (torsoTxt.isEmpty()) {
+                0
+            } else {
+                torsoTxt.toInt()
+            }
+            //legs
+            val legsTxt = legs.text.toString()
+            currentLegs = if (legsTxt.isEmpty()) {
+                0
+            } else {
+                legsTxt.toInt()
+            }
+            //shoulders
+            val shouldersTxt = shoulders.text.toString()
+            currentShoulders = if (shouldersTxt.isEmpty()) {
+                0
+            } else {
+                shouldersTxt.toInt()
+            }
+            //chest
+            val chestTxt = chest.text.toString()
+            currentChest = if (chestTxt.isEmpty()) {
+                0
+            } else {
+                chestTxt.toInt()
+            }
+            //waist
+            val waistTxt = waist.text.toString()
+            currentWaist = if (waistTxt.isEmpty()) {
+                0
+            } else {
+                waistTxt.toInt()
+            }
+            //upperLeg
+            val upperLegTxt = upperLeg.text.toString()
+            currentUpperLeg = if (upperLegTxt.isEmpty()) {
+                0
+            } else {
+                upperLegTxt.toInt()
+            }
+            //ankle
+            val ankleTxt = ankle.text.toString()
+            currentAnkle = if (ankleTxt.isEmpty()) {
+                0
+            } else {
+                ankleTxt.toInt()
+            }
+
+            databaseReference.child("users").child(username).child("measurements")
+                .child(selectedDate).child("height").setValue(currentHeight)
+            databaseReference.child("users").child(username).child("measurements")
+                .child(selectedDate).child("torso").setValue(currentTorso)
+            databaseReference.child("users").child(username).child("measurements")
+                .child(selectedDate).child("legs").setValue(currentLegs)
+            databaseReference.child("users").child(username).child("measurements")
+                .child(selectedDate).child("shoulders").setValue(currentShoulders)
+            databaseReference.child("users").child(username).child("measurements")
+                .child(selectedDate).child("chest").setValue(currentChest)
+            databaseReference.child("users").child(username).child("measurements")
+                .child(selectedDate).child("waist").setValue(currentWaist)
+            databaseReference.child("users").child(username).child("measurements")
+                .child(selectedDate).child("upperLeg").setValue(currentUpperLeg)
+            databaseReference.child("users").child(username).child("measurements")
+                .child(selectedDate).child("ankle").setValue(currentAnkle)
+
+            Toast.makeText(this, "Measurements added successfully", Toast.LENGTH_SHORT).show()
+
+            //go to home page
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+        }
+
     }
+
+
+
+
+
 
     fun popTimePicker(view: View) {
 
