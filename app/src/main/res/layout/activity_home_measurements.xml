@@ -234,7 +234,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:onClick="popTimePicker"
-                android:text="FROM"></Button>
+                android:text="FROM"
+                style="@style/AppTheme"></Button>
 
                 <ImageView
                     android:layout_width="20dp"

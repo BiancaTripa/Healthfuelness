@@ -1,6 +1,7 @@
 package com.example.healthfuelness
 
 import User.*
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -13,6 +14,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_home_measurements.*
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.properties.Delegates
 
 
@@ -344,6 +347,30 @@ class HomeMeasurementsActivity : AppCompatActivity() {
             }
         }
 
+        //Sleep
+        btn_sleep.setOnClickListener {
+            val cal = Calendar.getInstance()
+            val timeSetListener = TimePickerDialog.OnTimeSetListener { timePicker, hoursleep, minutesleep ->
+
+                cal.set(Calendar.HOUR_OF_DAY, hoursleep)
+                cal.set(Calendar.MINUTE, minutesleep)
+                btn_sleep.text = SimpleDateFormat("HH:mm").format(cal.time)
+            }
+            TimePickerDialog(this, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true).show()
+        }
+
+        btn_wakeup.setOnClickListener {
+            val cal = Calendar.getInstance()
+            val timeSetListener = TimePickerDialog.OnTimeSetListener { timePicker, hourwakeup, minutewakeup ->
+
+                cal.set(Calendar.HOUR_OF_DAY, hourwakeup)
+                cal.set(Calendar.MINUTE, minutewakeup)
+                btn_wakeup.text = SimpleDateFormat("HH:mm").format(cal.time)
+            }
+            TimePickerDialog(this, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true).show()
+        }
+
+
 
         //Weight
         incrementWeightButton.setOnClickListener {
@@ -421,7 +448,4 @@ class HomeMeasurementsActivity : AppCompatActivity() {
         }
     }
 
-    fun popTimePicker(view: View) {
-
-    }
 }
