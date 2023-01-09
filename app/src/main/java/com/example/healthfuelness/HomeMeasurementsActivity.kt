@@ -99,23 +99,27 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                         outputForStressLevel.text = currentStressLevel.toString()
                         //sleep
 
-                        /*
-                        currentHourSleep = snapshot.child("measurements").child(selectedDate).child("hourSleep").getValue(Int::class.java)!!
-                        currentMinuteSleep = snapshot.child("measurements").child(selectedDate).child("minuteSleep").getValue(Int::class.java)!!
-                        val calSleep = Calendar.getInstance()
-                        calSleep.set(Calendar.HOUR_OF_DAY, currentHourSleep)
-                        calSleep.set(Calendar.MINUTE, currentMinuteSleep)
-                        btn_sleep.text = SimpleDateFormat("HH:mm").format(calSleep.time)
+                        if (snapshot.child("measurements").child(selectedDate).hasChild("hourSleep")) {
+                            currentHourSleep = snapshot.child("measurements").child(selectedDate).child("hourSleep").getValue(Int::class.java)!!
+                            currentMinuteSleep = snapshot.child("measurements").child(selectedDate).child("minuteSleep").getValue(Int::class.java)!!
+                            val calSleep = Calendar.getInstance()
+                            calSleep.set(Calendar.HOUR_OF_DAY, currentHourSleep)
+                            calSleep.set(Calendar.MINUTE, currentMinuteSleep)
+                            btn_sleep.text = SimpleDateFormat("HH:mm").format(calSleep.time)
 
-                        currentHourWakeup = snapshot.child("measurements").child(selectedDate).child("hourWakeup").getValue(Int::class.java)!!
-                        currentMinuteWakeup = snapshot.child("measurements").child(selectedDate).child("minuteWakeup").getValue(Int::class.java)!!
-                        val calWakeup = Calendar.getInstance()
-                        calWakeup.set(Calendar.HOUR_OF_DAY, currentHourWakeup)
-                        calWakeup.set(Calendar.MINUTE, currentMinuteWakeup)
-                        btn_wakeup.text = SimpleDateFormat("HH:mm").format(calWakeup.time)
-
-                         */
-
+                            currentHourWakeup = snapshot.child("measurements").child(selectedDate).child("hourWakeup").getValue(Int::class.java)!!
+                            currentMinuteWakeup = snapshot.child("measurements").child(selectedDate).child("minuteWakeup").getValue(Int::class.java)!!
+                            val calWakeup = Calendar.getInstance()
+                            calWakeup.set(Calendar.HOUR_OF_DAY, currentHourWakeup)
+                            calWakeup.set(Calendar.MINUTE, currentMinuteWakeup)
+                            btn_wakeup.text = SimpleDateFormat("HH:mm").format(calWakeup.time)
+                        } else {
+                            val cal = Calendar.getInstance()
+                            cal.set(Calendar.HOUR_OF_DAY, 0)
+                            cal.set(Calendar.MINUTE, 0)
+                            btn_sleep.text = SimpleDateFormat("HH:mm").format(cal.time)
+                            btn_wakeup.text = SimpleDateFormat("HH:mm").format(cal.time)
+                        }
                         //weight
                         currentWeight = snapshot.child("measurements").child(selectedDate).child("weight").getValue(Int::class.java)!!
                         weight.text = currentWeight.toString()
@@ -154,8 +158,6 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                         //stress level
                         outputForStressLevel.text = currentStressLevel.toString()
                         //sleep
-
-                        /*
                         val calSleep = Calendar.getInstance()
                         calSleep.set(Calendar.HOUR_OF_DAY, currentHourSleep)
                         calSleep.set(Calendar.MINUTE, currentMinuteSleep)
@@ -164,8 +166,6 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                         calWakeup.set(Calendar.HOUR_OF_DAY, currentHourWakeup)
                         calWakeup.set(Calendar.MINUTE, currentMinuteWakeup)
                         btn_wakeup.text = SimpleDateFormat("HH:mm").format(calWakeup.time)
-                         */
-
                         //weight
                         weight.hint = currentWeight.toString()
                         //body:
@@ -196,8 +196,6 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                     //stress level
                     outputForStressLevel.text = currentStressLevel.toString()
                     //sleep
-
-                    /*
                     val calSleep = Calendar.getInstance()
                     calSleep.set(Calendar.HOUR_OF_DAY, currentHourSleep)
                     calSleep.set(Calendar.MINUTE, currentMinuteSleep)
@@ -206,8 +204,6 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                     calWakeup.set(Calendar.HOUR_OF_DAY, currentHourWakeup)
                     calWakeup.set(Calendar.MINUTE, currentMinuteWakeup)
                     btn_wakeup.text = SimpleDateFormat("HH:mm").format(calWakeup.time)
-                     */
-
                     //weight
                     weight.text = currentWeight.toString()
                     //body:
@@ -310,29 +306,47 @@ class HomeMeasurementsActivity : AppCompatActivity() {
 
         //Sleep
         btn_sleep.setOnClickListener {
-            val cal = Calendar.getInstance()
-            val timeSetListener = TimePickerDialog.OnTimeSetListener { timePicker, hoursleep, minutesleep ->
+            if (getCurrentDateOrNot() == 0) {
+                val cal = Calendar.getInstance()
+                val timeSetListener =
+                    TimePickerDialog.OnTimeSetListener { timePicker, hoursleep, minutesleep ->
 
-                currentHourSleep = hoursleep
-                currentMinuteSleep = minutesleep
-                cal.set(Calendar.HOUR_OF_DAY, hoursleep)
-                cal.set(Calendar.MINUTE, minutesleep)
-                btn_sleep.text = SimpleDateFormat("HH:mm").format(cal.time)
+                        currentHourSleep = hoursleep
+                        currentMinuteSleep = minutesleep
+                        cal.set(Calendar.HOUR_OF_DAY, hoursleep)
+                        cal.set(Calendar.MINUTE, minutesleep)
+                        btn_sleep.text = SimpleDateFormat("HH:mm").format(cal.time)
+                    }
+                TimePickerDialog(
+                    this,
+                    timeSetListener,
+                    cal.get(Calendar.HOUR_OF_DAY),
+                    cal.get(Calendar.MINUTE),
+                    true
+                ).show()
             }
-            TimePickerDialog(this, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true).show()
         }
 
         btn_wakeup.setOnClickListener {
-            val cal = Calendar.getInstance()
-            val timeSetListener = TimePickerDialog.OnTimeSetListener { timePicker, hourwakeup, minutewakeup ->
+            if (getCurrentDateOrNot() == 0) {
+                val cal = Calendar.getInstance()
+                val timeSetListener =
+                    TimePickerDialog.OnTimeSetListener { timePicker, hourwakeup, minutewakeup ->
 
-                currentHourWakeup = hourwakeup
-                currentMinuteWakeup = minutewakeup
-                cal.set(Calendar.HOUR_OF_DAY, hourwakeup)
-                cal.set(Calendar.MINUTE, minutewakeup)
-                btn_wakeup.text = SimpleDateFormat("HH:mm").format(cal.time)
+                        currentHourWakeup = hourwakeup
+                        currentMinuteWakeup = minutewakeup
+                        cal.set(Calendar.HOUR_OF_DAY, hourwakeup)
+                        cal.set(Calendar.MINUTE, minutewakeup)
+                        btn_wakeup.text = SimpleDateFormat("HH:mm").format(cal.time)
+                    }
+                TimePickerDialog(
+                    this,
+                    timeSetListener,
+                    cal.get(Calendar.HOUR_OF_DAY),
+                    cal.get(Calendar.MINUTE),
+                    true
+                ).show()
             }
-            TimePickerDialog(this, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true).show()
         }
 
 
