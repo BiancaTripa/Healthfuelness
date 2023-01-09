@@ -30,7 +30,6 @@ class HomeMeasurementsActivity : AppCompatActivity() {
     //private val args: HomeActivityArgs by navArgs()
     private var currentWater = 0
     private var currentStressLevel = 0
-    private var currentSleep = 0
     private var currentWeight = 0
     private var currentShoulders = 0
     private var currentChest = 0
@@ -40,6 +39,11 @@ class HomeMeasurementsActivity : AppCompatActivity() {
     private var currentHeight = 0
     private var currentTorso = 0
     private var currentLegs = 0
+
+    private var currentHourSleep = 0
+    private var currentMinuteSleep = 0
+    private var currentHourWakeup = 0
+    private var currentMinuteWakeup = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,10 +99,26 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                         outputForStressLevel.text = currentStressLevel.toString()
                         //sleep
 
+                        /*
+                        currentHourSleep = snapshot.child("measurements").child(selectedDate).child("hourSleep").getValue(Int::class.java)!!
+                        currentMinuteSleep = snapshot.child("measurements").child(selectedDate).child("minuteSleep").getValue(Int::class.java)!!
+                        val calSleep = Calendar.getInstance()
+                        calSleep.set(Calendar.HOUR_OF_DAY, currentHourSleep)
+                        calSleep.set(Calendar.MINUTE, currentMinuteSleep)
+                        btn_sleep.text = SimpleDateFormat("HH:mm").format(calSleep.time)
+
+                        currentHourWakeup = snapshot.child("measurements").child(selectedDate).child("hourWakeup").getValue(Int::class.java)!!
+                        currentMinuteWakeup = snapshot.child("measurements").child(selectedDate).child("minuteWakeup").getValue(Int::class.java)!!
+                        val calWakeup = Calendar.getInstance()
+                        calWakeup.set(Calendar.HOUR_OF_DAY, currentHourWakeup)
+                        calWakeup.set(Calendar.MINUTE, currentMinuteWakeup)
+                        btn_wakeup.text = SimpleDateFormat("HH:mm").format(calWakeup.time)
+
+                         */
+
                         //weight
                         currentWeight = snapshot.child("measurements").child(selectedDate).child("weight").getValue(Int::class.java)!!
                         weight.text = currentWeight.toString()
-
                         //body:
                         //height
                         currentHeight= snapshot.child("measurements").child(selectedDate).child("height").getValue(Int::class.java)!!
@@ -126,7 +146,7 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                         ankle.hint = currentAnkle.toString()
 
                     } else { // if data not exits => add to database with default values
-                        val measurements = Measurements(currentWater, currentStressLevel, currentSleep, currentWeight, currentShoulders, currentChest, currentWaist, currentUpperLeg, currentAnkle, currentHeight, currentTorso, currentLegs)
+                        val measurements = Measurements(currentWater, currentStressLevel, currentHourSleep, currentMinuteSleep, currentHourWakeup, currentMinuteWakeup, currentWeight, currentShoulders, currentChest, currentWaist, currentUpperLeg, currentAnkle, currentHeight, currentTorso, currentLegs)
                         val measurementsValues = measurements.toMap()
                         databaseReference.child("users").child(username).child("measurements").child(getDate()).updateChildren(measurementsValues);
                         //water
@@ -134,6 +154,17 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                         //stress level
                         outputForStressLevel.text = currentStressLevel.toString()
                         //sleep
+
+                        /*
+                        val calSleep = Calendar.getInstance()
+                        calSleep.set(Calendar.HOUR_OF_DAY, currentHourSleep)
+                        calSleep.set(Calendar.MINUTE, currentMinuteSleep)
+                        btn_sleep.text = SimpleDateFormat("HH:mm").format(calSleep.time)
+                        val calWakeup = Calendar.getInstance()
+                        calWakeup.set(Calendar.HOUR_OF_DAY, currentHourWakeup)
+                        calWakeup.set(Calendar.MINUTE, currentMinuteWakeup)
+                        btn_wakeup.text = SimpleDateFormat("HH:mm").format(calWakeup.time)
+                         */
 
                         //weight
                         weight.hint = currentWeight.toString()
@@ -157,7 +188,7 @@ class HomeMeasurementsActivity : AppCompatActivity() {
 
                     }
                 } else {// if data not exits => add to database with default values
-                    val measurements = Measurements(currentWater, currentStressLevel, currentSleep, currentWeight, currentShoulders, currentChest, currentWaist, currentUpperLeg, currentAnkle, currentHeight, currentTorso, currentLegs)
+                    val measurements = Measurements(currentWater, currentStressLevel, currentHourSleep, currentMinuteSleep, currentHourWakeup, currentMinuteWakeup, currentWeight, currentShoulders, currentChest, currentWaist, currentUpperLeg, currentAnkle, currentHeight, currentTorso, currentLegs)
                     val measurementsValues = measurements.toMap()
                     databaseReference.child("users").child(username).child("measurements").child(getDate()).updateChildren(measurementsValues);
                     //water
@@ -165,6 +196,17 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                     //stress level
                     outputForStressLevel.text = currentStressLevel.toString()
                     //sleep
+
+                    /*
+                    val calSleep = Calendar.getInstance()
+                    calSleep.set(Calendar.HOUR_OF_DAY, currentHourSleep)
+                    calSleep.set(Calendar.MINUTE, currentMinuteSleep)
+                    btn_sleep.text = SimpleDateFormat("HH:mm").format(calSleep.time)
+                    val calWakeup = Calendar.getInstance()
+                    calWakeup.set(Calendar.HOUR_OF_DAY, currentHourWakeup)
+                    calWakeup.set(Calendar.MINUTE, currentMinuteWakeup)
+                    btn_wakeup.text = SimpleDateFormat("HH:mm").format(calWakeup.time)
+                     */
 
                     //weight
                     weight.text = currentWeight.toString()
@@ -271,6 +313,8 @@ class HomeMeasurementsActivity : AppCompatActivity() {
             val cal = Calendar.getInstance()
             val timeSetListener = TimePickerDialog.OnTimeSetListener { timePicker, hoursleep, minutesleep ->
 
+                currentHourSleep = hoursleep
+                currentMinuteSleep = minutesleep
                 cal.set(Calendar.HOUR_OF_DAY, hoursleep)
                 cal.set(Calendar.MINUTE, minutesleep)
                 btn_sleep.text = SimpleDateFormat("HH:mm").format(cal.time)
@@ -282,6 +326,8 @@ class HomeMeasurementsActivity : AppCompatActivity() {
             val cal = Calendar.getInstance()
             val timeSetListener = TimePickerDialog.OnTimeSetListener { timePicker, hourwakeup, minutewakeup ->
 
+                currentHourWakeup = hourwakeup
+                currentMinuteWakeup = minutewakeup
                 cal.set(Calendar.HOUR_OF_DAY, hourwakeup)
                 cal.set(Calendar.MINUTE, minutewakeup)
                 btn_wakeup.text = SimpleDateFormat("HH:mm").format(cal.time)
@@ -405,6 +451,15 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                                 .setValue(currentStressLevel)
                             databaseReference.child("users").child(username).child("measurements")
                                 .child(selectedDate).child("weight").setValue(currentWeight)
+
+                            databaseReference.child("users").child(username).child("measurements")
+                                .child(selectedDate).child("hourSleep").setValue(currentHourSleep)
+                            databaseReference.child("users").child(username).child("measurements")
+                                .child(selectedDate).child("minuteSleep").setValue(currentMinuteSleep)
+                            databaseReference.child("users").child(username).child("measurements")
+                                .child(selectedDate).child("hourWakeup").setValue(currentHourWakeup)
+                            databaseReference.child("users").child(username).child("measurements")
+                                .child(selectedDate).child("minuteWakeup").setValue(currentMinuteWakeup)
 
                             Toast.makeText(
                                 getContext,
