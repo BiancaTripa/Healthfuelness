@@ -4,6 +4,7 @@ import User.*
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -29,7 +30,7 @@ class HomeMeasurementsActivity : AppCompatActivity() {
     private var currentWeight = 0
     private var currentShoulders = 0
     private var currentChest = 0
-    private var currentWeist = 0
+    private var currentWaist = 0
     private var currentUpperLeg = 0
     private var currentAnkle = 0
     private var currentHeight = 0
@@ -42,19 +43,32 @@ class HomeMeasurementsActivity : AppCompatActivity() {
 
         val username = getUsername()
         val selectedDate = getDate()
+
         val tvDate = findViewById<TextView>(R.id.tv_selectedDate)
+
         val incrementWaterButton = findViewById<ImageView>(R.id.button_increment)
         val decrementWaterButton = findViewById<ImageView>(R.id.button_decrement)
         val glassesOfWater = findViewById<TextView>(R.id.tv_water)
+
         val outputForStressLevel = findViewById<TextView>(R.id.tv_stress_level)
         val stress1Button = findViewById<ImageView>(R.id.button_stress1)
         val stress2Button = findViewById<ImageView>(R.id.button_stress2)
         val stress3Button = findViewById<ImageView>(R.id.button_stress3)
         val stress4Button = findViewById<ImageView>(R.id.button_stress4)
         val stress5Button = findViewById<ImageView>(R.id.button_stress5)
+
         val weight = findViewById<TextView>(R.id.tv_weight)
         val incrementWeightButton = findViewById<ImageView>(R.id.button_increment_weight)
         val decrementWeightButton = findViewById<ImageView>(R.id.button_decrement_weight)
+
+        val height = findViewById<TextView>(R.id.tv_height)
+        val torso = findViewById<TextView>(R.id.tv_torso)
+        val legs = findViewById<TextView>(R.id.tv_legs)
+        val shoulders = findViewById<TextView>(R.id.tv_shoulders)
+        val chest = findViewById<TextView>(R.id.tv_chest)
+        val waist  = findViewById<TextView>(R.id.tv_waist)
+        val upperLeg = findViewById<TextView>(R.id.tv_upperleg)
+        val ankle = findViewById<TextView>(R.id.tv_ankle)
 
         //get the measurements from database
         //if selected date is before current date => the measurements will be only displayed
@@ -69,24 +83,77 @@ class HomeMeasurementsActivity : AppCompatActivity() {
 
                     //check if measurements for current date exists
                     if (snapshot.child("measurements").hasChild(selectedDate)){
+                        //water
                         currentWater = snapshot.child("measurements").child(selectedDate).child("water").getValue(Int::class.java)!!
                         glassesOfWater.text = currentWater.toString()
+                        //stress level
+                        currentStressLevel = snapshot.child("measurements").child(selectedDate).child("stressLevel").getValue(Int::class.java)!!
+                        outputForStressLevel.text = currentStressLevel.toString()
+                        //sleep
+
+                        //weight
+                        currentWeight = snapshot.child("measurements").child(selectedDate).child("weight").getValue(Int::class.java)!!
+                        weight.text = currentWeight.toString()
                     } else { // if data not exits => add to database with default values
-                        val measurements = Measurements(currentWater, currentStressLevel, currentSleep, currentWeight, currentShoulders, currentChest, currentWeist, currentUpperLeg, currentAnkle, currentHeight, currentTorso, currentLegs)
+                        val measurements = Measurements(currentWater, currentStressLevel, currentSleep, currentWeight, currentShoulders, currentChest, currentWaist, currentUpperLeg, currentAnkle, currentHeight, currentTorso, currentLegs)
                         val measurementsValues = measurements.toMap()
                         databaseReference.child("users").child(username).child("measurements").child(getDate()).updateChildren(measurementsValues);
+                        //water
                         glassesOfWater.text = currentWater.toString()
+                        //stress level
                         outputForStressLevel.text = currentStressLevel.toString()
+                        //sleep
+
+                        //weight
                         weight.text = currentWeight.toString()
+                        //body:
+                        //height
+                        height.text = currentHeight.toString()
+                        //torso
+                        torso.text = currentTorso.toString()
+                        //legs
+                        legs.text = currentLegs.toString()
+                        //shoulders
+                        shoulders.text = currentShoulders.toString()
+                        //chest
+                        chest.text = currentChest.toString()
+                        //waist
+                        waist.text = currentWaist.toString()
+                        //upperLeg
+                        upperLeg.text = currentUpperLeg.toString()
+                        //ankle
+                        ankle.text = currentAnkle.toString()
 
                     }
                 } else {// if data not exits => add to database with default values
-                    val measurements = Measurements(currentWater, currentStressLevel, currentSleep, currentWeight, currentShoulders, currentChest, currentWeist, currentUpperLeg, currentAnkle, currentHeight, currentTorso, currentLegs)
+                    val measurements = Measurements(currentWater, currentStressLevel, currentSleep, currentWeight, currentShoulders, currentChest, currentWaist, currentUpperLeg, currentAnkle, currentHeight, currentTorso, currentLegs)
                     val measurementsValues = measurements.toMap()
                     databaseReference.child("users").child(username).child("measurements").child(getDate()).updateChildren(measurementsValues);
+                    //water
                     glassesOfWater.text = currentWater.toString()
+                    //stress level
                     outputForStressLevel.text = currentStressLevel.toString()
+                    //sleep
+
+                    //weight
                     weight.text = currentWeight.toString()
+                    //body:
+                    //height
+                    height.text = currentHeight.toString()
+                    //torso
+                    torso.text = currentTorso.toString()
+                    //legs
+                    legs.text = currentLegs.toString()
+                    //shoulders
+                    shoulders.text = currentShoulders.toString()
+                    //chest
+                    chest.text = currentChest.toString()
+                    //waist
+                    waist.text = currentWaist.toString()
+                    //upperLeg
+                    upperLeg.text = currentUpperLeg.toString()
+                    //ankle
+                    ankle.text = currentAnkle.toString()
                 }
             }
 
@@ -106,9 +173,16 @@ class HomeMeasurementsActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        //Home button
+        val homeButton = findViewById<ImageView>(R.id.button_homemeasurements)
+
+        homeButton.setOnClickListener {
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+        }
+
         //Water
         incrementWaterButton.setOnClickListener {
-
             // add/update the measurements can be possible only if the current date is selected
             if (getCurrentDateOrNot() == 0) {
                 //increment the variable and display it
@@ -119,18 +193,16 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                 databaseReference.child("users").child(username).addListenerForSingleValueEvent(object :
                     ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        val measurements = Measurements(currentWater, currentStressLevel, currentSleep, currentWeight, currentShoulders, currentChest, currentWeist, currentUpperLeg, currentAnkle, currentHeight, currentTorso, currentLegs)
+                        val measurements = Measurements(currentWater, currentStressLevel, currentSleep, currentWeight, currentShoulders, currentChest, currentWaist, currentUpperLeg, currentAnkle, currentHeight, currentTorso, currentLegs)
                         val measurementsValues = measurements.toMap()
                         databaseReference.child("users").child(username).child("measurements").child(getDate()).updateChildren(measurementsValues);
                     }
                     override fun onCancelled(error: DatabaseError) { }
                 })
             }
-
         }
 
         decrementWaterButton.setOnClickListener {
-
             // add/update the measurements can be possible only if the current date is selected
             if (getCurrentDateOrNot() == 0) {
                 //decrement the variable and display it
@@ -151,7 +223,7 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                                 currentWeight,
                                 currentShoulders,
                                 currentChest,
-                                currentWeist,
+                                currentWaist,
                                 currentUpperLeg,
                                 currentAnkle,
                                 currentHeight,
@@ -187,7 +259,7 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                                 currentWeight,
                                 currentShoulders,
                                 currentChest,
-                                currentWeist,
+                                currentWaist,
                                 currentUpperLeg,
                                 currentAnkle,
                                 currentHeight,
@@ -222,7 +294,7 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                                 currentWeight,
                                 currentShoulders,
                                 currentChest,
-                                currentWeist,
+                                currentWaist,
                                 currentUpperLeg,
                                 currentAnkle,
                                 currentHeight,
@@ -257,7 +329,7 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                                 currentWeight,
                                 currentShoulders,
                                 currentChest,
-                                currentWeist,
+                                currentWaist,
                                 currentUpperLeg,
                                 currentAnkle,
                                 currentHeight,
@@ -292,7 +364,7 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                                 currentWeight,
                                 currentShoulders,
                                 currentChest,
-                                currentWeist,
+                                currentWaist,
                                 currentUpperLeg,
                                 currentAnkle,
                                 currentHeight,
@@ -327,7 +399,7 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                                 currentWeight,
                                 currentShoulders,
                                 currentChest,
-                                currentWeist,
+                                currentWaist,
                                 currentUpperLeg,
                                 currentAnkle,
                                 currentHeight,
@@ -346,6 +418,40 @@ class HomeMeasurementsActivity : AppCompatActivity() {
 
 
         //Weight
+        //get data from EditTexts into String variables
+        if (getCurrentDateOrNot() == 0) {
+            val weightTxt = weight.text.toString()
+            currentWeight = weightTxt.toInt()
+            weight.text = currentWeight.toString()
+
+            //add to realtime database
+            databaseReference.child("users").child(username)
+                .addListenerForSingleValueEvent(object :
+                    ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val measurements = Measurements(
+                            currentWater,
+                            currentStressLevel,
+                            currentSleep,
+                            currentWeight,
+                            currentShoulders,
+                            currentChest,
+                            currentWaist,
+                            currentUpperLeg,
+                            currentAnkle,
+                            currentHeight,
+                            currentTorso,
+                            currentLegs
+                        )
+                        val measurementsValues = measurements.toMap()
+                        databaseReference.child("users").child(username).child("measurements")
+                            .child(getDate()).updateChildren(measurementsValues);
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {}
+                })
+        }
+
         incrementWeightButton.setOnClickListener {
             // add/update the measurements can be possible only if the current date is selected
             if (getCurrentDateOrNot() == 0) {
@@ -365,7 +471,7 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                                 currentWeight,
                                 currentShoulders,
                                 currentChest,
-                                currentWeist,
+                                currentWaist,
                                 currentUpperLeg,
                                 currentAnkle,
                                 currentHeight,
@@ -403,7 +509,7 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                                 currentWeight,
                                 currentShoulders,
                                 currentChest,
-                                currentWeist,
+                                currentWaist,
                                 currentUpperLeg,
                                 currentAnkle,
                                 currentHeight,
