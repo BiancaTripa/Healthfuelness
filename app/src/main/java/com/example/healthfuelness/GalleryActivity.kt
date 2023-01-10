@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.GridView
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.DataSnapshot
@@ -40,6 +41,20 @@ class GalleryActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         val addButton = findViewById<ImageView>(R.id.button_add)
         addButton.setOnClickListener {
             val intent = Intent(this, HappyActivity::class.java)
+            startActivity(intent)
+        }
+
+        //go to logout
+        val logoutNowButton = findViewById<TextView>(R.id.button_logout)
+        logoutNowButton.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
+        //go to home
+        val homeButton = findViewById<ImageView>(R.id.button_homemeasurements)
+        homeButton.setOnClickListener {
+            val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
         }
     }
