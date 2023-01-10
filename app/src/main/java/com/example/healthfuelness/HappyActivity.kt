@@ -1,5 +1,6 @@
 package com.example.healthfuelness
 
+import User.getUsername
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.ActivityNotFoundException
@@ -17,18 +18,29 @@ import android.widget.Toast
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.example.healthfuelness.databinding.ActivityHappyBinding
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import kotlinx.android.synthetic.main.activity_happy.*
+import java.text.SimpleDateFormat
+import java.util.*
 import java.util.jar.Manifest
 
 
 class HappyActivity : AppCompatActivity() {
 
+    //create object of DatabaseReference class to access firebase's Realtime Database
+    private val databaseReference =  FirebaseDatabase.getInstance().getReferenceFromUrl("https://healthfuelness-d8e8a-default-rtdb.firebaseio.com/")
+
     private val CAMERA_REQUEST_CODE = 1
+
+    private lateinit var imageAsBitmap: Bitmap
 
     //private lateinit var imageView: ImageView
     //private lateinit var button: Button
@@ -42,6 +54,46 @@ class HappyActivity : AppCompatActivity() {
 
         binding.btnCamera.setOnClickListener {
             cameraCheckPermission()
+        }
+
+        binding.btnSave.setOnClickListener {
+            var descriptionTxt = binding.tvDescription.text.toString()
+            if (descriptionTxt.isEmpty()) {
+                descriptionTxt = "Sorry, you don't have a description"
+            }
+            val date = Calendar.getInstance().time
+            val currentDate = date.toString("dd/MM/yyyy")
+
+            val user = getUsername()
+
+            //add to realtime database
+            val getContext = this
+            databaseReference.child("users").child(user)
+                .addListenerForSingleValueEvent(object :
+                    ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        databaseReference.child("users").child(user).child("gallery")
+                            .child("date").setValue(currentDate)
+                        databaseReference.child("users").child(user).child("gallery")
+                            .child("description").setValue(descriptionTxt)
+                        databaseReference.child("users").child(user).child("gallery")
+                            .child("image").setValue(imageAsBitmap)
+
+                        Toast.makeText(
+                            getContext,
+                            "Happy added successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        //go to gallery page
+                        val intent = Intent(getContext, GalleryActivity::class.java)
+                        startActivity(intent)
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        println("The write failed: " + error.code);
+                    }
+                })
         }
 
 
@@ -87,10 +139,6 @@ class HappyActivity : AppCompatActivity() {
                                 camera()
                             }
                         }
-
-
-
-
                     }
 
                     override fun onPermissionRationaleShouldBeShown(
@@ -116,7 +164,8 @@ class HappyActivity : AppCompatActivity() {
             when(resultCode) {
                 CAMERA_REQUEST_CODE -> {
                     val bitmap = data?.extras?.get("data") as Bitmap
-                    
+                    imageAsBitmap = bitmap
+
                     //we are using coroutine image loader (coil)
                     binding.imageView.load(bitmap) {
                         crossfade(true)
@@ -182,4 +231,8 @@ class HappyActivity : AppCompatActivity() {
 
  */
 
+    private fun Date.toString(format: String, locale: Locale = Locale.getDefault()): String {
+        val formatter = SimpleDateFormat(format, locale)
+        return formatter.format(this)
+    }
 }
