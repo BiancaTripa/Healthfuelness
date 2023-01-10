@@ -36,15 +36,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMapsBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_maps)
+        //setContentView(R.layout.activity_maps)
         setContentView(binding.root)
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
         // Get the SupportMapFragment and request notification when the map is ready to be used.
+        /*
         val mapFragment = supportFragmentManager
-            .findFragmentById(android.R.id.map) as? SupportMapFragment
+            .findFragmentById(R.id.map) as? SupportMapFragment
         mapFragment?.getMapAsync(this)
+
+         */
 
         getCurrentLocationUser()
     }
@@ -58,36 +61,23 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), permissionCode)
             return
         }
-    }
 
-    val getLocation = if (ActivityCompat.checkSelfPermission(
-            this,
-            Manifest.permission.ACCESS_FINE_LOCATION
-        ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-            this,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-        ) != PackageManager.PERMISSION_GRANTED
-    ) { return
-        // TODO: Consider calling
-        //    ActivityCompat#requestPermissions
-        // here to request the missing permissions, and then overriding
-        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-        //                                          int[] grantResults)
-        // to handle the case where the user grants the permission. See the documentation
-        // for ActivityCompat#requestPermissions for more details.
-    }
-    fusedLocationProviderClient.lastLocation.addOnSuccessListener {
-        location ->
-        if(location != null){
-            currentLocation = location
-            Toast.makeText(applicationContext, currentLocation.latitude.toString()+""+
-            currentLocation.longitude.toString(), Toast.LENGTH_LONG).show()
+        val getLocation = fusedLocationProviderClient.lastLocation.addOnSuccessListener {
+                location ->
+            if(location != null){
+                currentLocation = location
+                Toast.makeText(applicationContext, currentLocation.latitude.toString()+""+
+                        currentLocation.longitude.toString(), Toast.LENGTH_LONG).show()
 
-            val mapFragment = supportFragmentManager
-                .findFragmentById(android.R.id.map) as? SupportMapFragment
-            mapFragment?.getMapAsync(this)
+                val mapFragment = supportFragmentManager
+                    .findFragmentById(R.id.map) as? SupportMapFragment
+                mapFragment?.getMapAsync(this)
+            }
         }
     }
+
+
+
 
 
     override fun onRequestPermissionsResult(
@@ -104,8 +94,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    override fun onMapReady(p0: GoogleMap) {
-        googleMap=p0
+    override fun onMapReady(googleMap: GoogleMap) {
 
         //Adding markers to map
 
@@ -117,7 +106,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         googleMap?.animateCamera(CameraUpdateFactory.newLatLng(latLng))
         googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 7f))
-        googleMap?.addMarker()
+        googleMap?.addMarker(markerOptions)
 
         // moving camera and zoom map
 
