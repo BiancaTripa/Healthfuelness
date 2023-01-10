@@ -4,6 +4,10 @@
     package="com.example.healthfuelness">
     <!-- Giving internet permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- For camera application -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera.any" />
 
     <application
         android:allowBackup="true"
@@ -15,6 +19,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Healthfuelness"
         tools:targetApi="31">
+        <activity
+            android:name=".HappyActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".GalleryActivity"
             android:exported="false">
@@ -43,10 +54,10 @@
             android:exported="false" />
         <activity
             android:name=".HomeMeasurementsActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".HomeActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
     </application>
 
 </manifest>

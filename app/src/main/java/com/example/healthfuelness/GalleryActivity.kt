@@ -1,10 +1,12 @@
 package com.example.healthfuelness
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.GridView
+import android.widget.ImageView
 import android.widget.Toast
 
 class GalleryActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
@@ -23,6 +25,13 @@ class GalleryActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         galleryAdapter = GalleryAdapter(applicationContext, arrayList!!)
         gridView?.adapter = galleryAdapter
         gridView?.onItemClickListener = this
+
+        //add new photo
+        val addButton = findViewById<ImageView>(R.id.button_add)
+        addButton.setOnClickListener {
+            val intent = Intent(this, HappyActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun setDataList(): ArrayList<GalleryItem> {
