@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.CalendarView
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.os.bundleOf
@@ -84,7 +85,17 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
+
+        val GoToMapsPageButton = findViewById<ImageView>(R.id.button_map)
+
+        GoToMapsPageButton.setOnClickListener {
+            val intent = Intent(this, MapsActivity::class.java)
+            startActivity(intent)
+        }
+
     }
+
+
 
     fun Date.toString(format: String, locale: Locale = Locale.getDefault()): String {
         val formatter = SimpleDateFormat(format, locale)

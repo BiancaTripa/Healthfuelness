@@ -13,6 +13,7 @@ plugins {
     id("androidx.navigation.safeargs")
     //to generate Kotlin code suitable for Kotlin-only modules
     //id("androidx.navigation.safeargs.kotlin")
+
 }
 
 android {
@@ -58,6 +59,8 @@ dependencies {
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-auth-ktx'
 
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+
     //Firebase realtime dependency
     implementation 'com.google.firebase:firebase-database'
 
@@ -71,6 +74,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-database-ktx:20.1.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.android.gms:play-services-maps:15.0.0'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'androidx.fragment:fragment:1.4.1'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
