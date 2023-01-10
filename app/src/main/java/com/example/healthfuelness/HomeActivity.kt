@@ -133,6 +133,15 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this, GalleryActivity::class.java)
             startActivity(intent)
         }
+        
+        //go to maps
+        val GoToMapsPageButton = findViewById<ImageView>(R.id.button_map)
+
+        GoToMapsPageButton.setOnClickListener {
+            val intent = Intent(this, MapsActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     private fun Date.toString(format: String, locale: Locale = Locale.getDefault()): String {
