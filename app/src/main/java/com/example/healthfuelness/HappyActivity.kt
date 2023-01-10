@@ -76,8 +76,9 @@ class HappyActivity : AppCompatActivity() {
                             .child("date").setValue(currentDate)
                         databaseReference.child("users").child(user).child("gallery")
                             .child("description").setValue(descriptionTxt)
+                        /*
                         databaseReference.child("users").child(user).child("gallery")
-                            .child("image").setValue(imageAsBitmap)
+                            .child("image").setValue(imageAsBitmap)*/
 
                         Toast.makeText(
                             getContext,

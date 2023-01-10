@@ -1,15 +1,25 @@
 package com.example.healthfuelness
 
+import User.getUsername
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.GridView
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+
 
 class GalleryActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
+
+    //create object of DatabaseReference class to access firebase's Realtime Database
+    private val databaseReference =  FirebaseDatabase.getInstance().getReferenceFromUrl("https://healthfuelness-d8e8a-default-rtdb.firebaseio.com/")
+
 
     private var gridView: GridView ?= null
     private var arrayList: ArrayList<GalleryItem> ?= null
@@ -38,12 +48,41 @@ class GalleryActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
         var arrayList: ArrayList<GalleryItem> = ArrayList()
 
+
+        /*
+        databaseReference.child("users").child(getUsername()).child("gallery").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // this method is call to get the realtime
+                // updates in the data.
+                // this method is called when the data is
+                // changed in our Firebase console.
+                // below line is for getting the data from
+                // snapshot of our database.
+                val description = snapshot.child("description").getValue(String::class.java)
+                val date = snapshot.child("date").getValue(String::class.java)
+
+                // after getting the value we are setting
+                // our value to our text view in below line.
+                arrayList.add(GalleryItem(R.drawable.ic_camera, description, date))
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // calling on cancelled method when we receive
+                // any error or we are not able to get the data.
+                Toast.makeText(this@GalleryActivity, "Fail to get data.", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+         */
+
+
         arrayList.add(GalleryItem(R.drawable.ic_camera, "Camera", "date"))
         arrayList.add(GalleryItem(R.drawable.ic_logo, "Logo", "date"))
         arrayList.add(GalleryItem(R.drawable.ic_map, "Map", "date"))
         arrayList.add(GalleryItem(R.drawable.ic_user, "User", "date"))
         arrayList.add(GalleryItem(R.drawable.ic_message, "Message", "date"))
         arrayList.add(GalleryItem(R.drawable.ic_password, "Password", "date"))
+
 
         return arrayList
     }
