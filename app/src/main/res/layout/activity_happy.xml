@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".HappyActivity">
+
+    <Button
+        android:id="@+id/btnCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:text="Take Picture"></Button>
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_gravity="center"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_below="@+id/btnCamera"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/ic_user"></ImageView>
+
+    <EditText
+        android:id="@+id/tv_description"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/image_view"
+        android:layout_marginTop="15dp"
+        android:hint="Description"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        android:textSize="15dp" ></EditText>
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="155dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_below="@+id/tv_description"
+        android:layout_marginTop="15dp"
+        android:text="Save and Go Back"></Button>
+
+</LinearLayout>
