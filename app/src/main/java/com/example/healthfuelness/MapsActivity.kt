@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Transformations.map
@@ -50,6 +51,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
          */
 
         getCurrentLocationUser()
+
+        //go to home
+        val homeButton = findViewById<ImageView>(R.id.button_homemap)
+        homeButton.setOnClickListener {
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun getCurrentLocationUser(){
