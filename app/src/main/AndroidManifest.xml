@@ -69,7 +69,7 @@
             android:value="AIzaSyAIbHStO7JrE9wcUK5gQvph1VlEdjFXoJI" />
 
         <activity
-            android:name=".MapsActivity"
+            android:name=".ProfileActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

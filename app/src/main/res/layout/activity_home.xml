@@ -10,11 +10,7 @@
     tools:context=".HomeActivity"
     android:orientation="vertical">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="top"
@@ -136,18 +132,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp">
 
                 <ImageView
-                    android:id="@+id/button_map"
+                    android:id="@+id/button_profile"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_marginStart="25dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="25dp"
                     android:layout_marginBottom="20dp"
+                    android:layout_gravity="center"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/location"></ImageView>
+                    android:src="@drawable/settingsProfileIcon"></ImageView>
 
                 <ImageView
                     android:id="@+id/button_home"
@@ -172,6 +171,6 @@
                 </ImageView>
             </LinearLayout>
 
-        </LinearLayout>
-    </ScrollView>
-    </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>
