@@ -130,7 +130,7 @@ class HomeActivity : AppCompatActivity() {
 
         //go to gallery
         galleryButton.setOnClickListener {
-            val intent = Intent(this, GalleryActivity::class.java)
+            val intent = Intent(this, ArduinoActivity::class.java)
             startActivity(intent)
         }
         

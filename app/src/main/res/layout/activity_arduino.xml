@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="100"
+    tools:context=".ArduinoActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:layout_gravity="center"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_back"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/login_edit_background"
+                android:text="Back"></androidx.appcompat.widget.AppCompatButton>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:text="Healthfuelness"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"></TextView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Keep up with your body and mind"
+                    android:textColor="@color/black"
+                    android:textStyle="italic"></TextView>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/button_message"
+                android:layout_width="58dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="15dp">
+            </ImageView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:orientation="horizontal"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp">
+
+        <Spinner
+            android:id="@+id/spinner_paired_devices"
+            android:layout_width="166dp"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/colorPrimary">
+        </Spinner>
+
+        <Button
+            android:id="@+id/button_find_paired_devices"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="10dp"
+            android:text="Find Devices"
+            android:layout_marginStart="5dp"
+            android:backgroundTint="@color/colorPrimaryDark">
+        </Button>
+
+        <Button
+            android:id="@+id/button_connect"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="10dp"
+            android:text="Connect"
+            android:layout_marginStart="5dp"
+            android:backgroundTint="@color/colorPrimaryDark">
+        </Button>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="32">
+
+        <ListView
+            android:id="@+id/deviceList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </ListView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="30"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/button_received_data"
+            android:layout_width="166dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="10dp"
+            android:text="Received Data"
+            android:layout_marginStart="5dp"
+            android:backgroundTint="@color/colorPrimaryDark">
+        </Button>
+
+        <ListView
+            android:id="@+id/fromHC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </ListView>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
