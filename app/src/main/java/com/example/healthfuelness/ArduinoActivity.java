@@ -11,13 +11,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,20 +31,17 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
 public class ArduinoActivity extends AppCompatActivity {
 
     //create object of DatabaseReference class to access firebase's Realtime Database
-    //private DatabaseReference databaseReference =  FirebaseDatabase.getInstance().getReferenceFromUrl("https://healthfuelness-d8e8a-default-rtdb.firebaseio.com/");
+    private final DatabaseReference databaseReference =  FirebaseDatabase.getInstance().getReferenceFromUrl("https://healthfuelness-d8e8a-default-rtdb.firebaseio.com/");
 
-    //private String username = getUsername();
-    //private String currentDate = getDate();
+    private final String username = getUsername();
+    private final String currentDate = getDate();
 
     private Spinner spinnerPairedDevices;
     private Button buttonFindPairedDevices, buttonConnect, buttonReceivedData;
@@ -67,16 +62,13 @@ public class ArduinoActivity extends AppCompatActivity {
     //variables for received data from arduino
     private Data receivedData = null;
     //variables for what data to save in firebase
-    //private DataToBeSaved dataToBeSaved;
-    //private String temperatureTxt, humidityTxt, uvLevelTxt, tolueneTxt, acetoneTxt, ammoniaTxt, alcoholTxt, hydrogenTxt, dioxideCarbonTxt, airQualityStatusTxt;
+    private DataToBeSaved dataToBeSaved = null;
 
-
-    private ArrayAdapter arrayAdapter, arrayAdapterPairedDevices, arrayAdapterData;
+    private ArrayAdapter  arrayAdapterPairedDevices;
     private BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     private BluetoothDevice HC05Device;
     private BluetoothSocket BTSocket;
 
-    private Context context = this;
     private ArrayList listName, listMacAddress;
     private int HC05Index;
     private boolean bluetoothDeviceConnected = false;
@@ -89,30 +81,6 @@ public class ArduinoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_arduino);
-
-        //check if data from arduino in the current date exists in firebase realtime database
-        /*
-        databaseReference.child("users").child(username).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                if (snapshot.hasChild("dataFromArduino")) {
-                    if (snapshot.child("dataFromArduino").hasChild(currentDate)) { //data exist
-
-                    } else {// if data not exits => add to database with default values
-                        receivedData = null;
-                    }
-                } else { // if data not exits => add to database with default values
-                    receivedData = null;
-
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError firebaseError) {
-                System.out.println("The read failed: " + firebaseError.getMessage());
-            }
-        });
-
-         */
 
         spinnerPairedDevices = findViewById(R.id.spinner_paired_devices);
         buttonFindPairedDevices = findViewById(R.id.button_find_paired_devices);
@@ -145,7 +113,7 @@ public class ArduinoActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //savedInRealTimeDatabase();
+                savedInRealTimeDatabase();
                 Intent intent = new Intent(getApplicationContext(), HomeMeasurementsActivity.class);
                 startActivity(intent);
             }
@@ -155,7 +123,7 @@ public class ArduinoActivity extends AppCompatActivity {
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // savedInRealTimeDatabase();
+                savedInRealTimeDatabase();
                 Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(intent);
             }
@@ -172,21 +140,18 @@ public class ArduinoActivity extends AppCompatActivity {
                 } else {
                     if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_DENIED) {
                         Toast.makeText(getApplicationContext(), "Bluetooth permission denied", Toast.LENGTH_SHORT).show();
-                        requestPermission(Manifest.permission.BLUETOOTH);
+                        requestPermission();
                         return;
                     }
                     pairedDevices = bluetoothAdapter.getBondedDevices();
-                    ArrayList list = new ArrayList();
                     listName = new ArrayList();
                     listMacAddress = new ArrayList();
-                    list.add("Select");
                     listName.add("Select");
                     listMacAddress.add("0");
                     if (pairedDevices.size() > 0) {
                         for (BluetoothDevice device : pairedDevices) {
                             String deviceName = device.getName();
                             String macAddress = device.getAddress();
-                            list.add("Name: " + deviceName + " MAC Address: " + macAddress);
                             listName.add(deviceName);
                             listMacAddress.add(macAddress);
                         }
@@ -211,7 +176,7 @@ public class ArduinoActivity extends AppCompatActivity {
                     }
                     if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_DENIED) {
                         Toast.makeText(getApplicationContext(), "Bluetooth permission denied", Toast.LENGTH_SHORT).show();
-                        requestPermission(Manifest.permission.BLUETOOTH);
+                        requestPermission();
                         return;
                     }
                     String selectedDevice = spinnerPairedDevices.getSelectedItem().toString();
@@ -267,7 +232,7 @@ public class ArduinoActivity extends AppCompatActivity {
                 }
                 if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_DENIED) {
                     Toast.makeText(getApplicationContext(), "Bluetooth permission denied", Toast.LENGTH_SHORT).show();
-                    requestPermission(Manifest.permission.BLUETOOTH);
+                    requestPermission();
                     return;
                 }
                 if (spinnerPairedDevices.getSelectedItemPosition() == 0) {
@@ -287,8 +252,8 @@ public class ArduinoActivity extends AppCompatActivity {
                         Data aux = new Data(dates[0], dates[1], dates[2], dates[3], dates[4], dates[5], dates[6], dates[7], dates[8], dates[9]);
                         receivedData = aux;
                         //create object for what data to save and initialize it with init value (0)
-                        //dataToBeSaved = new DataToBeSaved("0", "0", "0", "0", "0", "0", "-", "-", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
-
+                        DataToBeSaved aux2 = new DataToBeSaved("0", "0", "0", "0", "0", "0", "-", "-", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                        dataToBeSaved = aux2;
                     } else {
                         receivedData.setTemperature(dates[0]);
                         receivedData.setHumidity(dates[1]);
@@ -303,9 +268,9 @@ public class ArduinoActivity extends AppCompatActivity {
                     }
                     //set value and status text view for every data
                     setValueAndStatus();
-                    //get data from TextViews into Double variables
-                    //and save them in dataToBeSaved object
-                    //getDataFromTextViewsAndSetToDataToBeSavedObject();
+                    //save data in dataToBeSaved object
+                    setDataToBeSaved();
+
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -317,10 +282,9 @@ public class ArduinoActivity extends AppCompatActivity {
 
     }
 
-    private void requestPermission(String whatPermission) {
-        final String[] permissions = new String[]{whatPermission};
+    private void requestPermission() {
+        final String[] permissions = new String[]{Manifest.permission.BLUETOOTH};
         ActivityCompat.requestPermissions(this, permissions, 1);
-        return;
     }
 
     private String readRawData(InputStream in) throws IOException {
@@ -336,8 +300,7 @@ public class ArduinoActivity extends AppCompatActivity {
             }
             i++;
         }
-        String receivedDataAsString = new String(receivedDataAux);
-        return receivedDataAsString;
+        return new String(receivedDataAux);
     }
 
     private void setStatus (TextView tvStatus, String value, ColorStateList color) {
@@ -345,113 +308,138 @@ public class ArduinoActivity extends AppCompatActivity {
         tvStatus.setTextColor(color);
     }
 
-    /*
-    private void getDataFromTextViewsAndSetToDataToBeSavedObject() {
+    private void setDataToBeSaved() {
         // Temperature
-        if (dataToBeSaved.getTemperatureMin().equals("0") || dataToBeSaved.getTemperatureMax().equals("0")) { //initial value is 0
+        if (dataToBeSaved.getTemperatureMin().equals("0")) { //initial value is 0
             dataToBeSaved.setTemperatureMin(receivedData.getTemperature());
+        }
+        if (dataToBeSaved.getTemperatureMax().equals("0")) { //initial value is 0
             dataToBeSaved.setTemperatureMax(receivedData.getTemperature());
-        } else if (dataToBeSaved.getTemperatureMin().compareTo(receivedData.getTemperature()) > 0) {
+        }
+        if (dataToBeSaved.getTemperatureMin().compareTo(receivedData.getTemperature()) > 0) {
             dataToBeSaved.setTemperatureMin(receivedData.getTemperature());
         } else if (dataToBeSaved.getTemperatureMax().compareTo(receivedData.getTemperature()) < 0) {
             dataToBeSaved.setTemperatureMax(receivedData.getTemperature());
         }
 
-        //humidity
-        if (dataToBeSaved.getHumidityMin().equals("0") || dataToBeSaved.getHumidityMax().equals("0")) { //initial value is 0
+        // Humidity
+        if (dataToBeSaved.getHumidityMin().equals("0")) { //initial value is 0
             dataToBeSaved.setHumidityMin(receivedData.getHumidity());
+        }
+        if (dataToBeSaved.getHumidityMax().equals("0")) { //initial value is 0
             dataToBeSaved.setHumidityMax(receivedData.getHumidity());
-        } else if (dataToBeSaved.getHumidityMin().compareTo(receivedData.getHumidity()) > 0) {
+        }
+        if (dataToBeSaved.getHumidityMin().compareTo(receivedData.getHumidity()) > 0) {
             dataToBeSaved.setHumidityMin(receivedData.getHumidity());
         } else if (dataToBeSaved.getHumidityMax().compareTo(receivedData.getHumidity()) < 0) {
             dataToBeSaved.setHumidityMax(receivedData.getHumidity());
         }
 
-        //uv level
-        if (dataToBeSaved.getUvLevelMin().equals("0") || dataToBeSaved.getUvLevelMax().equals("0")) { //initial value is 0
+        // UV Level
+        if (dataToBeSaved.getUvLevelMin().equals("0")) { //initial value is 0
             dataToBeSaved.setUvLevelMin(receivedData.getUvLevel());
+        }
+        if (dataToBeSaved.getUvLevelMax().equals("0")) { //initial value is 0
             dataToBeSaved.setUvLevelMax(receivedData.getUvLevel());
-        } else if (dataToBeSaved.getUvLevelMin().compareTo(receivedData.getUvLevel()) > 0) {
+        }
+        if (dataToBeSaved.getUvLevelMin().compareTo(receivedData.getUvLevel()) > 0) {
             dataToBeSaved.setUvLevelMin(receivedData.getUvLevel());
         } else if (dataToBeSaved.getUvLevelMax().compareTo(receivedData.getUvLevel()) < 0) {
             dataToBeSaved.setUvLevelMax(receivedData.getUvLevel());
         }
 
+        // AirQuality
+        if (dataToBeSaved.getAirQualityMin().equals("-")) { //initial value is 0
+            dataToBeSaved.setAirQualityMin(receivedData.getAirQuality());
+        }
+        if (dataToBeSaved.getAirQualityMax().equals("-")) { //initial value is 0
+            dataToBeSaved.setAirQualityMax(receivedData.getAirQuality());
+        }
+        if (dataToBeSaved.getAirQualityMin().compareTo(receivedData.getAirQuality()) > 0) {
+            dataToBeSaved.setAirQualityMin(receivedData.getAirQuality());
+        } else if (dataToBeSaved.getAirQualityMax().compareTo(receivedData.getAirQuality()) < 0) {
+            dataToBeSaved.setAirQualityMax(receivedData.getAirQuality());
+        }
 
-
-        //toluene
-        if (dataToBeSaved.getTolueneMin().equals("0") || dataToBeSaved.getTolueneMax().equals("0")) {
+        // Toluene
+        if (dataToBeSaved.getTolueneMin().equals("0")) { //initial value is 0
             dataToBeSaved.setTolueneMin(receivedData.getToluene());
+        }
+        if (dataToBeSaved.getTolueneMax().equals("0")) { //initial value is 0
             dataToBeSaved.setTolueneMax(receivedData.getToluene());
-        } else if (dataToBeSaved.getTolueneMin().compareTo(receivedData.getToluene()) > 0){
+        }
+        if (dataToBeSaved.getTolueneMin().compareTo(receivedData.getToluene()) > 0) {
             dataToBeSaved.setTolueneMin(receivedData.getToluene());
         } else if (dataToBeSaved.getTolueneMax().compareTo(receivedData.getToluene()) < 0) {
             dataToBeSaved.setTolueneMax(receivedData.getToluene());
         }
 
-        //acetone
-        if (dataToBeSaved.getAcetoneMin().equals("0") || dataToBeSaved.getAcetoneMax().equals("0")) {
-            dataToBeSaved.setAcetoneMax(receivedData.getAcetone());
+        // Acetone
+        if (dataToBeSaved.getAcetoneMin().equals("0")) { //initial value is 0
             dataToBeSaved.setAcetoneMin(receivedData.getAcetone());
-        } else if (dataToBeSaved.getAcetoneMin().compareTo(receivedData.getAcetone()) > 0) {
+        }
+        if (dataToBeSaved.getAcetoneMax().equals("0")) { //initial value is 0
+            dataToBeSaved.setAcetoneMax(receivedData.getAcetone());
+        }
+        if (dataToBeSaved.getAcetoneMin().compareTo(receivedData.getAcetone()) > 0) {
             dataToBeSaved.setAcetoneMin(receivedData.getAcetone());
         } else if (dataToBeSaved.getAcetoneMax().compareTo(receivedData.getAcetone()) < 0) {
             dataToBeSaved.setAcetoneMax(receivedData.getAcetone());
         }
-        //ammonia
-        if (dataToBeSaved.getAmmoniaMin().equals("0") || dataToBeSaved.getAmmoniaMax().equals("0")) {
-            dataToBeSaved.setAmmoniaMax(receivedData.getAmmonia());
+
+        // Ammonia
+        if (dataToBeSaved.getAmmoniaMin().equals("0")) { //initial value is 0
             dataToBeSaved.setAmmoniaMin(receivedData.getAmmonia());
-        } else if (dataToBeSaved.getAmmoniaMin().compareTo(receivedData.getAmmonia()) > 0) {
+        }
+        if (dataToBeSaved.getAmmoniaMax().equals("0")) { //initial value is 0
+            dataToBeSaved.setAmmoniaMax(receivedData.getAmmonia());
+        }
+        if (dataToBeSaved.getAmmoniaMin().compareTo(receivedData.getAmmonia()) > 0) {
             dataToBeSaved.setAmmoniaMin(receivedData.getAmmonia());
         } else if (dataToBeSaved.getAmmoniaMax().compareTo(receivedData.getAmmonia()) < 0) {
             dataToBeSaved.setAmmoniaMax(receivedData.getAmmonia());
         }
-        //alcohol
-        if (dataToBeSaved.getAlcoholMin().equals("0") || dataToBeSaved.getAlcoholMax().equals("0")) {
-            dataToBeSaved.setAlcoholMax(receivedData.getAlcohol());
+
+        // Alcohol
+        if (dataToBeSaved.getAlcoholMin().equals("0")) { //initial value is 0
             dataToBeSaved.setAlcoholMin(receivedData.getAlcohol());
-        } else if (dataToBeSaved.getAlcoholMin().compareTo(receivedData.getAlcohol()) > 0) {
+        }
+        if (dataToBeSaved.getAlcoholMax().equals("0")) { //initial value is 0
+            dataToBeSaved.setAlcoholMax(receivedData.getAlcohol());
+        }
+        if (dataToBeSaved.getAlcoholMin().compareTo(receivedData.getAlcohol()) > 0) {
             dataToBeSaved.setAlcoholMin(receivedData.getAlcohol());
         } else if (dataToBeSaved.getAlcoholMax().compareTo(receivedData.getAlcohol()) < 0) {
             dataToBeSaved.setAlcoholMax(receivedData.getAlcohol());
         }
-        //hydrogen
-        if (dataToBeSaved.getHydrogenMin().equals("0") || dataToBeSaved.getHydrogenMax().equals("0")) {
-            dataToBeSaved.setHydrogenMax(receivedData.getHydrogen());
-            dataToBeSaved.setHydrogenMin(receivedData.getHydrogen());
-        } else if (dataToBeSaved.getHydrogenMin().compareTo(receivedData.getHydrogen()) > 0) {
-            dataToBeSaved.setHydrogenMin(receivedData.getHydrogen());
-        } else if (dataToBeSaved.getHydrogenMax().compareTo(receivedData.getHydrogen()) < 0) {
-            dataToBeSaved.setHydrogenMax(receivedData.getHydrogen());
-        }
-        //dioxide carbon
-        if (dataToBeSaved.getDioxideCarbonMin().equals("0") || dataToBeSaved.getDioxideCarbonMax().equals("0")) {
-            dataToBeSaved.setDioxideCarbonMax(receivedData.getDioxideCarbon());
+
+        // DioxideCarbon
+        if (dataToBeSaved.getDioxideCarbonMin().equals("0")) { //initial value is 0
             dataToBeSaved.setDioxideCarbonMin(receivedData.getDioxideCarbon());
-        } else if (dataToBeSaved.getDioxideCarbonMin().compareTo(receivedData.getDioxideCarbon()) > 0) {
+        }
+        if (dataToBeSaved.getDioxideCarbonMax().equals("0")) { //initial value is 0
+            dataToBeSaved.setDioxideCarbonMax(receivedData.getDioxideCarbon());
+        }
+        if (dataToBeSaved.getDioxideCarbonMin().compareTo(receivedData.getDioxideCarbon()) > 0) {
             dataToBeSaved.setDioxideCarbonMin(receivedData.getDioxideCarbon());
         } else if (dataToBeSaved.getDioxideCarbonMax().compareTo(receivedData.getDioxideCarbon()) < 0) {
             dataToBeSaved.setDioxideCarbonMax(receivedData.getDioxideCarbon());
         }
-        //air quality status
-        if (dataToBeSaved.getAirQualityMin().equals("-") || dataToBeSaved.getAirQualityMax().equals("-")) {
-            dataToBeSaved.setAirQualityMin(receivedData.getAirQuality());
-            dataToBeSaved.setAirQualityMax(receivedData.getAirQuality());
-        } else if (receivedData.getAirQuality().equals("Perfect") && !dataToBeSaved.getAirQualityMin().equals("Perfect")) {
-            dataToBeSaved.setAirQualityMin(receivedData.getAirQuality());
-        } else if (receivedData.getAirQuality().equals("Ridicat") && !dataToBeSaved.getAirQualityMax().equals("Ridicat")) {
-            dataToBeSaved.setAirQualityMax(receivedData.getAirQuality());
-        } else if (receivedData.getAirQuality().equals("Moderat")) {
-            if (dataToBeSaved.getAirQualityMin().equals("Ridicat")) {
-                dataToBeSaved.setAirQualityMin(receivedData.getAirQuality());
-            } else if (dataToBeSaved.getAirQualityMax().equals("Perfect")) {
-                dataToBeSaved.setAirQualityMax(receivedData.getAirQuality());
-            }
+
+        // Hydrogen
+        if (dataToBeSaved.getHydrogenMin().equals("0")) { //initial value is 0
+            dataToBeSaved.setHydrogenMin(receivedData.getHydrogen());
+        }
+        if (dataToBeSaved.getHydrogenMax().equals("0")) { //initial value is 0
+            dataToBeSaved.setHydrogenMax(receivedData.getHydrogen());
+        }
+        if (dataToBeSaved.getHydrogenMin().compareTo(receivedData.getHydrogen()) > 0) {
+            dataToBeSaved.setHydrogenMin(receivedData.getHydrogen());
+        } else if (dataToBeSaved.getHydrogenMax().compareTo(receivedData.getHydrogen()) < 0) {
+            dataToBeSaved.setHydrogenMax(receivedData.getHydrogen());
         }
 
     }
-    */
 
     void setValueAndStatus() {
         temperatureValue.setText(receivedData.getTemperature());
@@ -545,17 +533,338 @@ public class ArduinoActivity extends AppCompatActivity {
     }
 
 
-    /*
     void savedInRealTimeDatabase() {
 
+        //check if data from arduino in the current date exists in firebase realtime database
         databaseReference.child("users").child(username).addListenerForSingleValueEvent(new ValueEventListener(){
             @Override
             public void onDataChange(DataSnapshot snapshot) {
 
-                databaseReference.child("users").child(username).child("dataFromArduino")
-                        .child(currentDate).child("temperatureMin").setValue(dataToBeSaved.getTemperatureMin());
-                databaseReference.child("users").child(username).child("dataFromArduino")
-                        .child(currentDate).child("temperatureMax").setValue(dataToBeSaved.getTemperatureMax());
+                if (snapshot.hasChild("dataFromArduino")) {
+                    if (snapshot.child("dataFromArduino").hasChild(currentDate)) { //data exist
+                        //Temperature
+                        String temperatureMinAux = snapshot.child("dataFromArduino").child(currentDate).child("temperatureMin").getValue().toString();
+                        String temperatureMaxAux = snapshot.child("dataFromArduino").child(currentDate).child("temperatureMax").getValue().toString();
+                        if (temperatureMinAux.compareTo("0") == 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("temperatureMin").setValue(dataToBeSaved.getTemperatureMin());
+                        }
+                        if (temperatureMaxAux.compareTo("0") == 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("temperatureMax").setValue(dataToBeSaved.getTemperatureMax());
+                        }
+                        if (dataToBeSaved.getTemperatureMin().compareTo(temperatureMinAux) < 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("temperatureMin").setValue(dataToBeSaved.getTemperatureMin());
+                        }
+                        if (dataToBeSaved.getTemperatureMax().compareTo(temperatureMaxAux) > 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("temperatureMax").setValue(dataToBeSaved.getTemperatureMax());
+                        }
+
+                        // Humidity
+                        String humidityMinAux = snapshot.child("dataFromArduino").child(currentDate).child("humidityMin").getValue().toString();
+                        String humidityMaxAux = snapshot.child("dataFromArduino").child(currentDate).child("humidityMax").getValue().toString();
+                        if (humidityMinAux.compareTo("0") == 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("humidityMin").setValue(dataToBeSaved.getHumidityMin());
+                        }
+                        if (humidityMaxAux.compareTo("0") == 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("humidityMax").setValue(dataToBeSaved.getHumidityMax());
+                        }
+                        if (dataToBeSaved.getHumidityMin().compareTo(humidityMinAux) < 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("humidityMin").setValue(dataToBeSaved.getHumidityMin());
+                        }
+                        if (dataToBeSaved.getHumidityMax().compareTo(humidityMaxAux) > 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("humidityMax").setValue(dataToBeSaved.getHumidityMax());
+                        }
+
+                        // UV Level
+
+                        String uvLevelMinAux = snapshot.child("dataFromArduino").child(currentDate).child("uvLevelMin").getValue().toString();
+                        String uvLevelMaxAux = snapshot.child("dataFromArduino").child(currentDate).child("uvLevelMax").getValue().toString();
+                        if (uvLevelMinAux.compareTo("0") == 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("uvLevelMin").setValue(dataToBeSaved.getUvLevelMin());
+                        }
+                        if (uvLevelMaxAux.compareTo("0") == 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("uvLevelMax").setValue(dataToBeSaved.getUvLevelMax());
+                        }
+                        if (uvLevelMinAux.compareTo(dataToBeSaved.getUvLevelMin()) > 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("uvLevelMin").setValue(dataToBeSaved.getUvLevelMin());
+                        }
+                        if (uvLevelMaxAux.compareTo(dataToBeSaved.getUvLevelMax()) < 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("uvLevelMax").setValue(dataToBeSaved.getUvLevelMax());
+                        }
+
+                        // AirQuality
+                        String airQualityMinAux = snapshot.child("dataFromArduino").child(currentDate).child("airQualityMin").getValue().toString();
+                        String airQualityMaxAux = snapshot.child("dataFromArduino").child(currentDate).child("airQualityMax").getValue().toString();
+                        if (airQualityMinAux.compareTo("-") == 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("airQualityMin").setValue(dataToBeSaved.getAirQualityMin());
+                        }
+                        if (airQualityMaxAux.compareTo("-") == 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("airQualityMax").setValue(dataToBeSaved.getAirQualityMax());
+                        }
+                        if (airQualityMinAux.compareTo(dataToBeSaved.getAirQualityMin()) > 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("airQualityMin").setValue(dataToBeSaved.getAirQualityMin());
+                        }
+                        if (airQualityMaxAux.compareTo(dataToBeSaved.getAirQualityMax()) < 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("airQualityMax").setValue(dataToBeSaved.getAirQualityMax());
+                        }
+
+                        // Toluene
+                        String tolueneMinAux = snapshot.child("dataFromArduino").child(currentDate).child("tolueneMin").getValue().toString();
+                        String tolueneMaxAux = snapshot.child("dataFromArduino").child(currentDate).child("tolueneMax").getValue().toString();
+                        if (tolueneMinAux.compareTo("0") == 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("tolueneMin").setValue(dataToBeSaved.getTolueneMin());
+                        }
+                        if (tolueneMaxAux.compareTo("0") == 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("tolueneMax").setValue(dataToBeSaved.getTolueneMax());
+                        }
+                        if (tolueneMinAux.compareTo(dataToBeSaved.getTolueneMin()) > 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("tolueneMin").setValue(dataToBeSaved.getTolueneMin());
+                        }
+                        if (tolueneMaxAux.compareTo(dataToBeSaved.getTolueneMax()) < 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("tolueneMax").setValue(dataToBeSaved.getTolueneMax());
+                        }
+
+                        // Acetone
+                        String acetoneMinAux = snapshot.child("dataFromArduino").child(currentDate).child("acetoneMin").getValue().toString();
+                        String acetoneMaxAux = snapshot.child("dataFromArduino").child(currentDate).child("acetoneMax").getValue().toString();
+                        if (acetoneMinAux.compareTo("0") == 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("acetoneMin").setValue(dataToBeSaved.getAcetoneMin());
+                        }
+                        if (acetoneMaxAux.compareTo("0") == 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("acetoneMax").setValue(dataToBeSaved.getAcetoneMax());
+                        }
+                        if (acetoneMinAux.compareTo(dataToBeSaved.getAcetoneMin()) > 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("acetoneMin").setValue(dataToBeSaved.getAcetoneMin());
+                        }
+                        if (acetoneMaxAux.compareTo(dataToBeSaved.getAcetoneMax()) < 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("acetoneMax").setValue(dataToBeSaved.getAcetoneMax());
+                        }
+
+                        // Ammonia
+                        String ammoniaMinAux = snapshot.child("dataFromArduino").child(currentDate).child("ammoniaMin").getValue().toString();
+                        String ammoniaMaxAux = snapshot.child("dataFromArduino").child(currentDate).child("ammoniaMax").getValue().toString();
+                        if (ammoniaMinAux.compareTo("0") == 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("ammoniaMin").setValue(dataToBeSaved.getAmmoniaMin());
+                        }
+                        if (ammoniaMaxAux.compareTo("0") == 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("ammoniaMax").setValue(dataToBeSaved.getAmmoniaMax());
+                        }
+                        if (ammoniaMinAux.compareTo(dataToBeSaved.getAmmoniaMin()) > 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("ammoniaMin").setValue(dataToBeSaved.getAmmoniaMin());
+                        }
+                        if (ammoniaMaxAux.compareTo(dataToBeSaved.getAmmoniaMax()) < 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("ammoniaMax").setValue(dataToBeSaved.getAmmoniaMax());
+                        }
+
+                        // Alcohol
+                        String alcoholMinAux = snapshot.child("dataFromArduino").child(currentDate).child("alcoholMin").getValue().toString();
+                        String alcoholMaxAux = snapshot.child("dataFromArduino").child(currentDate).child("alcoholMax").getValue().toString();
+                        if (alcoholMinAux.compareTo("0") == 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("alcoholMin").setValue(dataToBeSaved.getAlcoholMin());
+                        }
+                        if (alcoholMaxAux.compareTo("0") == 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("alcoholMax").setValue(dataToBeSaved.getAlcoholMax());
+                        }
+                        if (alcoholMinAux.compareTo(dataToBeSaved.getAlcoholMin()) > 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("alcoholMin").setValue(dataToBeSaved.getAlcoholMin());
+                        }
+                        if (alcoholMaxAux.compareTo(dataToBeSaved.getAlcoholMax()) < 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("alcoholMax").setValue(dataToBeSaved.getAlcoholMax());
+                        }
+
+                        // DioxideCarbon
+                        String dioxideCarbonMinAux = snapshot.child("dataFromArduino").child(currentDate).child("dioxideCarbonMin").getValue().toString();
+                        String dioxideCarbonMaxAux = snapshot.child("dataFromArduino").child(currentDate).child("dioxideCarbonMax").getValue().toString();
+                        if (dioxideCarbonMinAux.compareTo("0") == 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("dioxideCarbonMin").setValue(dataToBeSaved.getDioxideCarbonMin());
+                        }
+                        if (dioxideCarbonMaxAux.compareTo("0") == 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("dioxideCarbonMax").setValue(dataToBeSaved.getDioxideCarbonMax());
+                        }
+                        if (dioxideCarbonMinAux.compareTo(dataToBeSaved.getDioxideCarbonMin()) > 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("dioxideCarbonMin").setValue(dataToBeSaved.getDioxideCarbonMin());
+                        }
+                        if (dioxideCarbonMaxAux.compareTo(dataToBeSaved.getDioxideCarbonMax()) < 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("dioxideCarbonMax").setValue(dataToBeSaved.getDioxideCarbonMax());
+                        }
+
+                        // Hydrogen
+                        String hydrogenMinAux = snapshot.child("dataFromArduino").child(currentDate).child("hydrogenMin").getValue().toString();
+                        String hydrogenMaxAux = snapshot.child("dataFromArduino").child(currentDate).child("hydrogenMax").getValue().toString();
+                        if (hydrogenMinAux.compareTo("0") == 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("hydrogenMin").setValue(dataToBeSaved.getHydrogenMin());
+                        }
+                        if (hydrogenMaxAux.compareTo("0") == 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("hydrogenMax").setValue(dataToBeSaved.getHydrogenMax());
+                        }
+                        if (hydrogenMinAux.compareTo(dataToBeSaved.getHydrogenMin()) > 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("hydrogenMin").setValue(dataToBeSaved.getHydrogenMin());
+                        }
+                        if (hydrogenMaxAux.compareTo(dataToBeSaved.getHydrogenMax()) < 0) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("hydrogenMax").setValue(dataToBeSaved.getHydrogenMax());
+                        }
+
+                    } else {// if data not exits => add to database
+                        //Temperature
+                        databaseReference.child("users").child(username).child("dataFromArduino")
+                                .child(currentDate).child("temperatureMin").setValue(dataToBeSaved.getTemperatureMin());
+                        databaseReference.child("users").child(username).child("dataFromArduino")
+                                .child(currentDate).child("temperatureMax").setValue(dataToBeSaved.getTemperatureMax());
+
+                        // Humidity
+                        databaseReference.child("users").child(username).child("dataFromArduino")
+                                .child(currentDate).child("humidityMin").setValue(dataToBeSaved.getHumidityMin());
+                        databaseReference.child("users").child(username).child("dataFromArduino")
+                                .child(currentDate).child("humidityMax").setValue(dataToBeSaved.getHumidityMax());
+
+                        // UV Level
+                        databaseReference.child("users").child(username).child("dataFromArduino")
+                                .child(currentDate).child("uvLevelMin").setValue(dataToBeSaved.getUvLevelMin());
+                        databaseReference.child("users").child(username).child("dataFromArduino")
+                                .child(currentDate).child("uvLevelMax").setValue(dataToBeSaved.getUvLevelMax());
+
+                        // AirQuality
+                        databaseReference.child("users").child(username).child("dataFromArduino")
+                                .child(currentDate).child("airQualityMin").setValue(dataToBeSaved.getAirQualityMin());
+                        databaseReference.child("users").child(username).child("dataFromArduino")
+                                .child(currentDate).child("airQualityMax").setValue(dataToBeSaved.getAirQualityMax());
+
+                        // Toluene
+                        databaseReference.child("users").child(username).child("dataFromArduino")
+                                .child(currentDate).child("tolueneMin").setValue(dataToBeSaved.getTolueneMin());
+                        databaseReference.child("users").child(username).child("dataFromArduino")
+                                .child(currentDate).child("tolueneMax").setValue(dataToBeSaved.getTolueneMax());
+
+                        // Acetone
+                        databaseReference.child("users").child(username).child("dataFromArduino")
+                                .child(currentDate).child("acetoneMin").setValue(dataToBeSaved.getAcetoneMin());
+                        databaseReference.child("users").child(username).child("dataFromArduino")
+                                .child(currentDate).child("acetoneMax").setValue(dataToBeSaved.getAcetoneMax());
+
+                        // Ammonia
+                        databaseReference.child("users").child(username).child("dataFromArduino")
+                                .child(currentDate).child("ammoniaMin").setValue(dataToBeSaved.getAmmoniaMin());
+                        databaseReference.child("users").child(username).child("dataFromArduino")
+                                .child(currentDate).child("ammoniaMax").setValue(dataToBeSaved.getAmmoniaMax());
+
+                        // Alcohol
+                        databaseReference.child("users").child(username).child("dataFromArduino")
+                                .child(currentDate).child("alcoholMin").setValue(dataToBeSaved.getAlcoholMin());
+                        databaseReference.child("users").child(username).child("dataFromArduino")
+                                .child(currentDate).child("alcoholMax").setValue(dataToBeSaved.getAlcoholMax());
+
+                        // DioxideCarbon
+                        databaseReference.child("users").child(username).child("dataFromArduino")
+                                .child(currentDate).child("dioxideCarbonMin").setValue(dataToBeSaved.getDioxideCarbonMin());
+                        databaseReference.child("users").child(username).child("dataFromArduino")
+                                .child(currentDate).child("dioxideCarbonMax").setValue(dataToBeSaved.getDioxideCarbonMax());
+
+                        // Hydrogen
+                        databaseReference.child("users").child(username).child("dataFromArduino")
+                                .child(currentDate).child("hydrogenMin").setValue(dataToBeSaved.getHydrogenMin());
+                        databaseReference.child("users").child(username).child("dataFromArduino")
+                                .child(currentDate).child("hydrogenMax").setValue(dataToBeSaved.getHydrogenMax());
+                    }
+                } else { // if data not exits => add to database
+                    //Temperature
+                    databaseReference.child("users").child(username).child("dataFromArduino")
+                            .child(currentDate).child("temperatureMin").setValue(dataToBeSaved.getTemperatureMin());
+                    databaseReference.child("users").child(username).child("dataFromArduino")
+                            .child(currentDate).child("temperatureMax").setValue(dataToBeSaved.getTemperatureMax());
+
+                    // Humidity
+                    databaseReference.child("users").child(username).child("dataFromArduino")
+                            .child(currentDate).child("humidityMin").setValue(dataToBeSaved.getHumidityMin());
+                    databaseReference.child("users").child(username).child("dataFromArduino")
+                            .child(currentDate).child("humidityMax").setValue(dataToBeSaved.getHumidityMax());
+
+                    // UV Level
+                    databaseReference.child("users").child(username).child("dataFromArduino")
+                            .child(currentDate).child("uvLevelMin").setValue(dataToBeSaved.getUvLevelMin());
+                    databaseReference.child("users").child(username).child("dataFromArduino")
+                            .child(currentDate).child("uvLevelMax").setValue(dataToBeSaved.getUvLevelMax());
+
+                    // AirQuality
+                    databaseReference.child("users").child(username).child("dataFromArduino")
+                            .child(currentDate).child("airQualityMin").setValue(dataToBeSaved.getAirQualityMin());
+                    databaseReference.child("users").child(username).child("dataFromArduino")
+                            .child(currentDate).child("airQualityMax").setValue(dataToBeSaved.getAirQualityMax());
+
+                    // Toluene
+                    databaseReference.child("users").child(username).child("dataFromArduino")
+                            .child(currentDate).child("tolueneMin").setValue(dataToBeSaved.getTolueneMin());
+                    databaseReference.child("users").child(username).child("dataFromArduino")
+                            .child(currentDate).child("tolueneMax").setValue(dataToBeSaved.getTolueneMax());
+
+                    // Acetone
+                    databaseReference.child("users").child(username).child("dataFromArduino")
+                            .child(currentDate).child("acetoneMin").setValue(dataToBeSaved.getAcetoneMin());
+                    databaseReference.child("users").child(username).child("dataFromArduino")
+                            .child(currentDate).child("acetoneMax").setValue(dataToBeSaved.getAcetoneMax());
+
+                    // Ammonia
+                    databaseReference.child("users").child(username).child("dataFromArduino")
+                            .child(currentDate).child("ammoniaMin").setValue(dataToBeSaved.getAmmoniaMin());
+                    databaseReference.child("users").child(username).child("dataFromArduino")
+                            .child(currentDate).child("ammoniaMax").setValue(dataToBeSaved.getAmmoniaMax());
+
+                    // Alcohol
+                    databaseReference.child("users").child(username).child("dataFromArduino")
+                            .child(currentDate).child("alcoholMin").setValue(dataToBeSaved.getAlcoholMin());
+                    databaseReference.child("users").child(username).child("dataFromArduino")
+                            .child(currentDate).child("alcoholMax").setValue(dataToBeSaved.getAlcoholMax());
+
+                    // DioxideCarbon
+                    databaseReference.child("users").child(username).child("dataFromArduino")
+                            .child(currentDate).child("dioxideCarbonMin").setValue(dataToBeSaved.getDioxideCarbonMin());
+                    databaseReference.child("users").child(username).child("dataFromArduino")
+                            .child(currentDate).child("dioxideCarbonMax").setValue(dataToBeSaved.getDioxideCarbonMax());
+
+                    // Hydrogen
+                    databaseReference.child("users").child(username).child("dataFromArduino")
+                            .child(currentDate).child("hydrogenMin").setValue(dataToBeSaved.getHydrogenMin());
+                    databaseReference.child("users").child(username).child("dataFromArduino")
+                            .child(currentDate).child("hydrogenMax").setValue(dataToBeSaved.getHydrogenMax());
+                }
             }
             @Override
             public void onCancelled(DatabaseError error) {
@@ -563,8 +872,5 @@ public class ArduinoActivity extends AppCompatActivity {
             }
         });
     }
-
-     */
-
 
 }
