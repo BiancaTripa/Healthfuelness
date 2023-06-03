@@ -350,15 +350,26 @@ public class ArduinoActivity extends AppCompatActivity {
         }
 
         // AirQuality
-        if (dataToBeSaved.getAirQualityMin().equals("-")) { //initial value is 0
+        if (dataToBeSaved.getAirQualityMin().equals("-") || dataToBeSaved.getAirQualityMin().equals("AirQuality")) { //initial value is 0
             dataToBeSaved.setAirQualityMin(receivedData.getAirQuality());
         }
-        if (dataToBeSaved.getAirQualityMax().equals("-")) { //initial value is 0
+        if (dataToBeSaved.getAirQualityMax().equals("-") || dataToBeSaved.getAirQualityMin().equals("AirQuality")) { //initial value is 0
             dataToBeSaved.setAirQualityMax(receivedData.getAirQuality());
         }
-        if (dataToBeSaved.getAirQualityMin().compareTo(receivedData.getAirQuality()) > 0) {
+
+        if (dataToBeSaved.getAirQualityMin().equals("Perfect")) {
+            //nothing
+        } else if (dataToBeSaved.getAirQualityMin().equals("Moderat") && receivedData.getAirQuality().equals("Perfect")) {
             dataToBeSaved.setAirQualityMin(receivedData.getAirQuality());
-        } else if (dataToBeSaved.getAirQualityMax().compareTo(receivedData.getAirQuality()) < 0) {
+        } else { //Ridicat
+            dataToBeSaved.setAirQualityMin(receivedData.getAirQuality());
+        }
+
+        if (dataToBeSaved.getAirQualityMax().equals("Ridicat")) {
+            //nothing
+        } else if (dataToBeSaved.getAirQualityMax().equals("Moderat") && receivedData.getAirQuality().equals("Ridicat")) {
+            dataToBeSaved.setAirQualityMax(receivedData.getAirQuality());
+        } else { //Perfect
             dataToBeSaved.setAirQualityMax(receivedData.getAirQuality());
         }
 
@@ -526,10 +537,13 @@ public class ArduinoActivity extends AppCompatActivity {
 
         if (airQuality == 0) {
             setStatus(airQualityStatus, "Perfect", ColorStateList.valueOf(getResources().getColor(R.color.green)));
+            receivedData.setAirQuality("Perfect");
         } else if (airQuality == 1) {
             setStatus(airQualityStatus, "Moderat", ColorStateList.valueOf(getResources().getColor(R.color.yellow)));
+            receivedData.setAirQuality("Moderat");
         }else {
             setStatus(airQualityStatus, "Ridicat", ColorStateList.valueOf(getResources().getColor(R.color.red)));
+            receivedData.setAirQuality("Ridicat");
         }
     }
 
@@ -607,21 +621,33 @@ public class ArduinoActivity extends AppCompatActivity {
                         // AirQuality
                         String airQualityMinAux = snapshot.child("dataFromArduino").child(currentDate).child("airQualityMin").getValue().toString();
                         String airQualityMaxAux = snapshot.child("dataFromArduino").child(currentDate).child("airQualityMax").getValue().toString();
-                        if (airQualityMinAux.compareTo("-") == 0) {
+                        if (airQualityMinAux.compareTo("AirQuality") == 0) {
                             databaseReference.child("users").child(username).child("dataFromArduino")
                                     .child(currentDate).child("airQualityMin").setValue(dataToBeSaved.getAirQualityMin());
                         }
-                        if (airQualityMaxAux.compareTo("-") == 0) {
+                        if (airQualityMaxAux.compareTo("AirQuality") == 0) {
                             databaseReference.child("users").child(username).child("dataFromArduino")
                                     .child(currentDate).child("airQualityMax").setValue(dataToBeSaved.getAirQualityMax());
                         }
-                        if (airQualityMinAux.compareTo(dataToBeSaved.getAirQualityMin()) > 0) {
+
+                        if (airQualityMinAux.equals("Perfect")) {
+                            //nothing
+                        } else if (airQualityMinAux.equals("Moderat") && dataToBeSaved.getAirQualityMin().equals("Perfect")) {
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("airQualityMin").setValue(dataToBeSaved.getAirQualityMin());
+                        } else { //Ridicat
                             databaseReference.child("users").child(username).child("dataFromArduino")
                                     .child(currentDate).child("airQualityMin").setValue(dataToBeSaved.getAirQualityMin());
                         }
-                        if (airQualityMaxAux.compareTo(dataToBeSaved.getAirQualityMax()) < 0) {
+
+                        if (airQualityMaxAux.equals("Ridicat")) {
+                            //nothing
+                        } else if (airQualityMaxAux.equals("Moderat") && dataToBeSaved.getAirQualityMin().equals("Ridicat")) {
                             databaseReference.child("users").child(username).child("dataFromArduino")
-                                    .child(currentDate).child("airQualityMax").setValue(dataToBeSaved.getAirQualityMax());
+                                    .child(currentDate).child("airQualityMin").setValue(dataToBeSaved.getAirQualityMin());
+                        } else { //Perfect
+                            databaseReference.child("users").child(username).child("dataFromArduino")
+                                    .child(currentDate).child("airQualityMin").setValue(dataToBeSaved.getAirQualityMin());
                         }
 
                         // Toluene
