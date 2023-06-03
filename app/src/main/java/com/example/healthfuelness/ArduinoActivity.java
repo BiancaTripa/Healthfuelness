@@ -43,6 +43,7 @@ public class ArduinoActivity extends AppCompatActivity {
     private final String username = getUsername();
     private final String currentDate = getDate();
 
+    //declaration for spinner, buttons and text views from xml
     private Spinner spinnerPairedDevices;
     private Button buttonFindPairedDevices, buttonConnect, buttonReceivedData;
     private Button backButton;
@@ -64,13 +65,13 @@ public class ArduinoActivity extends AppCompatActivity {
     //variables for what data to save in firebase
     private DataToBeSaved dataToBeSaved = null;
 
+    //variables needed for bluetooth connection
     private ArrayAdapter  arrayAdapterPairedDevices;
     private BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     private BluetoothDevice HC05Device;
     private BluetoothSocket BTSocket;
 
     private ArrayList listName, listMacAddress;
-    private int HC05Index;
     private boolean bluetoothDeviceConnected = false;
     Set<BluetoothDevice> pairedDevices;
 
