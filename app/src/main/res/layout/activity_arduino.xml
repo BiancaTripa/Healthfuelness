@@ -588,7 +588,7 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/button_home"
+            android:id="@+id/button_home_page"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center"

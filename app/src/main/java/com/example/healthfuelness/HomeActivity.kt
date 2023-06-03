@@ -1,21 +1,13 @@
 package com.example.healthfuelness
 
-import User.*
+import com.example.healthfuelness.User.*
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.CalendarView
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.os.bundleOf
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
-import org.jetbrains.annotations.NotNull
-import androidx.navigation.Navigation
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -138,7 +130,7 @@ class HomeActivity : AppCompatActivity() {
         val GoToMapsPageButton = findViewById<ImageView>(R.id.button_map)
 
         GoToMapsPageButton.setOnClickListener {
-            val intent = Intent(this, MapsActivity::class.java)
+            val intent = Intent(this, ArduinoPreviousActivity::class.java)
             startActivity(intent)
         }
 

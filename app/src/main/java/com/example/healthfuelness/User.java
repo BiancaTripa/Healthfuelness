@@ -1,3 +1,5 @@
+package com.example.healthfuelness;
+
 public class User {
     private String fullName, email, password;
     private static String date;
