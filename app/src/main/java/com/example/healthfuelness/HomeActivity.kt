@@ -122,7 +122,7 @@ class HomeActivity : AppCompatActivity() {
 
         //go to gallery
         galleryButton.setOnClickListener {
-            val intent = Intent(this, ArduinoActivity::class.java)
+            val intent = Intent(this, GalleryActivity::class.java)
             startActivity(intent)
         }
         
@@ -130,7 +130,7 @@ class HomeActivity : AppCompatActivity() {
         val GoToMapsPageButton = findViewById<ImageView>(R.id.button_map)
 
         GoToMapsPageButton.setOnClickListener {
-            val intent = Intent(this, ArduinoPreviousActivity::class.java)
+            val intent = Intent(this, MapsActivity::class.java)
             startActivity(intent)
         }
 
