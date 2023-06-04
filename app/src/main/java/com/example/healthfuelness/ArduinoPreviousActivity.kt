@@ -53,6 +53,12 @@ class ArduinoPreviousActivity: AppCompatActivity() {
             startActivity(intent)
         }
 
+        //go see more details button
+        buttonMoreDetails.setOnClickListener {
+            val intent = Intent(this, MoreDetailsActivity::class.java)
+            startActivity(intent)
+        }
+
         //check if data from arduino in the current date exists in firebase realtime database
         databaseReference.child("users").child(username)
             .addListenerForSingleValueEvent(object : ValueEventListener {

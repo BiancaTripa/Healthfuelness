@@ -109,4 +109,7 @@ dependencies {
     implementation 'com.karumi:dexter:6.2.2'
     //coil
     implementation("io.coil-kt:coil:1.1.1")
+
+    //charts
+    implementation("com.diogobernardino:williamchart:3.10.1")
 }

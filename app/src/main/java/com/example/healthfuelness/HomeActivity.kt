@@ -68,7 +68,6 @@ class HomeActivity : AppCompatActivity() {
             val month = month + 1
             var monthAsString = "$month"
             var dayAsString = "$day"
-
             if (month < 10) {
                 monthAsString = "0$month"
             }
@@ -78,6 +77,10 @@ class HomeActivity : AppCompatActivity() {
             date.text = "$dayAsString/$monthAsString/$year"
             dateToBeSaved = "$year/$monthAsString/$dayAsString"
             setDate(dateToBeSaved)
+            setDate1(getPreviousDateAsString(1, day, month, year))
+            setDate2(getPreviousDateAsString(2, day, month, year))
+            setDate3(getPreviousDateAsString(3, day, month, year))
+            setDate4(getPreviousDateAsString(4, day, month, year))
             if (dateToBeSaved == currentDate) {
                 setCurrentDateOrNot(0)
                 println("selected date: ${getCurrentDateOrNot()}")
@@ -143,6 +146,47 @@ class HomeActivity : AppCompatActivity() {
 
     private fun getCurrentDateTime(): Date {
         return Calendar.getInstance().time
+    }
+
+    private fun getPreviousDateAsString(howMuch: Int, day: Int, month: Int, year: Int): String {
+        var dayAux = 0
+        var monthAux = 0
+        var yearAux = 0
+        if (day - howMuch > 0) { // different day, same month, same year
+            dayAux = day - howMuch
+            monthAux = month
+            yearAux = year
+        } else { // different day, different month, same year
+            if (month - 1 > 0) { // different day, different month, same year
+                yearAux = year
+                monthAux = month - 1
+                dayAux = if (monthAux == 1 || monthAux == 3 || monthAux == 5 || monthAux == 7 || monthAux == 8 || monthAux == 10 || monthAux == 12) {
+                    31 - howMuch + 3
+                } else if (monthAux == 2) {
+                    if (year % 4 == 0) {
+                        28 - howMuch + 3
+                    } else {
+                        29 - howMuch + 3
+                    }
+                } else {
+                    30 - howMuch + 3
+                }
+            } else { // different day, different month, different year
+                yearAux = year - 1
+                monthAux = month - 1
+                dayAux = 31 - howMuch + 2
+            }
+        }
+        var dayAuxAsString = "$dayAux"
+        var monthAuxAsString = "$monthAux"
+        var yearAuxAsString = "$yearAux"
+        if (monthAux < 10) {
+            monthAuxAsString = "0$monthAux"
+        }
+        if (dayAux < 10) {
+            dayAuxAsString = "0$dayAux"
+        }
+        return "$yearAuxAsString/$monthAuxAsString/$dayAuxAsString"
     }
 
 }

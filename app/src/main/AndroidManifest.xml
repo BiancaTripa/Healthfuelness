@@ -74,15 +74,20 @@
             android:exported="false" />
         <activity
             android:name=".HomeMeasurementsActivity"
-            android:exported="false"></activity>
+            android:exported="false">
+        </activity>
         <activity
             android:name=".HomeActivity"
-            android:exported="false"></activity>
+            android:exported="false">
+        </activity>
         <activity
             android:name=".ArduinoActivity"
             android:exported="false" />
         <activity
             android:name=".ArduinoPreviousActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MoreDetailsActivity"
             android:exported="false" />
 
         <meta-data
