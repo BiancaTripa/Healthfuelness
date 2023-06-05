@@ -9,6 +9,24 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera.any" />
+    <!-- BLUETOOTH -->
+    <!-- App must use Bluetooth -->
+    <uses-feature android:name="android.hardware.bluetooth" android:required="true"/>
+
+    <uses-permission android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
+
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+
 
     <application
         android:allowBackup="true"
@@ -56,10 +74,21 @@
             android:exported="false" />
         <activity
             android:name=".HomeMeasurementsActivity"
-            android:exported="false"></activity>
+            android:exported="false">
+        </activity>
         <activity
             android:name=".HomeActivity"
-            android:exported="false"></activity>
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".ArduinoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ArduinoPreviousActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MoreDetailsActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.gms.version"

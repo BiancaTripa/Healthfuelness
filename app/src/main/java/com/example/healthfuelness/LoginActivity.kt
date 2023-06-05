@@ -1,6 +1,6 @@
 package com.example.healthfuelness
 
-import User.setUsername
+import com.example.healthfuelness.User.setUsername
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button

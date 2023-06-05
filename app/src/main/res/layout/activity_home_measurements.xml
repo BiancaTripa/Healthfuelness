@@ -88,6 +88,17 @@
                 android:textSize="20dp"
                 android:textStyle="bold"></TextView>
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_arduino"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/login_edit_background"
+                android:text="Arduino"></androidx.appcompat.widget.AppCompatButton>
+
             <TextView
                 android:layout_width="361dp"
                 android:layout_height="32dp"
@@ -472,7 +483,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_gravity="center"
-                android:src="@drawable/applogo"></ImageView>
+                android:src="@drawable/app_logo"></ImageView>
         </LinearLayout>
 
         </LinearLayout>

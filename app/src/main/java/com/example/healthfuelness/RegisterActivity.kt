@@ -1,20 +1,13 @@
 package com.example.healthfuelness
 
-import User
-import User.setUsername
-import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
+import com.example.healthfuelness.User.setUsername
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.NonNull
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -77,7 +70,7 @@ class RegisterActivity : AppCompatActivity(){
 
                             setUsername(fullNameTxt)
 
-                            Toast.makeText(getContext, "User registered successfully", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(getContext, "com.example.healthfuelness.User registered successfully", Toast.LENGTH_SHORT).show()
 
                             //go to home page
                             val intent = Intent(getContext, HomeActivity::class.java)

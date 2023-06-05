@@ -14,7 +14,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/applogo">
+        android:src="@drawable/app_logo">
     </ImageView>
 
     <androidx.appcompat.widget.AppCompatButton

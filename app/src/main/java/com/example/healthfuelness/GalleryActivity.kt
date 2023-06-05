@@ -1,6 +1,5 @@
 package com.example.healthfuelness
 
-import User.getUsername
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -10,10 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 
 
 class GalleryActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
@@ -94,7 +90,7 @@ class GalleryActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         arrayList.add(GalleryItem(R.drawable.ic_camera, "Camera", "date"))
         arrayList.add(GalleryItem(R.drawable.ic_logo, "Logo", "date"))
         arrayList.add(GalleryItem(R.drawable.ic_map, "Map", "date"))
-        arrayList.add(GalleryItem(R.drawable.ic_user, "User", "date"))
+        arrayList.add(GalleryItem(R.drawable.ic_user, "com.example.healthfuelness.User", "date"))
         arrayList.add(GalleryItem(R.drawable.ic_message, "Message", "date"))
         arrayList.add(GalleryItem(R.drawable.ic_password, "Password", "date"))
 
