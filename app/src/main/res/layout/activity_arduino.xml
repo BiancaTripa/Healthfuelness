@@ -319,7 +319,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Toluen:"
+                        android:text="Toluene:"
                         android:textColor="@color/black"
                         android:textSize="17dp"
                         android:textStyle="bold">
@@ -360,7 +360,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Acetona:"
+                        android:text="Acetone:"
                         android:textColor="@color/black"
                         android:textSize="17dp"
                         android:textStyle="bold">
@@ -409,7 +409,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Amoniac(NH3):"
+                        android:text="Ammonia(NH3):"
                         android:textColor="@color/black"
                         android:textSize="17dp"
                         android:textStyle="bold">
@@ -450,7 +450,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Alcool:"
+                        android:text="Alcohol:"
                         android:textColor="@color/black"
                         android:textSize="17dp"
                         android:textStyle="bold">
@@ -499,7 +499,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Hidrogen(H2):"
+                        android:text="Hydrogen(H2):"
                         android:textColor="@color/black"
                         android:textSize="17dp"
                         android:textStyle="bold">
@@ -592,7 +592,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
-            android:src="@drawable/applogo"></ImageView>
+            android:src="@drawable/app_logo"></ImageView>
     </LinearLayout>
 
 

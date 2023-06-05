@@ -493,7 +493,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
-            android:src="@drawable/applogo"></ImageView>
+            android:src="@drawable/app_logo"></ImageView>
     </LinearLayout>
 
 

@@ -156,7 +156,7 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/applogo"></ImageView>
+                    android:src="@drawable/app_logo"></ImageView>
 
                 <ImageView
                     android:id="@+id/button_happy"

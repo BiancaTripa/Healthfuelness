@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Healthfuelness</string>
+    <string name="app_slogan">Keep up with your body and mind</string>
+    <string name="date">Date</string>
     <string name="full_name">Full Name</string>
     <string name="confirm_your_password">Confirm your Password</string>
     <string name="register">Register</string>
@@ -21,4 +23,20 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_home_page">HomePageActivity</string>
+
+    <!-- Strings used for arduino activities -->
+    <string name="back">Back</string>
+    <string name="for_pop_up">Why is important?</string>
+    <string name="open_pop_up">Press Here</string>
+    <string name="minim_value">Minim value</string>
+    <string name="maxim_value">Maxim value</string>
+    <string name="for_bar_chart">Maxim values in your last five days</string>
+    <string name="empty">-----</string>
+    <string name="toluene">Toluene</string>
+    <string name="acetone">Acetone</string>
+    <string name="ammonia">Ammonia(NH3)</string>
+    <string name="alcohol">Alcohol</string>
+    <string name="hydrogen">Hydrogen(H2)</string>
+    <string name="dioxide_carbon">CO2</string>
+    <string name="dioxide_carbon2">Dioxide Carbon(CO2)</string>
 </resources>
