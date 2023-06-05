@@ -1,12 +1,11 @@
 package com.example.healthfuelness
 
 class Previous5Values(
-
-private var current: Float,
-private var previous1: Float,
-private var previous2: Float,
-private var previous3: Float,
-private var previous4: Float
+    private var current: Float,
+    private var previous1: Float,
+    private var previous2: Float,
+    private var previous3: Float,
+    private var previous4: Float
 ) {
     fun setCurrent(aux: Float) {this.current = aux}
     fun getCurrent(): Float {return this.current}

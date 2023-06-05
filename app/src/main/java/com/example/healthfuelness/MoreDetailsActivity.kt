@@ -39,7 +39,8 @@ class MoreDetailsActivity: AppCompatActivity() {
     private val textPopupHydrogen = "Info"
     private val textPopupCO2 = "Info"
 
-    private var previous5ValuesToluene = Previous5Values(0F, 0F, 0F, 0F,0F)
+
+    private var previous5ValuesToluene = Previous5Values(0F,0F,0F,0F,0F)
     private var previous5ValuesAcetone = Previous5Values(1F, 1F, 1F, 1F,1F)
     private var previous5ValuesAmmonia = Previous5Values(2F, 2F, 2F, 2F,2F)
     private var previous5ValuesAlcohol = Previous5Values(3F, 3F, 3F, 3F,3F)
@@ -92,12 +93,14 @@ class MoreDetailsActivity: AppCompatActivity() {
         val textViewCO2Min = findViewById<TextView>(R.id.tv_dioxide_carbon_min)
         val textViewCO2Max = findViewById<TextView>(R.id.tv_dioxide_carbon_max)
 
-        //check if data from arduino in the current date exists in firebase realtime database
-        // if data exists, show minim and maxim values and add the max val in list for bar chart
+        //check if data from arduino in the previous date exists in firebase realtime database
+        // if data exists, add the max val in list for bar chart
+        // if data exists, add the value 0 in list for bar chart
         databaseReference.child("users").child(username)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.hasChild("dataFromArduino")) {
+
                         if (snapshot.child("dataFromArduino").hasChild(selectedDate)) { // data exist for this user, in this date
                             // Toluene
                             textViewTolueneMin.text = snapshot.child("dataFromArduino").child(selectedDate)
@@ -105,8 +108,14 @@ class MoreDetailsActivity: AppCompatActivity() {
                             textViewTolueneMax.text = snapshot.child("dataFromArduino").child(selectedDate)
                                 .child("tolueneMax").value.toString()
                             ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                            previous5ValuesToluene.setCurrent(snapshot.child("dataFromArduino").child(selectedDate)
-                                .child("tolueneMax").value.toString().toFloat())
+                            val cox = snapshot.child("dataFromArduino").child(selectedDate)
+                                .child("tolueneMax").value.toString().toFloat()
+                            println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                            println("$cox")
+                            println("inaine ${previous5ValuesToluene.getCurrent()}")
+                            previous5ValuesToluene.setCurrent(cox)
+                            println("dupa ${previous5ValuesToluene.getCurrent()}")
+                            println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
                             // Acetone
                             textViewAcetoneMin.text = snapshot.child("dataFromArduino").child(selectedDate)
@@ -143,27 +152,13 @@ class MoreDetailsActivity: AppCompatActivity() {
                                 .child("dioxideCarbonMax").value.toString()
                             ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         }
-                    }
-                }
 
-                override fun onCancelled(firebaseError: DatabaseError) {
-                    println("The read failed: " + firebaseError.message)
-                }
-            })
-
-
-        //check if data from arduino in the previous date exists in firebase realtime database
-        // if data exists, add the max val in list for bar chart
-        // if data exists, add the value 0 in list for bar chart
-        databaseReference.child("users").child(username)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.hasChild("dataFromArduino")) {
                         if (snapshot.child("dataFromArduino").hasChild(previousDate1)) { // data exist for this user, in this date
                             //Toluene
                             previous5ValuesToluene.setPrevious1(snapshot.child("dataFromArduino").child(previousDate1)
                                 .child("tolueneMax").value.toString().toFloat())
                         }
+
                         if (snapshot.child("dataFromArduino").hasChild(previousDate2)) { // data exist for this user, in this date
                             //Toluene
                             previous5ValuesToluene.setPrevious2(snapshot.child("dataFromArduino").child(previousDate2)
@@ -182,6 +177,14 @@ class MoreDetailsActivity: AppCompatActivity() {
                             previous5ValuesToluene.setPrevious4(snapshot.child("dataFromArduino").child(previousDate4)
                                 .child("tolueneMax").value.toString().toFloat())
                         }
+
+                        barChartForToluene.animation.duration = 1000L
+                        val barSetToluene = listOf(Pair(previous5Days[4], previous5ValuesToluene.getPrevious4()),
+                            Pair(previous5Days[3], previous5ValuesToluene.getPrevious3()),
+                            Pair(previous5Days[2], previous5ValuesToluene.getPrevious2()),
+                            Pair(previous5Days[1], previous5ValuesToluene.getPrevious1()),
+                            Pair(previous5Days[0], previous5ValuesToluene.getCurrent()))
+                        barChartForToluene.animate(barSetToluene)
                     }
                 }
 
@@ -286,13 +289,13 @@ class MoreDetailsActivity: AppCompatActivity() {
 
         //Bar Charts
         // Toluene
-        barChartForToluene.animation.duration = 1000L
-        val barSetToluene = listOf(Pair(previous5Days[4], previous5ValuesToluene.getPrevious4()),
-                        Pair(previous5Days[3], previous5ValuesToluene.getPrevious3()),
-                        Pair(previous5Days[2], previous5ValuesToluene.getPrevious2()),
-                        Pair(previous5Days[1], previous5ValuesToluene.getPrevious1()),
-                        Pair(previous5Days[0], previous5ValuesToluene.getCurrent()))
-        barChartForToluene.animate(barSetToluene)
+       // barChartForToluene.animation.duration = 1000L
+     //   val barSetToluene = listOf(Pair(previous5Days[4], previous5ValuesToluene.getPrevious4()),
+     //                   Pair(previous5Days[3], previous5ValuesToluene.getPrevious3()),
+     //                   Pair(previous5Days[2], previous5ValuesToluene.getPrevious2()),
+     //                   Pair(previous5Days[1], previous5ValuesToluene.getPrevious1()),
+      //                  Pair(previous5Days[0], previous5ValuesToluene.getCurrent()))
+      //  barChartForToluene.animate(barSetToluene)
 
         // Acetone
         barChartForAcetone.animation.duration = 1000L
