@@ -3,13 +3,10 @@
     <string name="full_name">Full Name</string>
     <string name="confirm_your_password">Confirm your Password</string>
     <string name="register">Register</string>
-    <string name="save_changes">Save Changes</string>
     <string name="already_have_a_account">Already have a account?</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="change_password">Change Password</string>
     <string name="login_now">Login now</string>
-    <string name="discard_changes">Discard changes</string>
     <string name="title_activity_main2">MainActivity2</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -40,4 +37,7 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="change_password">Change Password</string>
+    <string name="discard_changes">Discard changes</string>
 </resources>
