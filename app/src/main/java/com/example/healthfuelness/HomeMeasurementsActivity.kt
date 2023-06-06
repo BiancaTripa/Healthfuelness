@@ -1,16 +1,14 @@
 package com.example.healthfuelness
 
-import User.*
+import com.example.healthfuelness.User.*
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.navArgs
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -18,7 +16,6 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_home_measurements.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.properties.Delegates
 
 
 class HomeMeasurementsActivity : AppCompatActivity() {
@@ -242,6 +239,20 @@ class HomeMeasurementsActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        //Arduino button
+        val arduinoButton = findViewById<TextView>(R.id.button_arduino)
+
+        arduinoButton.setOnClickListener {
+            if (getCurrentDateOrNot() == 0) { //the selected date is the current date
+                val intent = Intent(this, ArduinoActivity::class.java)
+                startActivity(intent)
+            } else {
+                val intent = Intent(this, ArduinoPreviousActivity::class.java)
+                startActivity(intent)
+            }
+
+        }
+
         //Water
         incrementWaterButton.setOnClickListener {
             // add/update the measurements can be possible only if the current date is selected
@@ -261,12 +272,6 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                     glassesOfWater.text = currentWater.toString()
                 }
             }
-        }
-
-        //water widget button
-        button_water_chart.setOnClickListener{
-            startActivity(Intent(this,WaterChartActivity::class.java))
-            startActivity(intent)
         }
 
         //Stress Level
@@ -308,12 +313,6 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                 currentStressLevel = 5
                 outputForStressLevel.text = currentStressLevel.toString()
             }
-        }
-
-        //stress widget button
-        button_stress_chart.setOnClickListener{
-            startActivity(Intent(this,StressChartActivity::class.java))
-            startActivity(intent)
         }
 
         //Sleep
@@ -361,11 +360,7 @@ class HomeMeasurementsActivity : AppCompatActivity() {
             }
         }
 
-        //sleep widget button
-        button_sleep_chart.setOnClickListener{
-            startActivity(Intent(this,SleepChartActivity::class.java))
-            startActivity(intent)
-        }
+
 
         //Weight
         incrementWeightButton.setOnClickListener {
@@ -386,12 +381,6 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                     weight.text = currentWeight.toString()
                 }
             }
-        }
-
-        //weight widget button
-        button_weight_chart.setOnClickListener{
-            startActivity(Intent(this,WeightChartActivity::class.java))
-            startActivity(intent)
         }
 
         //Home button
