@@ -1,6 +1,5 @@
 package com.example.healthfuelness
 
-import User.getUsername
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
@@ -12,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import com.example.healthfuelness.User.getUsername
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
