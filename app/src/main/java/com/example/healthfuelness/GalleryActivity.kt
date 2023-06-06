@@ -91,7 +91,7 @@ class GalleryActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
          */
 
 
-        arrayList.add(GalleryItem(R.drawable.ic_camera, "Camera", "date"))
+        arrayList.add(GalleryItem(R.drawable.g_family, "Family", "date"))
         arrayList.add(GalleryItem(R.drawable.ic_logo, "Logo", "date"))
         arrayList.add(GalleryItem(R.drawable.ic_map, "Map", "date"))
         arrayList.add(GalleryItem(R.drawable.ic_user, "User", "date"))

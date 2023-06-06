@@ -3,10 +3,13 @@
     <string name="full_name">Full Name</string>
     <string name="confirm_your_password">Confirm your Password</string>
     <string name="register">Register</string>
+    <string name="save_changes">Save Changes</string>
     <string name="already_have_a_account">Already have a account?</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
+    <string name="change_password">Change Password</string>
     <string name="login_now">Login now</string>
+    <string name="discard_changes">Discard changes</string>
     <string name="title_activity_main2">MainActivity2</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -21,4 +24,20 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_home_page">HomePageActivity</string>
+    <string name="title_activity_edit_profile">EditProfileActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
 </resources>

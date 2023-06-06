@@ -4,16 +4,20 @@ import User
 import User.setUsername
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.NonNull
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -31,6 +35,9 @@ class RegisterActivity : AppCompatActivity(){
         setContentView(R.layout.activity_register)
 
         val fullName = findViewById<EditText>(R.id.fullname)
+        val age = findViewById<EditText>(R.id.age)
+        val height = findViewById<EditText>(R.id.tv_height)
+        val weight = findViewById<EditText>(R.id.tv_weight)
         val email = findViewById<EditText>(R.id.email)
         val password = findViewById<EditText>(R.id.password)
         val conPassword = findViewById<EditText>(R.id.conPassword)
@@ -42,11 +49,14 @@ class RegisterActivity : AppCompatActivity(){
             //get data from EditTexts into String variables
             val fullNameTxt = fullName.text.toString()
             val emailTxt = email.text.toString()
+            val ageTxt = age.text.toString()
+            val heightTxt = height.text.toString()
+            val weightTxt = weight.text.toString()
             val passwordTxt = password.text.toString()
             val conPasswordTxt = conPassword.text.toString()
 
             //check if user fill the fields before sending data to firebase
-            if (fullNameTxt.isEmpty() || emailTxt.isEmpty() || passwordTxt.isEmpty() || conPasswordTxt.isEmpty()) {
+            if (fullNameTxt.isEmpty() || emailTxt.isEmpty() || passwordTxt.isEmpty() || conPasswordTxt.isEmpty() || ageTxt.isEmpty() || heightTxt.isEmpty() || weightTxt.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             }
 
@@ -72,6 +82,9 @@ class RegisterActivity : AppCompatActivity(){
                             // other details comes under username(full name)
 
                             databaseReference.child("users").child(fullNameTxt).child("email").setValue(emailTxt)
+                            databaseReference.child("users").child(fullNameTxt).child("age").setValue(ageTxt)
+                            databaseReference.child("users").child(fullNameTxt).child("height").setValue(heightTxt)
+                            databaseReference.child("users").child(fullNameTxt).child("weight").setValue(weightTxt)
                             databaseReference.child("users").child(fullNameTxt).child("fullname").setValue(fullNameTxt)
                             databaseReference.child("users").child(fullNameTxt).child("password").setValue(passwordTxt)
 
@@ -97,4 +110,21 @@ class RegisterActivity : AppCompatActivity(){
         }
 
     }
+/*
+    fun showGDPRalertDialog(view: View){
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Privacy settings")
+            .setMessage("Allow Healthfuelness to process your personal data?")
+            .setPositiveButton("Agree and register"
+            ) { dialog, Int -> showSnackbar("System cooled down") }
+            .setNegativeButton("No"){
+                dialog, which ->
+                showSnackbar("Cannot register without agreement")
+            }
+            .show()
+    }
+
+    private fun showSnackbar(msg: String) {
+        Snackbar.make(rootLayout, msg, Snackbar.LENGTH_SHORT).show()
+    }*/
 }

@@ -263,6 +263,12 @@ class HomeMeasurementsActivity : AppCompatActivity() {
             }
         }
 
+        //water widget button
+        button_water_chart.setOnClickListener{
+            startActivity(Intent(this,WaterChartActivity::class.java))
+            startActivity(intent)
+        }
+
         //Stress Level
         stress1Button.setOnClickListener {
             // add/update the measurements can be possible only if the current date is selected
@@ -302,6 +308,12 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                 currentStressLevel = 5
                 outputForStressLevel.text = currentStressLevel.toString()
             }
+        }
+
+        //stress widget button
+        button_stress_chart.setOnClickListener{
+            startActivity(Intent(this,StressChartActivity::class.java))
+            startActivity(intent)
         }
 
         //Sleep
@@ -349,7 +361,11 @@ class HomeMeasurementsActivity : AppCompatActivity() {
             }
         }
 
-
+        //sleep widget button
+        button_sleep_chart.setOnClickListener{
+            startActivity(Intent(this,SleepChartActivity::class.java))
+            startActivity(intent)
+        }
 
         //Weight
         incrementWeightButton.setOnClickListener {
@@ -370,6 +386,12 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                     weight.text = currentWeight.toString()
                 }
             }
+        }
+
+        //weight widget button
+        button_weight_chart.setOnClickListener{
+            startActivity(Intent(this,WeightChartActivity::class.java))
+            startActivity(intent)
         }
 
         //Home button

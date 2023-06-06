@@ -76,8 +76,8 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:text="Daily quote -> #TBD#"
                 android:textColor="@color/colorPrimaryDark"
                 android:textStyle="bold"></TextView>
@@ -85,13 +85,12 @@
             <CalendarView
                 android:id="@+id/cv_calendar"
                 android:layout_width="wrap_content"
-                android:layout_height="294dp"
+                android:layout_height="299dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="25dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginEnd="25dp"
                 android:background="@color/colorPrimary"
-                android:layout_marginBottom="20dp"></CalendarView>
+                android:layout_marginBottom="10dp"></CalendarView>
 
 
             <LinearLayout
@@ -107,8 +106,9 @@
                 <TextView
                     android:id="@+id/tv_selectedDate"
                     android:layout_width="wrap_content"
-                    android:layout_height="35dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginBottom="10dp"
                     android:text="Please select a date"
                     android:textColor="@color/colorPrimaryDark"
                     android:textStyle="bold"></TextView>
@@ -146,7 +146,7 @@
                     android:layout_marginBottom="20dp"
                     android:layout_gravity="center"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/settingsProfileIcon"></ImageView>
+                    android:src="@drawable/set_profile_icon"></ImageView>
 
                 <ImageView
                     android:id="@+id/button_home"
