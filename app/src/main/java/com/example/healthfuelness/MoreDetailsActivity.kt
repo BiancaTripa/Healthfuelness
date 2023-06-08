@@ -28,12 +28,9 @@ class MoreDetailsActivity: AppCompatActivity() {
     private val previousDate4 = User.getDate4()
     private val previous5Days =  arrayOf<String>(selectedDate, previousDate1, previousDate2, previousDate3, previousDate4)
 
-    private val textPopupToluene = "\t" + "\t" +  "Este important să se evite expunerea prelungită și repetată la toluen," +
-            " deoarece poate provoca efecte cumulative și daune grave sănătății. " + "\n" +
-            "\t" +  "\t" + "Poate provoca iritații respiratorii, neurologice și cutanate, precum și efecte asupra ochilor și sistemului cardiovascular." + "\n" +
-            "\t" +  "\t" + "În cazul în care suspectați o expunere la toluen și dezvoltați simptome neobișnuite,"  +
-            " este recomandat să căutați asistență medicală și să discutați cu un profesionist de sănătate calificat pentru evaluare și tratament adecvat."
-    private val textPopupAcetone = "Info"
+    private val textPopupToluene = "\t" + "\t" +  "Toluene can adversely affect human health by causing respiratory irritation, central nervous system disorders, headaches, dizziness, and long-term exposure may lead to more severe effects on organs such as the liver and kidneys."
+    private val textPopupAcetone = "\t" + "\t" + "Acetone can impact human health by causing irritation to the eyes, skin, and respiratory system. " +
+            "\n" + "\t" + "\t" +  "Inhalation or ingestion of acetone can lead to headaches, dizziness, nausea, and in high concentrations, it may cause central nervous system depression."
     private val textPopupAmmonia = "Info"
     private val textPopupAlcohol = "Info"
     private val textPopupHydrogen = "Info"
@@ -41,7 +38,7 @@ class MoreDetailsActivity: AppCompatActivity() {
 
 
     private var previous5ValuesToluene = Previous5Values(0F,0F,0F,0F,0F)
-    private var previous5ValuesAcetone = Previous5Values(1F, 1F, 1F, 1F,1F)
+    private var previous5ValuesAcetone = Previous5Values(0F,0F,0F,0F,0F)
     private var previous5ValuesAmmonia = Previous5Values(2F, 2F, 2F, 2F,2F)
     private var previous5ValuesAlcohol = Previous5Values(3F, 3F, 3F, 3F,3F)
     private var previous5ValuesHydrogen = Previous5Values(4F, 4F, 4F, 4F,4F)
@@ -107,22 +104,16 @@ class MoreDetailsActivity: AppCompatActivity() {
                                 .child("tolueneMin").value.toString()
                             textViewTolueneMax.text = snapshot.child("dataFromArduino").child(selectedDate)
                                 .child("tolueneMax").value.toString()
-                            ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                            val cox = snapshot.child("dataFromArduino").child(selectedDate)
-                                .child("tolueneMax").value.toString().toFloat()
-                            println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-                            println("$cox")
-                            println("inaine ${previous5ValuesToluene.getCurrent()}")
-                            previous5ValuesToluene.setCurrent(cox)
-                            println("dupa ${previous5ValuesToluene.getCurrent()}")
-                            println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                            previous5ValuesToluene.setCurrent(snapshot.child("dataFromArduino").child(selectedDate)
+                                .child("tolueneMax").value.toString().toFloat())
 
                             // Acetone
                             textViewAcetoneMin.text = snapshot.child("dataFromArduino").child(selectedDate)
                                 .child("acetoneMin").value.toString()
                             textViewAcetoneMax.text = snapshot.child("dataFromArduino").child(selectedDate)
                                 .child("acetoneMax").value.toString()
-                            ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                            previous5ValuesAcetone.setCurrent(snapshot.child("dataFromArduino").child(selectedDate)
+                                .child("acetoneMax").value.toString().toFloat())
 
                             // Ammonia
                             textViewAmmoniaMin.text = snapshot.child("dataFromArduino").child(selectedDate)
@@ -157,12 +148,18 @@ class MoreDetailsActivity: AppCompatActivity() {
                             //Toluene
                             previous5ValuesToluene.setPrevious1(snapshot.child("dataFromArduino").child(previousDate1)
                                 .child("tolueneMax").value.toString().toFloat())
+                            // Acetone
+                            previous5ValuesAcetone.setPrevious1(snapshot.child("dataFromArduino").child(selectedDate)
+                                .child("acetoneMax").value.toString().toFloat())
                         }
 
                         if (snapshot.child("dataFromArduino").hasChild(previousDate2)) { // data exist for this user, in this date
                             //Toluene
                             previous5ValuesToluene.setPrevious2(snapshot.child("dataFromArduino").child(previousDate2)
                                 .child("tolueneMax").value.toString().toFloat())
+                            // Acetone
+                            previous5ValuesAcetone.setPrevious2(snapshot.child("dataFromArduino").child(selectedDate)
+                                .child("acetoneMax").value.toString().toFloat())
 
                         }
 
@@ -170,12 +167,18 @@ class MoreDetailsActivity: AppCompatActivity() {
                             //Toluene
                             previous5ValuesToluene.setPrevious3(snapshot.child("dataFromArduino").child(previousDate3)
                                 .child("tolueneMax").value.toString().toFloat())
+                            // Acetone
+                            previous5ValuesAcetone.setPrevious3(snapshot.child("dataFromArduino").child(selectedDate)
+                                .child("acetoneMax").value.toString().toFloat())
                         }
 
                         if (snapshot.child("dataFromArduino").hasChild(previousDate4)) { // data exist for this user, in this date
                             //Toluene
                             previous5ValuesToluene.setPrevious4(snapshot.child("dataFromArduino").child(previousDate4)
                                 .child("tolueneMax").value.toString().toFloat())
+                            // Acetone
+                            previous5ValuesAcetone.setPrevious4(snapshot.child("dataFromArduino").child(selectedDate)
+                                .child("acetoneMax").value.toString().toFloat())
                         }
 
                         barChartForToluene.animation.duration = 1000L
@@ -185,6 +188,14 @@ class MoreDetailsActivity: AppCompatActivity() {
                             Pair(previous5Days[1], previous5ValuesToluene.getPrevious1()),
                             Pair(previous5Days[0], previous5ValuesToluene.getCurrent()))
                         barChartForToluene.animate(barSetToluene)
+
+                        barChartForAcetone.animation.duration = 1000L
+                        val barSetAcetone = listOf(Pair(previous5Days[4], previous5ValuesAcetone.getPrevious4()),
+                            Pair(previous5Days[3], previous5ValuesAcetone.getPrevious3()),
+                            Pair(previous5Days[2], previous5ValuesAcetone.getPrevious2()),
+                            Pair(previous5Days[1], previous5ValuesAcetone.getPrevious1()),
+                            Pair(previous5Days[0], previous5ValuesAcetone.getCurrent()))
+                        barChartForAcetone.animate(barSetAcetone)
                     }
                 }
 
