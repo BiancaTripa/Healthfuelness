@@ -1,6 +1,6 @@
 package com.example.healthfuelness
 
-import User.getUsername
+import com.example.healthfuelness.User.getUsername
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.ActivityNotFoundException

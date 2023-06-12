@@ -5,10 +5,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import com.example.healthfuelness.User.getUsername
@@ -25,20 +22,63 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.activity_home_measurements.*
+import java.text.SimpleDateFormat
 import java.util.*
+import android.widget.PopupWindow
 
 
 abstract class ProfileActivity : AppCompatActivity(), OnMapReadyCallback {
 
+    val height = findViewById<EditText>(R.id.tv_height)
+    val torso = findViewById<EditText>(R.id.tv_torso)
+    val legs = findViewById<EditText>(R.id.tv_legs)
+    val shoulders = findViewById<EditText>(R.id.tv_shoulders)
+    val chest = findViewById<EditText>(R.id.tv_chest)
+    val waist  = findViewById<EditText>(R.id.tv_waist)
+    val upperLeg = findViewById<EditText>(R.id.tv_upperleg)
+    val ankle = findViewById<EditText>(R.id.tv_ankle)
 
+    val selectedDate = User.getDate()
+
+    val tvDate = findViewById<TextView>(R.id.tv_selectedDate)
+
+    val incrementWaterButton = findViewById<ImageView>(R.id.button_increment)
+    val decrementWaterButton = findViewById<ImageView>(R.id.button_decrement)
+    val glassesOfWater = findViewById<TextView>(R.id.tv_water)
+
+    val outputForStressLevel = findViewById<TextView>(R.id.tv_stress_level)
+    val stress1Button = findViewById<ImageView>(R.id.button_stress1)
+    val stress2Button = findViewById<ImageView>(R.id.button_stress2)
+    val stress3Button = findViewById<ImageView>(R.id.button_stress3)
+    val stress4Button = findViewById<ImageView>(R.id.button_stress4)
+    val stress5Button = findViewById<ImageView>(R.id.button_stress5)
+
+    val weight = findViewById<TextView>(R.id.tv_weight)
+    val incrementWeightButton = findViewById<ImageView>(R.id.button_increment_weight)
+    val decrementWeightButton = findViewById<ImageView>(R.id.button_decrement_weight)
 
     //create object of DatabaseReference class to access firebase's Realtime Database
     private val databaseReference =  FirebaseDatabase.getInstance().getReferenceFromUrl("https://healthfuelness-d8e8a-default-rtdb.firebaseio.com/")
     private var currentMeasure = 0
 
-   // private void deleteMeasurement(String measurementID){
-        //DatabaseReference measure = FirebaseDatabase.getInstance().getRefrence("measurements")
-    //}
+    //private val args: HomeActivityArgs by navArgs()
+    private var currentWater = 0
+    private var currentStressLevel = 0
+    private var currentWeight = 0
+    private var currentShoulders = 0
+    private var currentChest = 0
+    private var currentWaist = 0
+    private var currentUpperLeg = 0
+    private var currentAnkle = 0
+    private var currentHeight = 0
+    private var currentTorso = 0
+    private var currentLegs = 0
+
+    private var currentHourSleep = 0
+    private var currentMinuteSleep = 0
+    private var currentHourWakeup = 0
+    private var currentMinuteWakeup = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +88,7 @@ abstract class ProfileActivity : AppCompatActivity(), OnMapReadyCallback {
         val buttonNotificationSettings = findViewById<LinearLayout>(R.id.notifications_settings)
         val buttonPrivacyManagement = findViewById<LinearLayout>(R.id.privacy_management)
         val buttonDeleteAccount = findViewById<LinearLayout>(R.id.delete_account)
+        val context = this
 
         //go to home
         val homeButton = findViewById<ImageView>(R.id.button_homeprofile)
@@ -76,38 +117,80 @@ abstract class ProfileActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val username = getUsername()
 
-
-
         //clears all user data - measurements
-        databaseReference.child("users").child(username).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                //check if measurements exists in firebase database
-                if (snapshot.hasChild("measurements")) { //node measurements exists in database
-                    currentMeasure = snapshot.child("measurements").getValue(Int::class.java)!!
-                    //snapshot.child("measurements").removeValue();
-                } else {
-                    //measurements doesn`t exist in database
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
         buttonPrivacyManagement.setOnClickListener {
-            //val intent = Intent(this, NotificationSettingsActivity::class.java)
-            //startActivity(intent)
+            databaseReference.child("users").child(username).addListenerForSingleValueEvent(object : ValueEventListener {
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    //check if measurements exists in firebase database and set them to default values
+                    if (snapshot.hasChild("measurements")) { //node measurements exists in database
+                        val window = PopupWindow(context)
+                        val view = layoutInflater.inflate(R.layout.layout_popup_accept_or_deny, null)
+                        val tvInfo = view.findViewById<TextView>(R.id.tv_info)
+                        val btnAccept = view.findViewById<Button>(R.id.btn_accept)
+                        val btnDeny = view.findViewById<Button>(R.id.btn_deny)
+
+                        window.contentView = view
+                        tvInfo.text = "Are you sure you want to delete the measurements history? Data can not be recovered."
+
+                        btnAccept.setOnClickListener{
+                            databaseReference.child("users").child(username).child("measurements").setValue(null)
+                            Toast.makeText(context, "User history for measurements deleted successfully", Toast.LENGTH_SHORT).show()
+                            window.dismiss()
+                        }
+                        btnDeny.setOnClickListener {
+                            window.dismiss()
+                        }
+                        window.showAsDropDown(buttonPrivacyManagement)
+                    } else {
+                        //measurements doesn`t exist in database, no need of deleting
+                        Toast.makeText(
+                            context,
+                            "You don't have anything to delete",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    println("The read failed: " + error.message)
+                }
+            })
         }
 
         //delete user - remove username node
-        //buttonDeleteAccount.setOnClickListener {
-           // AlertDialog.Builder() builder = new AlertDialog.Builder(buttonDeleteAccount.getContext(ProfileActivity.this));
-            //builder.setTitle("Are you sure?")
-            //builder.setMessage("Deleted data can't be recovered")
-       // }
+        buttonDeleteAccount.setOnClickListener {
+            databaseReference.child("users").addListenerForSingleValueEvent(object : ValueEventListener {
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    //check if measurements exists in firebase database and set them to default values
+                    if (snapshot.hasChild(username)) { //node username exists in database
+                        val window = PopupWindow(context)
+                        val view = layoutInflater.inflate(R.layout.layout_popup_accept_or_deny, null)
+                        val tvInfo = view.findViewById<TextView>(R.id.tv_info)
+                        val btnAccept = view.findViewById<Button>(R.id.btn_accept)
+                        val btnDeny = view.findViewById<Button>(R.id.btn_deny)
+
+                        window.contentView = view
+                        tvInfo.text = "Are you sure you want to delete the account? You won't have access to the app unless you will create another account"
+
+                        btnAccept.setOnClickListener{
+                            databaseReference.child("users").child(username).setValue(null)
+                            val intent = Intent(context, RegisterActivity::class.java)
+                            startActivity(intent)
+                        }
+                        btnDeny.setOnClickListener {
+                            window.dismiss()
+                        }
+                        window.showAsDropDown(buttonPrivacyManagement)
+                    }
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    println("The read failed: " + error.message)
+                }
+            })
+        }
 
 
     }
-
 
 }

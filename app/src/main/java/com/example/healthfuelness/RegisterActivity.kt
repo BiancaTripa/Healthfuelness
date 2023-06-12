@@ -1,7 +1,7 @@
 package com.example.healthfuelness
 
-import User
-import User.setUsername
+import com.example.healthfuelness.User
+import com.example.healthfuelness.User.setUsername
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.content.DialogInterface

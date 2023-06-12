@@ -2,7 +2,7 @@ package com.example.healthfuelness;
 
 public class User {
     private String fullName, email, password;
-    private static String date, date1, date2, date3, date4;
+    private static String date, date1, date2, date3, date4, date5, date6;
     private static String username;
     private static int currentDateOrNot; // -1: previous; 0: current; 1: future
 
@@ -47,6 +47,22 @@ public class User {
 
     public static String getDate4() {
         return date4;
+    }
+
+    public static void setDate5(String date) {
+        User.date5 = date;
+    }
+
+    public static String getDate5() {
+        return date5;
+    }
+
+    public static void setDate6(String date) {
+        User.date6 = date;
+    }
+
+    public static String getDate6() {
+        return date6;
     }
 
     public static void setUsername(String username) {

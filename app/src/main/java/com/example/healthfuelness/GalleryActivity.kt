@@ -1,6 +1,6 @@
 package com.example.healthfuelness
 
-import User.getUsername
+import com.example.healthfuelness.User.getUsername
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -91,12 +91,12 @@ class GalleryActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
          */
 
 
-        arrayList.add(GalleryItem(R.drawable.g_family, "Family", "date"))
-        arrayList.add(GalleryItem(R.drawable.ic_logo, "Logo", "date"))
-        arrayList.add(GalleryItem(R.drawable.ic_map, "Map", "date"))
-        arrayList.add(GalleryItem(R.drawable.ic_user, "User", "date"))
-        arrayList.add(GalleryItem(R.drawable.ic_message, "Message", "date"))
-        arrayList.add(GalleryItem(R.drawable.ic_password, "Password", "date"))
+        arrayList.add(GalleryItem(R.drawable.g_family, "Family", "02/07/2023"))
+        arrayList.add(GalleryItem(R.drawable.certificate, "Graduation", "11/06/2023"))
+        arrayList.add(GalleryItem(R.drawable.beach, "Beach", "25/05/2023"))
+        arrayList.add(GalleryItem(R.drawable.family_dog, "Nicky", "10/06/2023"))
+        arrayList.add(GalleryItem(R.drawable.fam_portrait, "Pictures", "21/12/2022"))
+        arrayList.add(GalleryItem(R.drawable.birthday_cake, "Birthday", "17/12/2022"))
 
 
         return arrayList

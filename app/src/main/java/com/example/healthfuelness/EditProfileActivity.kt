@@ -1,7 +1,6 @@
 package com.example.healthfuelness
 
-import User.getUsername
-import User.setUsername
+import com.example.healthfuelness.User.setUsername
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,6 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.example.healthfuelness.User.getUsername
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -18,9 +18,11 @@ class EditProfileActivity : AppCompatActivity() {
 
     //create object of DatabaseReference class to access firebase's Realtime Database
     private val databaseReference =  FirebaseDatabase.getInstance().getReferenceFromUrl("https://healthfuelness-d8e8a-default-rtdb.firebaseio.com/")
-    private var currentHeight = 0
+    private var currentHeight = 100
     private var currentAge: Int = 18
     private var currentWeight = 35
+    private var currentFullname = 0
+    private var currentPassword = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,11 +42,40 @@ class EditProfileActivity : AppCompatActivity() {
         databaseReference.child("users").child(username).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 //check if measurements exists in firebase database
+
+                if (snapshot.hasChild("fullname")) { //fullname exists in database
+                    currentFullname = snapshot.child("fullname").getValue(Int::class.java)!!
+                    fullName.hint = currentFullname.toString()
+                } else {
+                    //fullneame doesn`t exist in database
+                }
+
                 if (snapshot.hasChild("age")) { //age exists in database
                     currentAge = snapshot.child("age").getValue(Int::class.java)!!
                     age.hint = currentAge.toString()
                 } else {
                     //age doesn`t exist in database
+                }
+
+                if (snapshot.hasChild("height")) { //height exists in database
+                    currentHeight = snapshot.child("height").getValue(Int::class.java)!!
+                    height.hint = currentHeight.toString()
+                } else {
+                    //height doesn`t exist in database
+                }
+
+                if (snapshot.hasChild("weight")) { //weight exists in database
+                    currentWeight = snapshot.child("weight").getValue(Int::class.java)!!
+                    weight.hint = currentWeight.toString()
+                } else {
+                    //weight doesn`t exist in database
+                }
+
+                if (snapshot.hasChild("password")) { //password exists in database
+                    currentPassword = snapshot.child("password").getValue(Int::class.java)!!
+                    fullName.hint = changePassword.toString()
+                } else {
+                    //password doesn`t exist in database
                 }
             }
 
@@ -63,7 +94,7 @@ class EditProfileActivity : AppCompatActivity() {
         val heightTxt = height.text.toString()
         val weightTxt = weight.text.toString()
 
-        //check if user fill the fields before sending data to firebase
+        //check if user fills all the fields before sending data to firebase
         if (fullNameTxt.isEmpty() || passwordTxt.isEmpty() || conPasswordTxt.isEmpty() || ageTxt.isEmpty() || heightTxt.isEmpty() || weightTxt.isEmpty()) {
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
         }
@@ -82,6 +113,8 @@ class EditProfileActivity : AppCompatActivity() {
                 databaseReference.child("users").child(username).child("age").setValue(ageTxt)
                 databaseReference.child("users").child(username).child("weight").setValue(weightTxt)
                 databaseReference.child("users").child(username).child("height").setValue(heightTxt)
+                databaseReference.child("users").child(username).child("password").setValue(passwordTxt)
+                databaseReference.child("users").child(username).child("password").setValue(conPasswordTxt)
 
                 //go to profile page
                 val intent = Intent(getContext, ProfileActivity::class.java)

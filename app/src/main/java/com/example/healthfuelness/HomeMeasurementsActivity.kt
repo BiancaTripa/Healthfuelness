@@ -243,18 +243,18 @@ class HomeMeasurementsActivity : AppCompatActivity() {
         }
 
         //Arduino button
-        val arduinoButton = findViewById<TextView>(R.id.button_arduino)
+        //val arduinoButton = findViewById<TextView>(R.id.button_arduino)
 
-        arduinoButton.setOnClickListener {
-            if (getCurrentDateOrNot() == 0) { //the selected date is the current date
-                val intent = Intent(this, ArduinoActivity::class.java)
-                startActivity(intent)
-            } else {
-                val intent = Intent(this, ArduinoPreviousActivity::class.java)
-                startActivity(intent)
-            }
+        //arduinoButton.setOnClickListener {
+          //  if (getCurrentDateOrNot() == 0) { //the selected date is the current date
+           //     val intent = Intent(this, ArduinoActivity::class.java)
+            //    startActivity(intent)
+           // } else {
+           //     val intent = Intent(this, ArduinoPreviousActivity::class.java)
+            //    startActivity(intent)
+          //  }
 
-        }
+      //  }
 
         //Water
         incrementWaterButton.setOnClickListener {
