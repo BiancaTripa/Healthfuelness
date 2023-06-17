@@ -20,7 +20,7 @@
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button_logout"
+                android:id="@+id/button_back_profile"
                 android:layout_width="70dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="5dp"
@@ -182,6 +182,29 @@
                     android:textColor="@color/black"></TextView>
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/log_out_profile"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="5dp"
+                android:orientation="horizontal"
+                android:background="@color/colorPrimary">
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_user"></ImageView>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Log Out"
+                    android:textSize="20dp"
+                    android:textColor="@color/black"></TextView>
+            </LinearLayout>
+
         </LinearLayout>
 
 
@@ -193,7 +216,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/button_homeprofile"
+                android:id="@+id/button_home_profile"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginBottom="10dp"

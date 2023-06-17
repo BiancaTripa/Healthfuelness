@@ -11,10 +11,7 @@ import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.NonNull
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -25,11 +22,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 class RegisterActivity : AppCompatActivity(){
-
-
     //create object of DatabaseReference class to access firebase's Realtime Database
     private val databaseReference =  FirebaseDatabase.getInstance().getReferenceFromUrl("https://healthfuelness-d8e8a-default-rtdb.firebaseio.com/")
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -43,7 +37,6 @@ class RegisterActivity : AppCompatActivity(){
         val conPassword = findViewById<EditText>(R.id.conPassword)
         val registerButton = findViewById<Button>(R.id.button_register)
         val loginNowButton = findViewById<TextView>(R.id.button_login)
-
 
         registerButton.setOnClickListener {
             //get data from EditTexts into String variables
@@ -80,21 +73,37 @@ class RegisterActivity : AppCompatActivity(){
                         else {
                             //use username(full name) as unique identity of every user
                             // other details comes under username(full name)
+                            val window = PopupWindow(getContext)
+                            val view = layoutInflater.inflate(R.layout.layout_popup_accept_or_deny, null)
+                            val tvInfo = view.findViewById<TextView>(R.id.tv_info)
+                            val btnAccept = view.findViewById<Button>(R.id.btn_accept)
+                            val btnDeny = view.findViewById<Button>(R.id.btn_deny)
 
-                            databaseReference.child("users").child(fullNameTxt).child("email").setValue(emailTxt)
-                            databaseReference.child("users").child(fullNameTxt).child("age").setValue(ageTxt)
-                            databaseReference.child("users").child(fullNameTxt).child("height").setValue(heightTxt)
-                            databaseReference.child("users").child(fullNameTxt).child("weight").setValue(weightTxt)
-                            databaseReference.child("users").child(fullNameTxt).child("fullname").setValue(fullNameTxt)
-                            databaseReference.child("users").child(fullNameTxt).child("password").setValue(passwordTxt)
+                            window.contentView = view
+                            tvInfo.text = "Allow Healthfuelness to process your personal data?"
 
-                            setUsername(fullNameTxt)
+                            btnAccept.setOnClickListener{
+                                databaseReference.child("users").child(fullNameTxt).child("email").setValue(emailTxt)
+                                databaseReference.child("users").child(fullNameTxt).child("age").setValue(ageTxt)
+                                databaseReference.child("users").child(fullNameTxt).child("height").setValue(heightTxt)
+                                databaseReference.child("users").child(fullNameTxt).child("weight").setValue(weightTxt)
+                                databaseReference.child("users").child(fullNameTxt).child("fullname").setValue(fullNameTxt)
+                                databaseReference.child("users").child(fullNameTxt).child("password").setValue(passwordTxt)
 
-                            Toast.makeText(getContext, "User registered successfully", Toast.LENGTH_SHORT).show()
+                                setUsername(fullNameTxt)
 
-                            //go to home page
-                            val intent = Intent(getContext, HomeActivity::class.java)
-                            startActivity(intent)
+                                Toast.makeText(getContext, "User registered successfully", Toast.LENGTH_SHORT).show()
+                                window.dismiss()
+
+                                //go to home page
+                                val intent = Intent(getContext, HomeActivity::class.java)
+                                startActivity(intent)
+                            }
+                            btnDeny.setOnClickListener {
+                                Toast.makeText(getContext, "Cannot register without agreement", Toast.LENGTH_SHORT).show()
+                                window.dismiss()
+                            }
+                            window.showAsDropDown(age)
                         }
                     }
                     override fun onCancelled(error: DatabaseError) {
@@ -110,21 +119,4 @@ class RegisterActivity : AppCompatActivity(){
         }
 
     }
-/*
-    fun showGDPRalertDialog(view: View){
-        MaterialAlertDialogBuilder(this)
-            .setTitle("Privacy settings")
-            .setMessage("Allow Healthfuelness to process your personal data?")
-            .setPositiveButton("Agree and register"
-            ) { dialog, Int -> showSnackbar("System cooled down") }
-            .setNegativeButton("No"){
-                dialog, which ->
-                showSnackbar("Cannot register without agreement")
-            }
-            .show()
-    }
-
-    private fun showSnackbar(msg: String) {
-        Snackbar.make(rootLayout, msg, Snackbar.LENGTH_SHORT).show()
-    }*/
 }

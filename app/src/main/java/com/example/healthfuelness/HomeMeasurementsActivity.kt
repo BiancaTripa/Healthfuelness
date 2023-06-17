@@ -5,10 +5,7 @@ import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.navArgs
 import com.google.firebase.database.DataSnapshot
@@ -266,6 +263,13 @@ class HomeMeasurementsActivity : AppCompatActivity() {
             }
         }
 
+        //go to water chart
+        val GoToWaterChartButton = findViewById<LinearLayout>(R.id.w_water)
+        GoToWaterChartButton.setOnClickListener {
+            val intent = Intent(this, WaterChartActivity::class.java)
+            startActivity(intent)
+        }
+
         decrementWaterButton.setOnClickListener {
             // add/update the measurements can be possible only if the current date is selected
             if (getCurrentDateOrNot() == 0) {
@@ -318,6 +322,13 @@ class HomeMeasurementsActivity : AppCompatActivity() {
             }
         }
 
+        //go to stress chart
+        val GoToStressChartButton = findViewById<LinearLayout>(R.id.w_stress)
+        GoToStressChartButton.setOnClickListener {
+            val intent = Intent(this, StressChartActivity::class.java)
+            startActivity(intent)
+        }
+
         //Sleep
         btn_sleep.setOnClickListener {
             if (getCurrentDateOrNot() == 0) {
@@ -363,7 +374,12 @@ class HomeMeasurementsActivity : AppCompatActivity() {
             }
         }
 
-
+        //go to sleep chart
+        val GoToSleepChartButton = findViewById<LinearLayout>(R.id.w_sleep)
+        GoToSleepChartButton.setOnClickListener {
+            val intent = Intent(this, SleepChartActivity::class.java)
+            startActivity(intent)
+        }
 
         //Weight
         incrementWeightButton.setOnClickListener {
@@ -384,6 +400,13 @@ class HomeMeasurementsActivity : AppCompatActivity() {
                     weight.text = currentWeight.toString()
                 }
             }
+        }
+
+        //go to weight chart
+        val GoToWeightChartButton = findViewById<LinearLayout>(R.id.w_weight)
+        GoToWeightChartButton.setOnClickListener {
+            val intent = Intent(this, WeightChartActivity::class.java)
+            startActivity(intent)
         }
 
         //Home button

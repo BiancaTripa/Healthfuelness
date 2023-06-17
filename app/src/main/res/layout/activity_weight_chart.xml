@@ -9,21 +9,18 @@
 <LinearLayout
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:orientation="vertical"
-android:weightSum="100"
-tools:context=".ArduinoActivity">
+android:orientation="vertical">
 
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="10dp"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_weight="11"
     android:background="@color/colorPrimary"
     android:orientation="horizontal"
     android:layout_marginBottom="5dp">
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button_back"
+        android:id="@+id/button_back_weight"
         android:layout_width="70dp"
         android:layout_height="40dp"
         android:layout_marginStart="15dp"
@@ -67,7 +64,6 @@ tools:context=".ArduinoActivity">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_weight="8"
     android:orientation="horizontal"
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp"
@@ -79,7 +75,6 @@ tools:context=".ArduinoActivity">
         android:layout_height="35dp"
         android:layout_gravity="center"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
         android:background="@color/colorAccent"
         android:text="Date"
         android:textColor="@color/colorPrimary"
@@ -90,16 +85,16 @@ tools:context=".ArduinoActivity">
 
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="12"
+    android:layout_height="wrap_content"
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tv_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:text="Weight Chart"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="35dp"
@@ -111,24 +106,41 @@ tools:context=".ArduinoActivity">
 
     <com.db.williamchart.view.BarChartView
         android:id="@+id/barChartVer"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        app:chart_axis="x"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_width="match_parent"
+        android:layout_height="380dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        app:chart_labelsColor="@color/colorPrimaryDark"
+        app:chart_labelsSize="10dp"
+        app:chart_axis = "xy"
+        app:chart_spacing="10dp"
+        app:chart_barsColor="@color/colorPrimaryDark"
+        app:chart_barsBackgroundColor="@color/colorPrimary"
+        app:chart_barsRadius="15dp" >
+    </com.db.williamchart.view.BarChartView>
 
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="15dp"
-    android:layout_weight="12"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:orientation="vertical"
     android:layout_marginBottom="5dp"
     android:layout_marginTop="10dp">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="  Please note that fluctuations in weight are normal. Do not feel discouraged and stressed."
+        android:textColor="#9A5204"
+        android:textSize="15dp"
+        android:textStyle="italic"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="center">
+    </TextView>
+
     <ImageView
-        android:id="@+id/button_home_page"
+        android:id="@+id/button_home_page_weight"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_gravity="center"

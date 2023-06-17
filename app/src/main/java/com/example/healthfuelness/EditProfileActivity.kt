@@ -80,60 +80,53 @@ class EditProfileActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
             }
         })
-                //send to database
 
+        //send to database
         saveBtn.setOnClickListener {
         //get data from EditTexts into String variables
-        val fullNameTxt = fullName.text.toString()
-        val passwordTxt = changePassword.text.toString()
-        val conPasswordTxt = conPassword.text.toString()
-        val ageTxt = age.text.toString()
-        val heightTxt = height.text.toString()
-        val weightTxt = weight.text.toString()
+            val fullNameTxt = fullName.text.toString()
+            val passwordTxt = changePassword.text.toString()
+            val conPasswordTxt = conPassword.text.toString()
+            val ageTxt = age.text.toString()
+            val heightTxt = height.text.toString()
+            val weightTxt = weight.text.toString()
 
-        //check if user fills all the fields before sending data to firebase
-        if (fullNameTxt.isEmpty() || passwordTxt.isEmpty() || conPasswordTxt.isEmpty() || ageTxt.isEmpty() || heightTxt.isEmpty() || weightTxt.isEmpty()) {
-            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
-        }
-
-        //check if passwords match
-        else if (passwordTxt != conPasswordTxt) {
-            Toast.makeText(this, "Passwords are not matching", Toast.LENGTH_SHORT).show()
-        }
-
-        //send data to firebase RealTime Database
-        else {
-            val getContext = this
-            databaseReference.child("users").addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-
-                databaseReference.child("users").child(username).child("age").setValue(ageTxt)
-                databaseReference.child("users").child(username).child("weight").setValue(weightTxt)
-                databaseReference.child("users").child(username).child("height").setValue(heightTxt)
-                databaseReference.child("users").child(username).child("password").setValue(passwordTxt)
-                databaseReference.child("users").child(username).child("password").setValue(conPasswordTxt)
-
-                //go to profile page
-                val intent = Intent(getContext, ProfileActivity::class.java)
-                startActivity(intent)
+            //check if user fills all the fields before sending data to firebase
+            if (fullNameTxt.isEmpty() || passwordTxt.isEmpty() || conPasswordTxt.isEmpty() || ageTxt.isEmpty() || heightTxt.isEmpty() || weightTxt.isEmpty()) {
+                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             }
 
-            override fun onCancelled(error: DatabaseError) {
-                println("The write failed: " + error.code);
+            //check if passwords match
+            else if (passwordTxt != conPasswordTxt) {
+                Toast.makeText(this, "Passwords are not matching", Toast.LENGTH_SHORT).show()
             }
 
-            })
+            //send data to firebase RealTime Database
+            else {
+                val getContext = this
+                databaseReference.child("users").addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    databaseReference.child("users").child(username).child("age").setValue(ageTxt)
+                    databaseReference.child("users").child(username).child("weight").setValue(weightTxt)
+                    databaseReference.child("users").child(username).child("height").setValue(heightTxt)
+                    databaseReference.child("users").child(username).child("password").setValue(passwordTxt)
+                    databaseReference.child("users").child(username).child("password").setValue(conPasswordTxt)
+
+                    //go to profile page
+                    val intent = Intent(getContext, ProfileActivity::class.java)
+                    startActivity(intent)
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    println("The write failed: " + error.code);
+                }
+                })
+            }
+        }
+        discardButton.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
         }
     }
-
-    discardButton.setOnClickListener {
-        val intent = Intent(this, ProfileActivity::class.java)
-        startActivity(intent)
-    }
-
-
-}
 }
