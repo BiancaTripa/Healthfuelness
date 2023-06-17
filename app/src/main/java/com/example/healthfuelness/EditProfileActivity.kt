@@ -18,11 +18,12 @@ class EditProfileActivity : AppCompatActivity() {
 
     //create object of DatabaseReference class to access firebase's Realtime Database
     private val databaseReference =  FirebaseDatabase.getInstance().getReferenceFromUrl("https://healthfuelness-d8e8a-default-rtdb.firebaseio.com/")
+
     private var currentHeight = 100
     private var currentAge: Int = 18
     private var currentWeight = 35
-    private var currentFullname = 0
-    private var currentPassword = 0
+    private var currentFullname = " "
+    private var currentPassword = " "
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,10 +45,11 @@ class EditProfileActivity : AppCompatActivity() {
                 //check if measurements exists in firebase database
 
                 if (snapshot.hasChild("fullname")) { //fullname exists in database
-                    currentFullname = snapshot.child("fullname").getValue(Int::class.java)!!
-                    fullName.hint = currentFullname.toString()
+                    currentFullname = snapshot.child("fullname").value.toString()
+                    fullName.hint = currentFullname
                 } else {
                     //fullneame doesn`t exist in database
+                    fullName.hint = currentFullname
                 }
 
                 if (snapshot.hasChild("age")) { //age exists in database
@@ -55,6 +57,7 @@ class EditProfileActivity : AppCompatActivity() {
                     age.hint = currentAge.toString()
                 } else {
                     //age doesn`t exist in database
+                    age.hint = currentAge.toString()
                 }
 
                 if (snapshot.hasChild("height")) { //height exists in database
@@ -62,6 +65,7 @@ class EditProfileActivity : AppCompatActivity() {
                     height.hint = currentHeight.toString()
                 } else {
                     //height doesn`t exist in database
+                    height.hint = currentHeight.toString()
                 }
 
                 if (snapshot.hasChild("weight")) { //weight exists in database
@@ -69,19 +73,23 @@ class EditProfileActivity : AppCompatActivity() {
                     weight.hint = currentWeight.toString()
                 } else {
                     //weight doesn`t exist in database
+                    weight.hint = currentWeight.toString()
                 }
 
                 if (snapshot.hasChild("password")) { //password exists in database
-                    currentPassword = snapshot.child("password").getValue(Int::class.java)!!
-                    fullName.hint = changePassword.toString()
+                    currentPassword = snapshot.child("password").value.toString()
+                    changePassword.hint = currentPassword
                 } else {
                     //password doesn`t exist in database
+                    changePassword.hint = currentPassword
                 }
+
             }
 
             override fun onCancelled(error: DatabaseError) {
             }
         })
+
 
         //send to database
         saveBtn.setOnClickListener {
@@ -94,12 +102,12 @@ class EditProfileActivity : AppCompatActivity() {
             val weightTxt = weight.text.toString()
 
             //check if user fills all the fields before sending data to firebase
-            if (fullNameTxt.isEmpty() || passwordTxt.isEmpty() || conPasswordTxt.isEmpty() || ageTxt.isEmpty() || heightTxt.isEmpty() || weightTxt.isEmpty()) {
+            /*if (fullNameTxt.isEmpty() || passwordTxt.isEmpty() || conPasswordTxt.isEmpty() || ageTxt.isEmpty() || heightTxt.isEmpty() || weightTxt.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
-            }
+            }*/
 
             //check if passwords match
-            else if (passwordTxt != conPasswordTxt) {
+            if (passwordTxt != conPasswordTxt) {
                 Toast.makeText(this, "Passwords are not matching", Toast.LENGTH_SHORT).show()
             }
 
@@ -108,11 +116,24 @@ class EditProfileActivity : AppCompatActivity() {
                 val getContext = this
                 databaseReference.child("users").addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    databaseReference.child("users").child(username).child("age").setValue(ageTxt)
-                    databaseReference.child("users").child(username).child("weight").setValue(weightTxt)
-                    databaseReference.child("users").child(username).child("height").setValue(heightTxt)
-                    databaseReference.child("users").child(username).child("password").setValue(passwordTxt)
-                    databaseReference.child("users").child(username).child("password").setValue(conPasswordTxt)
+                    if (!ageTxt.isEmpty()){
+                        databaseReference.child("users").child(username).child("age").setValue(ageTxt)
+                    }
+                    if (!weightTxt.isEmpty()) {
+                        databaseReference.child("users").child(username).child("weight")
+                            .setValue(weightTxt)
+                    }
+                    if (!heightTxt.isEmpty()) {
+                        databaseReference.child("users").child(username).child("height")
+                            .setValue(heightTxt)
+                    }
+                    if (!passwordTxt.isEmpty()) {
+                        databaseReference.child("users").child(username).child("password")
+                            .setValue(passwordTxt)
+                    }
+                    if (!conPasswordTxt.isEmpty()){
+                        databaseReference.child("users").child(username).child("password").setValue(conPasswordTxt)
+                    }
 
                     //go to profile page
                     val intent = Intent(getContext, ProfileActivity::class.java)
@@ -124,9 +145,11 @@ class EditProfileActivity : AppCompatActivity() {
                 })
             }
         }
+
         discardButton.setOnClickListener {
             val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
         }
+
     }
 }
