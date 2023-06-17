@@ -244,9 +244,7 @@ public class ArduinoActivity extends AppCompatActivity {
                 }
                 try {
                     String result = readRawData(BTSocket.getInputStream());
-                    //Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
-                    String[] dates = result.split("\\s");//splits the string based on whitespace
-                    //using java foreach loop to print elements of string array
+                    String[] dates = result.split("\\s");
                     if (receivedData == null) {
                         Data aux = new Data(dates[0], dates[1], dates[2], dates[3], dates[4], dates[5], dates[6], dates[7], dates[8], dates[9]);
                         receivedData = aux;
@@ -269,8 +267,6 @@ public class ArduinoActivity extends AppCompatActivity {
                     setValueAndStatus();
                     //save data in dataToBeSaved object
                     setDataToBeSaved();
-
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
