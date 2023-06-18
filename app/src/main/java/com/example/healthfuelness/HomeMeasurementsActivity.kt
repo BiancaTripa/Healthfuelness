@@ -264,7 +264,7 @@ class HomeMeasurementsActivity : AppCompatActivity() {
         }
 
         //go to water chart
-        val GoToWaterChartButton = findViewById<LinearLayout>(R.id.w_water)
+        val GoToWaterChartButton = findViewById<ImageView>(R.id.w_water)
         GoToWaterChartButton.setOnClickListener {
             val intent = Intent(this, WaterChartActivity::class.java)
             startActivity(intent)
@@ -323,7 +323,7 @@ class HomeMeasurementsActivity : AppCompatActivity() {
         }
 
         //go to stress chart
-        val GoToStressChartButton = findViewById<LinearLayout>(R.id.w_stress)
+        val GoToStressChartButton = findViewById<ImageView>(R.id.w_stress)
         GoToStressChartButton.setOnClickListener {
             val intent = Intent(this, StressChartActivity::class.java)
             startActivity(intent)
@@ -375,7 +375,7 @@ class HomeMeasurementsActivity : AppCompatActivity() {
         }
 
         //go to sleep chart
-        val GoToSleepChartButton = findViewById<LinearLayout>(R.id.w_sleep)
+        val GoToSleepChartButton = findViewById<ImageView>(R.id.w_sleep)
         GoToSleepChartButton.setOnClickListener {
             val intent = Intent(this, SleepChartActivity::class.java)
             startActivity(intent)
@@ -403,7 +403,7 @@ class HomeMeasurementsActivity : AppCompatActivity() {
         }
 
         //go to weight chart
-        val GoToWeightChartButton = findViewById<LinearLayout>(R.id.w_weight)
+        val GoToWeightChartButton = findViewById<ImageView>(R.id.w_weight)
         GoToWeightChartButton.setOnClickListener {
             val intent = Intent(this, WeightChartActivity::class.java)
             startActivity(intent)

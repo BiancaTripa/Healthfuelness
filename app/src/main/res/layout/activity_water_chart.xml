@@ -5,12 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".WaterChartActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="100">
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="10"
         android:layout_gravity="center"
         android:background="@color/colorPrimary"
         android:orientation="horizontal"
@@ -59,7 +61,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="10"
         android:orientation="horizontal"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
@@ -77,12 +80,12 @@
             android:textColor="@color/colorPrimary"
             android:textSize="20dp"
             android:textStyle="bold"></TextView>
-
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="10"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:orientation="vertical">
@@ -102,7 +105,8 @@
     <com.db.williamchart.view.BarChartView
         android:id="@+id/barChartVerWater"
         android:layout_width="match_parent"
-        android:layout_height="380dp"
+        android:layout_height="0dp"
+        android:layout_weight="50"
         app:chart_labelsColor="@color/colorPrimaryDark"
         app:chart_labelsSize="10dp"
         app:chart_axis = "xy"
@@ -118,6 +122,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="20"
         android:layout_gravity="center"
         android:orientation="vertical"
         android:layout_marginBottom="5dp"

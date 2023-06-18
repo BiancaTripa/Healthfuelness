@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.TextView
 import com.db.williamchart.view.BarChartView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -31,7 +32,7 @@ class WeightChartActivity : AppCompatActivity() {
 
         val barchartWeight = findViewById<BarChartView>(R.id.barChartVer)
 
-        databaseReference.child("users").child(username)
+       /* databaseReference.child("users").child(username)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.hasChild("measurements")) {
@@ -94,7 +95,7 @@ class WeightChartActivity : AppCompatActivity() {
                 override fun onCancelled(firebaseError: DatabaseError) {
                     println("The read failed: " + firebaseError.message)
                 }
-            })
+            })*/
 
         //go to home
         val GoToHomePageButton = findViewById<ImageView>(R.id.button_home_page_weight)
@@ -104,7 +105,7 @@ class WeightChartActivity : AppCompatActivity() {
         }
 
         //go back
-        val GoBackButton = findViewById<ImageView>(R.id.button_back_weight)
+        val GoBackButton = findViewById<TextView>(R.id.button_back_weight)
         GoBackButton.setOnClickListener {
             val intent = Intent(this, HomeMeasurementsActivity::class.java)
             startActivity(intent)

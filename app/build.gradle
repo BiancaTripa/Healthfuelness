@@ -61,6 +61,10 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-location:21.0.1'
 
+    //Firebase store dependency for gallery
+    implementation 'com.google.firebase:firebase-storage:20.0.0'
+
+
     //Firebase realtime dependency
     implementation 'com.google.firebase:firebase-database'
 
