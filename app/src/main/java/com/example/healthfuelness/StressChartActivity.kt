@@ -14,9 +14,9 @@ import com.google.firebase.database.ValueEventListener
 class StressChartActivity : AppCompatActivity() {
 
     private val username = User.getUsername()
-    private val selectedDate = User.getDate()
-    private val selectedDateJustMonthAndDay = selectedDate.substring(5)
-    private val selectedDateJustYearAndMonth = selectedDate.substring(0, 6)
+    private val selectedDate = User.getDate() // yyyy/mm/dd
+    private val selectedDateJustYear = selectedDate.substring(0,3)
+    private val selectedDateJustMonth = selectedDate.substring(5, 6)
     private val selectedDateJustDay = selectedDate.substring(7)
 
     //create object of DatabaseReference class to access firebase's Realtime Database
@@ -34,7 +34,7 @@ class StressChartActivity : AppCompatActivity() {
     private val previousDate5JustMonthAndDay = previousDate5.substring(5)
     private val previousDate6 = User.getDate6()
     private val previousDate6JustMonthAndDay = previousDate6.substring(5)
-    private val previous7Days =  arrayOf<String>(selectedDateJustMonthAndDay, previousDate1JustMonthAndDay, previousDate2JustMonthAndDay, previousDate3JustMonthAndDay, previousDate4JustMonthAndDay, previousDate5JustMonthAndDay, previousDate6JustMonthAndDay)
+    private val previous7Days =  arrayOf<String>(selectedDate, previousDate1JustMonthAndDay, previousDate2JustMonthAndDay, previousDate3JustMonthAndDay, previousDate4JustMonthAndDay, previousDate5JustMonthAndDay, previousDate6JustMonthAndDay)
     private var previous7ValuesStress = Previous7Values(0F,0F,0F,0F,0F,0F,0F)
 
     private var stressValuesObject = StressValues(100, 0, 100, 0, emptyArray(), emptyArray())
@@ -111,24 +111,38 @@ class StressChartActivity : AppCompatActivity() {
                         }
 
                         // iterate the database in current month from current day to beginning
-                      /*  for (aux in selectedDateJustDay.toInt() downTo 1 step 1) {
-                            if (snapshot.child("measurements").child(selectedDateJustYearAndMonth).hasChild(aux.toString())) {
+                        var aux2 = "0"
+
+                        //for (aux in selectedDateJustDay.toInt() downTo 1 step 1) {
+                        for(aux in 10..selectedDateJustDay.toInt()) {
+
+
+                            if (aux < 10) {
+                                val aux3 = aux.toString()
+                                aux2 = "0$aux3"
+                            } else {
+                                aux2 = aux.toString()
+                            }
+
+
+
+                            var auxStringDate = "$selectedDateJustYear/$selectedDateJustMonth/$aux2"
+
+                            if (snapshot.child("measurements").hasChild(auxStringDate)) {
                                 //data in aux day exist
-                                val stressAux = snapshot.child("measurements").child(selectedDateJustYearAndMonth).child(aux.toString())
-                                    .child("stressLevel").getValue(Int::class.java)!!
+                                val stressAux = snapshot.child("measurements").child(auxStringDate).child("stressLevel").getValue(Int::class.java)!!
+                                val waterAux = snapshot.child("measurements").child(auxStringDate).child("water").getValue(Int::class.java)!!
 
                                 if (stressValuesObject.getStressMin() > stressAux) {
                                     //daca valoarea gasita este mai mica decat minimul avut
                                     //isi dau reset array-urile si val min a stresului
                                     stressValuesObject.setStressMin(stressAux)
                                     //reset array val min apa
-                                    stressValuesObject.createArrayMinWithFirstValue(snapshot.child("measurements").child(selectedDateJustYearAndMonth).child(aux.toString())
-                                        .child("water").getValue(Int::class.java)!!)
+                                    stressValuesObject.createArrayMinWithFirstValue(waterAux)
                                 } else if (stressValuesObject.getStressMin() == stressAux) {
                                     //daca e acc val ca min, se adauga in array ul de min
                                     //apa
-                                    stressValuesObject.addValueInArrayMin(snapshot.child("measurements").child(selectedDateJustYearAndMonth).child(aux.toString())
-                                        .child("water").getValue(Int::class.java)!!)
+                                    stressValuesObject.addValueInArrayMin(waterAux)
                                 }
 
                                 if (stressValuesObject.getStressMax() < stressAux) {
@@ -136,18 +150,20 @@ class StressChartActivity : AppCompatActivity() {
                                     //isi dau reset array-urile si val max a stresului
                                     stressValuesObject.setStressMax(stressAux)
                                     //reset array val max apa
-                                    stressValuesObject.createArrayMaxWithFirstValue(snapshot.child("measurements").child(selectedDateJustYearAndMonth).child(aux.toString())
-                                        .child("water").getValue(Int::class.java)!!)
+                                    stressValuesObject.createArrayMaxWithFirstValue(waterAux)
                                 } else if (stressValuesObject.getStressMax() == stressAux) {
                                     //daca e acc val ca max, se adauga in array ul de max
                                     //apa
-                                    stressValuesObject.addValueInArrayMax(snapshot.child("measurements").child(selectedDateJustYearAndMonth).child(aux.toString())
-                                        .child("water").getValue(Int::class.java)!!)
+                                    stressValuesObject.addValueInArrayMax(waterAux)
                                 }
                             } else {
                                 //data in aux day not exist
                             }
+
+
+                            aux2 = "0"
                         }
+                        /*
                         //Stress level Min
                         if (stressValuesObject.getStressMin() == 1) {
                             ivStressMin.setImageResource(R.drawable.stressed_out);
@@ -162,6 +178,7 @@ class StressChartActivity : AppCompatActivity() {
                         }else {
                             //empty
                         }
+
 
                         //Stress level Max
                         if (stressValuesObject.getStressMax() == 1) {
@@ -178,9 +195,13 @@ class StressChartActivity : AppCompatActivity() {
                             //empty
                         }
 
+                         */
+
                         //water
                         tvWaterMin.text = stressValuesObject.makeMediaOfArrayMin().toString()
-                        tvWaterMax.text = stressValuesObject.makeMediaOfArrayMax().toString()*/
+                        tvWaterMax.text = stressValuesObject.makeMediaOfArrayMax().toString()
+
+
 
                     } else { //measurements not exist for this user
                         //water

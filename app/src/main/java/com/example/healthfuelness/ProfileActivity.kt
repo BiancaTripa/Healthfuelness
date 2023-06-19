@@ -42,7 +42,7 @@ class ProfileActivity : AppCompatActivity(){
         val backButton = findViewById<TextView>(R.id.button_back_profile)
         val logoutNowButton = findViewById<LinearLayout>(R.id.log_out_profile)
         val buttonEditProfile = findViewById<LinearLayout>(R.id.edit_profile)
-        val buttonNotificationSettings = findViewById<LinearLayout>(R.id.notifications_settings)
+        //val buttonNotificationSettings = findViewById<LinearLayout>(R.id.notifications_settings)
         val buttonPrivacyManagement = findViewById<LinearLayout>(R.id.privacy_management)
         val buttonDeleteAccount = findViewById<LinearLayout>(R.id.delete_account)
         val context = this
@@ -71,14 +71,12 @@ class ProfileActivity : AppCompatActivity(){
             val intent = Intent(this, EditProfileActivity::class.java)
             startActivity(intent)
         }
-
+        /*
         //go to edit notifications
         buttonNotificationSettings.setOnClickListener {
             val intent = Intent(this, NotificationSettingsActivity::class.java)
             startActivity(intent)
-        }
-
-
+        }*/
 
         //clears all user data - measurements
         buttonPrivacyManagement.setOnClickListener {

@@ -18,12 +18,18 @@ class WeightChartActivity : AppCompatActivity() {
     private val username = User.getUsername()
     private val selectedDate = User.getDate()
     private val previousDate1 = User.getDate1()
+    private val previousDate1JustMonthAndDay = previousDate1.substring(5)
     private val previousDate2 = User.getDate2()
+    private val previousDate2JustMonthAndDay = previousDate2.substring(5)
     private val previousDate3 = User.getDate3()
+    private val previousDate3JustMonthAndDay = previousDate3.substring(5)
     private val previousDate4 = User.getDate4()
+    private val previousDate4JustMonthAndDay = previousDate4.substring(5)
     private val previousDate5 = User.getDate5()
+    private val previousDate5JustMonthAndDay = previousDate5.substring(5)
     private val previousDate6 = User.getDate6()
-    private val previous7Days =  arrayOf<String>(selectedDate, previousDate1, previousDate2, previousDate3, previousDate4, previousDate5, previousDate6)
+    private val previousDate6JustMonthAndDay = previousDate6.substring(5)
+    private val previous7Days =  arrayOf<String>(selectedDate, previousDate1JustMonthAndDay, previousDate2JustMonthAndDay, previousDate3JustMonthAndDay, previousDate4JustMonthAndDay, previousDate5JustMonthAndDay, previousDate6JustMonthAndDay)
     private var previous7ValuesWeight = Previous7Values(0F,0F,0F,0F,0F,0F,0F)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,8 +37,11 @@ class WeightChartActivity : AppCompatActivity() {
         setContentView(R.layout.activity_weight_chart)
 
         val barchartWeight = findViewById<BarChartView>(R.id.barChartVer)
+        val tvDate = findViewById<TextView>(R.id.tv_selectedDate)
+        //Selected date
+        tvDate.text = selectedDate
 
-       /* databaseReference.child("users").child(username)
+        databaseReference.child("users").child(username)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.hasChild("measurements")) {
@@ -95,7 +104,7 @@ class WeightChartActivity : AppCompatActivity() {
                 override fun onCancelled(firebaseError: DatabaseError) {
                     println("The read failed: " + firebaseError.message)
                 }
-            })*/
+            })
 
         //go to home
         val GoToHomePageButton = findViewById<ImageView>(R.id.button_home_page_weight)

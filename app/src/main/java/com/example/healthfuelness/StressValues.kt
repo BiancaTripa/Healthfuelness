@@ -17,15 +17,15 @@ class StressValues (
     fun getWaterMin(): Int {return this.waterMin}
     fun setWaterMax(aux: Int) {this.waterMax = aux}
     fun getWaterMax(): Int {return this.waterMax}
-    fun createArrayMinWithFirstValue(aux: Int){
-        val aux = arrayOf(aux)
+    fun createArrayMinWithFirstValue(auxValue: Int){
+        val aux = arrayOf(auxValue)
         this.arrayWaterMin = aux
     }
     fun addValueInArrayMin(aux: Int){
         this.arrayWaterMin += aux
     }
-    fun createArrayMaxWithFirstValue(aux: Int){
-        val aux = arrayOf(aux)
+    fun createArrayMaxWithFirstValue(auxValue: Int){
+        val aux = arrayOf(auxValue)
         this.arrayWaterMax = aux
     }
     fun addValueInArrayMax(aux: Int){
@@ -38,6 +38,9 @@ class StressValues (
             sum += x
             index++
         }
+        if (sum == 0) {
+            return sum
+        }
         return sum/index
     }
     fun makeMediaOfArrayMax(): Int{
@@ -46,6 +49,9 @@ class StressValues (
         for (x in this.arrayWaterMax) {
             sum += x
             index++
+        }
+        if (sum == 0) {
+            return sum
         }
         return sum/index
     }

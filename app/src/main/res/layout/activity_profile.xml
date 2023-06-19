@@ -1,229 +1,231 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_marginBottom="5dp"
-    tools:context=".ProfileActivity">
+    tools:context=".ProfileActivity"
+    android:weightSum="100">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:background="@color/colorPrimary"
-            android:orientation="horizontal">
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button_back_profile"
-                android:layout_width="70dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/login_edit_background"
-                android:text="Back"></androidx.appcompat.widget.AppCompatButton>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="20dp"
-                    android:text="Healthfuelness"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Keep up with your body and mind"
-                    android:layout_marginStart="20dp"
-                    android:textColor="@color/black"
-                    android:textStyle="italic"></TextView>
-            </LinearLayout>
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="500dp"
-            android:layout_marginTop="5dp"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_back_profile"
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="10dp"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:textSize="25dp"
-                    android:layout_gravity="center"
-                    android:text="About You"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textStyle="bold"></TextView>
-                <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/profile_icon"></ImageView>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/edit_profile"
-                android:layout_width="match_parent"
-                android:layout_marginTop="5dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="5dp"
-                android:orientation="horizontal"
-                android:background="@color/colorPrimary">
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/edit_profile_icon"></ImageView>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Edit Profile"
-                    android:textColor="@color/black"
-                    android:textSize="20dp"></TextView>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/notifications_settings"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="5dp"
-                android:orientation="horizontal"
-                android:background="@color/colorPrimary">
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/notifications_icon"></ImageView>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Notifications"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"></TextView>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/privacy_management"
-                android:layout_width="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="5dp"
-                android:orientation="horizontal"
-                android:background="@color/colorPrimary">
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/privacy_icon"></ImageView>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Clear all data from cloud"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"></TextView>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/delete_account"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="5dp"
-                android:orientation="horizontal"
-                android:background="@color/colorPrimary">
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/delete_icon"></ImageView>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Delete account"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"></TextView>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/log_out_profile"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="5dp"
-                android:orientation="horizontal"
-                android:background="@color/colorPrimary">
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/ic_user"></ImageView>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Log Out"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"></TextView>
-            </LinearLayout>
-
-        </LinearLayout>
-
-
+            android:background="@drawable/login_edit_background"
+            android:text="Back"></androidx.appcompat.widget.AppCompatButton>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/button_home_profile"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
                 android:layout_gravity="center"
-                android:src="@drawable/applogo"></ImageView>
+                android:text="Healthfuelness"
+                android:textColor="@color/black"
+                android:textStyle="bold"></TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Keep up with your body and mind"
+                android:textColor="@color/black"
+                android:textStyle="italic"></TextView>
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/button_message"
+            android:layout_width="58dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="20dp"></ImageView>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="78"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:textSize="25dp"
+                android:layout_gravity="center"
+                android:text="About You"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"></TextView>
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/profile_icon"></ImageView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/edit_profile"
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="5dp"
+            android:orientation="horizontal"
+            android:background="@color/colorPrimary">
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/edit_profile_icon"></ImageView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Edit Profile"
+                android:textColor="@color/black"
+                android:textSize="20dp"></TextView>
+        </LinearLayout>
+<!--
+        <LinearLayout
+            android:id="@+id/notifications_settings"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
+            android:orientation="horizontal"
+            android:background="@color/colorPrimary">
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/notifications_icon"></ImageView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Notifications"
+                android:textSize="20dp"
+                android:textColor="@color/black"></TextView>
+        </LinearLayout>
+-->
+        <LinearLayout
+            android:id="@+id/privacy_management"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="5dp"
+            android:orientation="horizontal"
+            android:background="@color/colorPrimary">
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/privacy_icon"></ImageView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Delete measurements history"
+                android:textSize="20dp"
+                android:textColor="@color/black"></TextView>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/delete_account"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
+            android:orientation="horizontal"
+            android:background="@color/colorPrimary">
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/delete_icon"></ImageView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Delete account"
+                android:textSize="20dp"
+                android:textColor="@color/black"></TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/log_out_profile"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
+            android:orientation="horizontal"
+            android:background="@color/colorPrimary">
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_user"></ImageView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Log Out"
+                android:textSize="20dp"
+                android:textColor="@color/black"></TextView>
         </LinearLayout>
 
     </LinearLayout>
-</RelativeLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/button_home_profile"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:src="@drawable/applogo"></ImageView>
+    </LinearLayout>
+
+</LinearLayout>
