@@ -4,7 +4,7 @@ Important:
 -
 - URL-ul pentru tot proiectul Healthfuelness: https://github.com/BiancaTripa/Healthfuelness.git
 - URL-ul pentru "Healthfuelness: Aplicație mobilă pentru monitorizarea sănătății", partea
-poiectul Healthfuelness, proiectată și implementată de Bianca-Cristina Tripa:
+poiectul Healthfuelness, proiectată și implementată de Bianca-Cristina Tripa: https://github.com/BiancaTripa/Healthfuelness/tree/ProfilePage
 - URL-ul pentru "Healthfuelness: Sistem de senzori pentru monitorizarea factorilor de mediu ce influențează sănătatea", partea poiectul Healthfuelness, proiectată și implementată de Cristina-Andreea Urucu și care se poate găsi pe brench-ul „Arduino”: https://github.com/BiancaTripa/Healthfuelness/tree/Arduino (cu codul sursă pentru Arduino: https://github.com/BiancaTripa/Healthfuelness/blob/Arduino/Arduino/Aprox_Complet/Arduino_code.ino)
 
 Pentru a instala Android IDE și Arduino IDE și a compila și lansa aplicația, urmați pașii de mai jos:
