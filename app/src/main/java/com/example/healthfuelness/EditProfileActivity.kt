@@ -51,7 +51,7 @@ class EditProfileActivity : AppCompatActivity() {
                     //fullneame doesn`t exist in database
                     fullName.hint = currentFullname
                 }
-
+/*
                 if (snapshot.hasChild("age")) { //age exists in database
                     currentAge = snapshot.child("age").getValue(Int::class.java)!!
                     age.hint = currentAge.toString()
@@ -82,7 +82,7 @@ class EditProfileActivity : AppCompatActivity() {
                 } else {
                     //password doesn`t exist in database
                     changePassword.hint = currentPassword
-                }
+                }*/
 
             }
 

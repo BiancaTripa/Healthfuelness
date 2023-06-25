@@ -30,7 +30,7 @@ class GalleryAdapter(var context: Context, var arrayList: ArrayList<GalleryItem>
 
         var galleryItem: GalleryItem = arrayList[p0]
 
-        icons.setImageResource(galleryItem.icons!!)
+        icons.setImageBitmap(galleryItem.icons!!)
         names.text = galleryItem.name
         dates.text = galleryItem.date
 

@@ -1,148 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="100"
     tools:context=".SleepChartActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:layout_gravity="center"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_back_sleep"
+            android:layout_width="70dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
-            android:background="@color/colorPrimary"
-            android:orientation="horizontal"
-            android:layout_marginBottom="5dp">
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button_back_water"
-                android:layout_width="70dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/login_edit_background"
-                android:text="Back"></androidx.appcompat.widget.AppCompatButton>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center"
-                    android:text="Healthfuelness"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Keep up with your body and mind"
-                    android:textColor="@color/black"
-                    android:textStyle="italic"></TextView>
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/button_message"
-                android:layout_width="58dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="15dp"></ImageView>
-
-        </LinearLayout>
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/login_edit_background"
+            android:text="Back"></androidx.appcompat.widget.AppCompatButton>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <TextView
-                android:id="@+id/tv_selectedDate"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="@color/colorAccent"
-                android:text="Date"
-                android:textColor="@color/colorPrimary"
-                android:textSize="20dp"
-                android:textStyle="bold"></TextView>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sleep Chart"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="35dp"
-                android:textStyle="italic"
-                android:layout_gravity="center">
-            </TextView>
-
-        </LinearLayout>
-
-        <com.db.williamchart.view.BarChartView
-            android:id="@+id/barChartSleep"
-            android:layout_width="match_parent"
-            android:layout_height="360dp"
-            app:chart_labelsColor="@color/colorPrimaryDark"
-            app:chart_labelsSize="10dp"
-            app:chart_axis = "xy"
-            app:chart_spacing="10dp"
-            app:chart_barsColor="@color/colorPrimaryDark"
-            app:chart_barsBackgroundColor="@color/colorPrimary"
-            app:chart_barsRadius="15dp" >
-        </com.db.williamchart.view.BarChartView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="10dp">
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:text="Healthfuelness"
+                android:textColor="@color/black"
+                android:textStyle="bold"></TextView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="  Please note that the for a healthy lifestyle and a reduced stress level it is important to have al lest 6 hours of sleep at night."
-                android:textColor="#9A5204"
-                android:textSize="15dp"
-                android:textStyle="italic"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
-                android:layout_gravity="center">
-            </TextView>
-
-            <ImageView
-                android:id="@+id/button_home_page_water"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center"
-                android:src="@drawable/applogo"></ImageView>
+                android:text="Keep up with your body and mind"
+                android:textColor="@color/black"
+                android:textStyle="italic"></TextView>
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/button_message"
+            android:layout_width="58dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="15dp"></ImageView>
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tv_selectedDate"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/colorAccent"
+            android:text="Date"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20dp"
+            android:textStyle="bold"></TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="12"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sleep Chart"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="35dp"
+            android:textStyle="italic"
+            android:layout_gravity="center">
+        </TextView>
+    </LinearLayout>
+
+    <com.db.williamchart.view.BarChartView
+        android:id="@+id/barChartSleep"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="50"
+        android:layout_marginEnd="2dp"
+        android:layout_marginStart="2dp"
+        app:chart_labelsColor="@color/colorPrimaryDark"
+        app:chart_labelsSize="10dp"
+        app:chart_axis = "xy"
+        app:chart_spacing="10dp"
+        app:chart_barsColor="@color/colorPrimaryDark"
+        app:chart_barsBackgroundColor="@color/colorPrimary"
+        app:chart_barsRadius="15dp" >
+    </com.db.williamchart.view.BarChartView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="  Please note that the for a healthy lifestyle and a reduced stress level it is important to have al lest 6 hours of sleep at night."
+            android:textColor="#9A5204"
+            android:textSize="15dp"
+            android:textStyle="italic"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="center">
+        </TextView>
+
+        <ImageView
+            android:id="@+id/button_home_page_sleep"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:src="@drawable/applogo"></ImageView>
+    </LinearLayout>
+
+</LinearLayout>

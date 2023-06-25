@@ -75,44 +75,73 @@ class StressChartActivity : AppCompatActivity() {
 
                     if (snapshot.hasChild("measurements")) {
 
-                        if (snapshot.child("measurements").hasChild(selectedDate)) { // data exist for this user, in this date
-                            previous7ValuesStress.setCurrent(snapshot.child("measurements").child(selectedDate)
-                                .child("stressLevel").value.toString().toFloat())
+                        if (snapshot.child("measurements")
+                                .hasChild(selectedDate)
+                        ) { // data exist for this user, in this date
+                            previous7ValuesStress.setCurrent(
+                                snapshot.child("measurements").child(selectedDate)
+                                    .child("stressLevel").value.toString().toFloat()
+                            )
                         }
 
-                        if (snapshot.child("measurements").hasChild(previousDate1)) { // data exist for this user, in this date
-                            previous7ValuesStress.setPrevious1(snapshot.child("measurements").child(previousDate1)
-                                .child("stressLevel").value.toString().toFloat())
+                        if (snapshot.child("measurements")
+                                .hasChild(previousDate1)
+                        ) { // data exist for this user, in this date
+                            previous7ValuesStress.setPrevious1(
+                                snapshot.child("measurements").child(previousDate1)
+                                    .child("stressLevel").value.toString().toFloat()
+                            )
                         }
 
-                        if (snapshot.child("measurements").hasChild(previousDate2)) { // data exist for this user, in this date
-                            previous7ValuesStress.setPrevious2(snapshot.child("measurements").child(previousDate2)
-                                .child("stressLevel").value.toString().toFloat())
+                        if (snapshot.child("measurements")
+                                .hasChild(previousDate2)
+                        ) { // data exist for this user, in this date
+                            previous7ValuesStress.setPrevious2(
+                                snapshot.child("measurements").child(previousDate2)
+                                    .child("stressLevel").value.toString().toFloat()
+                            )
                         }
 
-                        if (snapshot.child("measurements").hasChild(previousDate3)) { // data exist for this user, in this date
-                            previous7ValuesStress.setPrevious3(snapshot.child("measurements").child(previousDate3)
-                                .child("stressLevel").value.toString().toFloat())
+                        if (snapshot.child("measurements")
+                                .hasChild(previousDate3)
+                        ) { // data exist for this user, in this date
+                            previous7ValuesStress.setPrevious3(
+                                snapshot.child("measurements").child(previousDate3)
+                                    .child("stressLevel").value.toString().toFloat()
+                            )
                         }
 
-                        if (snapshot.child("measurements").hasChild(previousDate4)) { // data exist for this user, in this date
-                            previous7ValuesStress.setPrevious4(snapshot.child("measurements").child(previousDate4)
-                                .child("stressLevel").value.toString().toFloat())
+                        if (snapshot.child("measurements")
+                                .hasChild(previousDate4)
+                        ) { // data exist for this user, in this date
+                            previous7ValuesStress.setPrevious4(
+                                snapshot.child("measurements").child(previousDate4)
+                                    .child("stressLevel").value.toString().toFloat()
+                            )
                         }
 
-                        if (snapshot.child("measurements").hasChild(previousDate5)) { // data exist for this user, in this date
-                            previous7ValuesStress.setPrevious5(snapshot.child("measurements").child(previousDate5)
-                                .child("stressLevel").value.toString().toFloat())
+                        if (snapshot.child("measurements")
+                                .hasChild(previousDate5)
+                        ) { // data exist for this user, in this date
+                            previous7ValuesStress.setPrevious5(
+                                snapshot.child("measurements").child(previousDate5)
+                                    .child("stressLevel").value.toString().toFloat()
+                            )
                         }
 
-                        if (snapshot.child("measurements").hasChild(previousDate6)) { // data exist for this user, in this date
-                            previous7ValuesStress.setPrevious6(snapshot.child("measurements").child(previousDate6)
-                                .child("stressLevel").value.toString().toFloat())
+                        if (snapshot.child("measurements")
+                                .hasChild(previousDate6)
+                        ) { // data exist for this user, in this date
+                            previous7ValuesStress.setPrevious6(
+                                snapshot.child("measurements").child(previousDate6)
+                                    .child("stressLevel").value.toString().toFloat()
+                            )
                         }
 
                         // iterate the database in current month from current day to beginning
-                        var aux2 = "0"
+                        var aux2 = 22
 
+                        /*
                         //for (aux in selectedDateJustDay.toInt() downTo 1 step 1) {
                         for(aux in 10..selectedDateJustDay.toInt()) {
 
@@ -122,9 +151,7 @@ class StressChartActivity : AppCompatActivity() {
                                 aux2 = "0$aux3"
                             } else {
                                 aux2 = aux.toString()
-                            }
-
-
+                            }*/
 
                             var auxStringDate = "$selectedDateJustYear/$selectedDateJustMonth/$aux2"
 
@@ -132,6 +159,7 @@ class StressChartActivity : AppCompatActivity() {
                                 //data in aux day exist
                                 val stressAux = snapshot.child("measurements").child(auxStringDate).child("stressLevel").getValue(Int::class.java)!!
                                 val waterAux = snapshot.child("measurements").child(auxStringDate).child("water").getValue(Int::class.java)!!
+                                val weightAux = snapshot.child("measurements").child(auxStringDate).child("weight").getValue(Int::class.java)!!
 
                                 if (stressValuesObject.getStressMin() > stressAux) {
                                     //daca valoarea gasita este mai mica decat minimul avut
@@ -161,9 +189,9 @@ class StressChartActivity : AppCompatActivity() {
                             }
 
 
-                            aux2 = "0"
-                        }
-                        /*
+                            //aux2 = "0"
+                        //}
+
                         //Stress level Min
                         if (stressValuesObject.getStressMin() == 1) {
                             ivStressMin.setImageResource(R.drawable.stressed_out);
@@ -195,7 +223,7 @@ class StressChartActivity : AppCompatActivity() {
                             //empty
                         }
 
-                         */
+
 
                         //water
                         tvWaterMin.text = stressValuesObject.makeMediaOfArrayMin().toString()
@@ -224,8 +252,9 @@ class StressChartActivity : AppCompatActivity() {
                 override fun onCancelled(firebaseError: DatabaseError) {
                     println("The read failed: " + firebaseError.message)
                 }
-            }
-         )
+
+
+        })
 
     }
 }

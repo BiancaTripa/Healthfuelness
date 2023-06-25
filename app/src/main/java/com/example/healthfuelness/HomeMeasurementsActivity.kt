@@ -231,11 +231,11 @@ class HomeMeasurementsActivity : AppCompatActivity() {
         //Selected date
         tvDate.text = selectedDate
 
-        //Logout button
-        val logoutNowButton = findViewById<TextView>(R.id.button_logout)
+        //back button
+        val backNowButton = findViewById<TextView>(R.id.button_back_h_m)
 
-        logoutNowButton.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
+        backNowButton.setOnClickListener {
+            val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
         }
 

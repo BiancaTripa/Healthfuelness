@@ -5,17 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:weightSum="100"
     tools:context=".GalleryActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="0dp"
+        android:layout_weight="8"
         android:layout_gravity="center"
         android:background="@color/colorPrimary"
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_logout"
+            android:id="@+id/btn_back_gallery"
             android:layout_width="70dp"
             android:layout_height="40dp"
             android:layout_marginStart="15dp"
@@ -23,7 +25,7 @@
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/login_edit_background"
-            android:text="Log Out"></androidx.appcompat.widget.AppCompatButton>
+            android:text="Back"></androidx.appcompat.widget.AppCompatButton>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -60,7 +62,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="12"
         android:layout_gravity="left"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
@@ -69,13 +72,14 @@
 
         <ImageView
             android:id="@+id/button_add"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginStart="10dp"
             android:src="@drawable/plus"></ImageView>
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:padding="20dp"
             android:text="What makes me happy?"
@@ -86,7 +90,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="70">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -107,9 +112,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:gravity="center">
 
-    <ImageView
+        <ImageView
             android:id="@+id/button_homemeasurements"
             android:layout_width="60dp"
             android:layout_height="60dp"

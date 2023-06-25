@@ -4,8 +4,10 @@ import com.example.healthfuelness.User.getUsername
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -18,16 +20,15 @@ import android.widget.Toast
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.example.healthfuelness.databinding.ActivityHappyBinding
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import kotlinx.android.synthetic.main.activity_happy.*
+import java.io.ByteArrayOutputStream
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.jar.Manifest
@@ -39,15 +40,21 @@ class HappyActivity : AppCompatActivity() {
     private val databaseReference =  FirebaseDatabase.getInstance().getReferenceFromUrl("https://healthfuelness-d8e8a-default-rtdb.firebaseio.com/")
 
     private val CAMERA_REQUEST_CODE = 1
+    private lateinit var byteArray : ByteArray
+
 
     private lateinit var imageAsBitmap: Bitmap
 
-    //private lateinit var imageView: ImageView
+   // private lateinit var imageView: ImageView
+  // val imageView = findViewById<ImageView>(R.id.image_view)
+
     //private lateinit var button: Button
     private lateinit var binding: ActivityHappyBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //setContentView(R.layout.activity_happy)
+
         binding = ActivityHappyBinding.inflate(layoutInflater)
         setContentView(binding.root)
         //setContentView(R.layout.activity_happy)
@@ -65,6 +72,12 @@ class HappyActivity : AppCompatActivity() {
             val currentDate = date.toString("dd/MM/yyyy")
 
             val user = getUsername()
+            val galleryRef: DatabaseReference = databaseReference
+                .child("users")
+                .child(user)
+                .child("gallery")
+            val photoId = galleryRef.push().key
+
 
             //add to realtime database
             val getContext = this
@@ -72,28 +85,79 @@ class HappyActivity : AppCompatActivity() {
                 .addListenerForSingleValueEvent(object :
                     ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        databaseReference.child("users").child(user).child("gallery")
-                            .child("date").setValue(currentDate)
-                        databaseReference.child("users").child(user).child("gallery")
-                            .child("description").setValue(descriptionTxt)
-                        /*
+
+
+                        if (photoId != null) {
+                            databaseReference.child("users").child(user).child("gallery").child(
+                                photoId
+                            ).child("date").setValue(currentDate)
+                        }
+                        if (photoId != null) {
+                            databaseReference.child("users").child(user).child("gallery").child(
+                                photoId
+                            ).child("description").setValue(descriptionTxt)
+                        }
+                        //val imagePath = getLatestEmulatorImagePath(applicationContext)
+                        if (byteArray != null) {
+                            // Upload the image to Firebase or perform any other operations
+                            //val imageFile = File(imagePath)
+                            //val bitmap = BitmapFactory.decodeFile(imageFile.absolutePath)
+
+                            // Convert the image to bytes
+                            //val stream = ByteArrayOutputStream()
+                            //bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                            //val imageData = stream.toByteArray()
+                            val imageList: List<Int> = byteArray.map { byte -> byte.toInt() }
+                            if (photoId != null) {
+                                databaseReference.child("users").child(user).child("gallery").child(
+                                    photoId
+                                ).child("imagePath").setValue(imageList).addOnSuccessListener {
+                                    // Image uploaded successfully
+                                    // You can perform additional operations here, if needed
+                                    println("Image uploaded successfully")
+                                }
+                                    .addOnFailureListener { exception ->
+                                        // Handle any errors that occur during the upload process
+                                        println("Failed to upload image. Error: ${exception.message}")
+                                    }
+                            }
+
+
+                        } else {
+                            // Handle case when no image is found
+                            //val imageList: List<Int> = byteArray.map { byte -> byte.toInt() }
+                            if (photoId != null) {
+                                databaseReference.child("users").child(user).child("gallery").child(
+                                    photoId
+                                ).child("imagePath").setValue("NO image found")
+                            }
+                            println("No image found.")
+                        }
+
+                            /*
                         databaseReference.child("users").child(user).child("gallery")
                             .child("image").setValue(imageAsBitmap)*/
 
-                        Toast.makeText(
-                            getContext,
-                            "Happy added successfully",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                            Toast.makeText(
+                                getContext,
+                                "Happy added successfully",
+                                Toast.LENGTH_SHORT
+                            ).show()
 
-                        //go to gallery page
-                        val intent = Intent(getContext, GalleryActivity::class.java)
-                        startActivity(intent)
+                            //go to home page
+                            val intent = Intent(getContext, HomeActivity::class.java)
+                            startActivity(intent)
+
                     }
 
-                    override fun onCancelled(error: DatabaseError) {
-                        println("The write failed: " + error.code);
-                    }
+                        override fun onCancelled(error: DatabaseError) {
+                            println("The write failed: " + error.code);
+                        }
+
+
+
+
+
                 })
         }
 
@@ -158,26 +222,78 @@ class HappyActivity : AppCompatActivity() {
         startActivityForResult(intent, CAMERA_REQUEST_CODE)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode == Activity.RESULT_OK){
-            when(resultCode) {
-                CAMERA_REQUEST_CODE -> {
-                    val bitmap = data?.extras?.get("data") as Bitmap
-                    imageAsBitmap = bitmap
+    //returns path to the last saved image
+    fun getLatestEmulatorImagePath(context: Context): String? {
+        val projection = arrayOf(MediaStore.Images.Media.DATA, MediaStore.Images.Media.DATE_ADDED)
+        val sortOrder = "${MediaStore.Images.Media.DATE_ADDED} DESC"
+        val cursor = context.contentResolver.query(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            projection,
+            null,
+            null,
+            sortOrder
+        )
 
-                    //we are using coroutine image loader (coil)
-                    binding.imageView.load(bitmap) {
-                        crossfade(true)
-                        crossfade(1000)
-                        transformations(CircleCropTransformation())
-                    }
-                }
+        cursor?.use { cursor ->
+            if (cursor.moveToFirst()) {
+                val pathIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+                val imagePath = cursor.getString(pathIndex)
+                return imagePath
             }
         }
 
+        return null
     }
+
+    //transform image to bitmap and upload it to firebase
+    fun uploadImageToFirebase(imagePath: String): ByteArray {
+        // Load the image from the specified path
+        val imageFile = File(imagePath)
+        val bitmap = BitmapFactory.decodeFile(imageFile.absolutePath)
+
+        // Convert the image to bytes
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+        val imageData = stream.toByteArray()
+
+        return imageData
+    }
+
+    private fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+        return stream.toByteArray()
+    }
+
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)  {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == Activity.RESULT_OK && requestCode == CAMERA_REQUEST_CODE){
+                    val bitmap = data?.extras?.get("data") as Bitmap
+            bitmap?.let {
+                // Convert the bitmap to a byte array
+                byteArray = bitmapToByteArray(it)
+
+            }
+            //imageView.setImageBitmap(bitmap)
+
+
+
+
+            }
+        else {
+            byteArray = byteArrayOf(0x00)
+
+        }
+
+
+
+
+    }
+
 
     private fun showRelationalDialogForPermission() {
         AlertDialog.Builder(this)

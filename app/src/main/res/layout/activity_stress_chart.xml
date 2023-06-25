@@ -90,8 +90,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp">
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -133,12 +133,13 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="  Please note that it is recommended to drink 0.033 x (your weight in kg) liters of water in a day."
+                        android:text="  Please note that stress management techniques can help you avoid most physical, emotional and behavioral symptoms of stress."
                         android:textColor="#9A5204"
                         android:textSize="15dp"
                         android:textStyle="italic"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="5dp"
+                        android:layout_marginStart="5dp"
                         android:layout_marginBottom="5dp"
                         android:layout_gravity="center">
                     </TextView>

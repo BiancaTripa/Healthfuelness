@@ -28,14 +28,14 @@
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button_logout"
+                    android:id="@+id/button_back_h_m"
                     android:layout_width="70dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="15dp"
                     android:layout_marginEnd="5dp"
                     android:layout_gravity="center"
                     android:background="@drawable/login_edit_background"
-                    android:text="Log Out"></androidx.appcompat.widget.AppCompatButton>
+                    android:text="Back"></androidx.appcompat.widget.AppCompatButton>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
