@@ -1,8 +1,17 @@
 # Healthfuelness
 
+Important:
+-
+- URL-ul pentru tot proiectul Healthfuelness:
+- URL-ul pentru " ", partea
+poiectul Healthfuelness, proiectată și implementată de Bianca-Cristina Tripa:
+- URL-ul pentru " ", partea
+poiectul Healthfuelness, proiectată și implementată de Cristina-Andreea Urucu:  (cu codul sursă pentru Arduino: )
+
 Pentru a instala Android IDE și Arduino IDE și a compila și lansa aplicația, urmați pașii de mai jos:
 
-# Instalarea Android IDE:
+Instalarea Android IDE:
+-
 
 1. Accesați site-ul oficial Android Studio: https://developer.android.com/studio.
 
@@ -26,7 +35,8 @@ Pentru a instala Android IDE și Arduino IDE și a compila și lansa aplicația,
 
 11. După finalizarea clonării, Android Studio va deschide proiectul într-o fereastră nouă. Verificați fișierul `build.gradle` pentru a vă asigura că aveți toate dependențele necesare și configurațiile de compilare. După aceea, faceți clic pe butonul "Run" (butonul verde cu un triunghi) pentru a construi și rula aplicația pe un dispozitiv virtual sau dispozitiv real conectat.
     
-# Instalarea Arduino IDE:
+Instalarea Arduino IDE:
+-
 
 1. Accesați site-ul oficial Arduino: https://www.arduino.cc/en/software.
    
