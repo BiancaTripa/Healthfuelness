@@ -63,60 +63,23 @@ class GalleryActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     }
 
     private fun setDataList(): ArrayList<GalleryItem> {
-
         var arrayList: ArrayList<GalleryItem> = ArrayList()
-
-
-
         databaseReference.child("users").child(getUsername()).child("gallery").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                // this method is call to get the realtime
-                // updates in the data.
-                // this method is called when the data is
-                // changed in our Firebase console.
-                // below line is for getting the data from
-                // snapshot of our database.
-
                 for (childSnapshot in snapshot.children) {
                     val imageId = childSnapshot.key
-
                     // Retrieve the fields of each image (date, description, etc.)
                     val date = childSnapshot.child("date").getValue(String::class.java)
                     val description = childSnapshot.child("description").getValue(String::class.java)
-
                     // Add the image data to the adapter
-                    //val imagePath = snapshot.child("cc").getValue(List::class.java)
                     val imageBitmap = convertImagepathToBitmap(childSnapshot.child("imagePath"))
                     arrayList.add(GalleryItem(imageBitmap, description, date))
-                    //galleryAdapter.add(imageData)
                 }
-                //val description = snapshot.child("description").getValue(String::class.java)
-                //val date = snapshot.child("date").getValue(String::class.java)
-
-
-                // after getting the value we are setting
-                // our value to our text view in below line.
-
             }
-
             override fun onCancelled(error: DatabaseError) {
-                // calling on cancelled method when we receive
-                // any error or we are not able to get the data.
                 Toast.makeText(this@GalleryActivity, "Fail to get data.", Toast.LENGTH_SHORT).show()
             }
         })
-
-
-
-
-       /* arrayList.add(GalleryItem(R.drawable.g_family, "Family", "02/07/2023"))
-        arrayList.add(GalleryItem(R.drawable.certificate, "Graduation", "11/06/2023"))
-        arrayList.add(GalleryItem(R.drawable.beach, "Beach", "25/05/2023"))
-        arrayList.add(GalleryItem(R.drawable.family_dog, "Nicky", "10/06/2023"))
-        arrayList.add(GalleryItem(R.drawable.fam_portrait, "Pictures", "21/12/2022"))
-        arrayList.add(GalleryItem(R.drawable.birthday_cake, "Birthday", "17/12/2022"))*/
-
-
         return arrayList
     }
 
@@ -125,25 +88,13 @@ class GalleryActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         return byteArray?.let { BitmapFactory.decodeByteArray(it, 0, it.size) }
     }
 
-   /* fun convertImagepathToBitmap(imagepathSnapshot: DataSnapshot): ArrayList<Bitmap?> {
-        val bitmapList = ArrayList<Bitmap?>()
-        for (childSnapshot in imagepathSnapshot.children) {
-            val bitmap = convertChildrenToBitmap(childSnapshot)
-            bitmap?.let { bitmapList.add(it) }
-        }
-        return bitmapList
-    }*/
-
     fun convertImagepathToBitmap(imagepathSnapshot: DataSnapshot): Bitmap? {
         val byteArray = mutableListOf<Byte>()
-
         for (childSnapshot in imagepathSnapshot.children) {
             val byteValue = childSnapshot.getValue<Int>()
             byteValue?.let { byteArray.add(it.toByte()) }
         }
-
         val byteArrayPrimitive = byteArray.toByteArray()
-
         return BitmapFactory.decodeByteArray(byteArrayPrimitive, 0, byteArrayPrimitive.size)
     }
 

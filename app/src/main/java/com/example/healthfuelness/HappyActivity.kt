@@ -42,13 +42,7 @@ class HappyActivity : AppCompatActivity() {
     private val CAMERA_REQUEST_CODE = 1
     private lateinit var byteArray : ByteArray
 
-
     private lateinit var imageAsBitmap: Bitmap
-
-   // private lateinit var imageView: ImageView
-  // val imageView = findViewById<ImageView>(R.id.image_view)
-
-    //private lateinit var button: Button
     private lateinit var binding: ActivityHappyBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +51,6 @@ class HappyActivity : AppCompatActivity() {
 
         binding = ActivityHappyBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //setContentView(R.layout.activity_happy)
 
         binding.btnCamera.setOnClickListener {
             cameraCheckPermission()
@@ -85,8 +78,6 @@ class HappyActivity : AppCompatActivity() {
                 .addListenerForSingleValueEvent(object :
                     ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
-
-
                         if (photoId != null) {
                             databaseReference.child("users").child(user).child("gallery").child(
                                 photoId
@@ -99,21 +90,11 @@ class HappyActivity : AppCompatActivity() {
                         }
                         //val imagePath = getLatestEmulatorImagePath(applicationContext)
                         if (byteArray != null) {
-                            // Upload the image to Firebase or perform any other operations
-                            //val imageFile = File(imagePath)
-                            //val bitmap = BitmapFactory.decodeFile(imageFile.absolutePath)
-
-                            // Convert the image to bytes
-                            //val stream = ByteArrayOutputStream()
-                            //bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                            //val imageData = stream.toByteArray()
                             val imageList: List<Int> = byteArray.map { byte -> byte.toInt() }
                             if (photoId != null) {
                                 databaseReference.child("users").child(user).child("gallery").child(
                                     photoId
                                 ).child("imagePath").setValue(imageList).addOnSuccessListener {
-                                    // Image uploaded successfully
-                                    // You can perform additional operations here, if needed
                                     println("Image uploaded successfully")
                                 }
                                     .addOnFailureListener { exception ->
@@ -122,10 +103,8 @@ class HappyActivity : AppCompatActivity() {
                                     }
                             }
 
-
                         } else {
                             // Handle case when no image is found
-                            //val imageList: List<Int> = byteArray.map { byte -> byte.toInt() }
                             if (photoId != null) {
                                 databaseReference.child("users").child(user).child("gallery").child(
                                     photoId
@@ -133,11 +112,6 @@ class HappyActivity : AppCompatActivity() {
                             }
                             println("No image found.")
                         }
-
-                            /*
-                        databaseReference.child("users").child(user).child("gallery")
-                            .child("image").setValue(imageAsBitmap)*/
-
                             Toast.makeText(
                                 getContext,
                                 "Happy added successfully",
@@ -147,55 +121,19 @@ class HappyActivity : AppCompatActivity() {
                             //go to home page
                             val intent = Intent(getContext, HomeActivity::class.java)
                             startActivity(intent)
-
                     }
 
                         override fun onCancelled(error: DatabaseError) {
                             println("The write failed: " + error.code);
                         }
-
-
-
-
-
                 })
         }
-
-
-
-        /*
-        imageView = findViewById(R.id.image_view)
-        button = findViewById(R.id.button_take_picture)
-
-        button.setOnClickListener {
-            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-
-            try {
-                startActivityForResult(takePictureIntent, REQUEST_CODE)
-            } catch (e: ActivityNotFoundException) {
-                Toast.makeText(this, "Unable to open camera", Toast.LENGTH_SHORT).show()
-                Toast.makeText(this, "Error: " + e.localizedMessage, Toast.LENGTH_SHORT).show()
-
-            }
-            /*
-            if (takePictureIntent.resolveActivity(this.packageManager) != null) {
-                startActivityForResult(takePictureIntent, REQUEST_CODE)
-            } else {
-                Toast.makeText(this, "Unable to open camera", Toast.LENGTH_SHORT).show()
-            }
-             */
-        }
-
-         */
-
     }
 
     private fun cameraCheckPermission() {
-
         Dexter.withContext(this)
             .withPermissions(android.Manifest.permission.READ_EXTERNAL_STORAGE,
         android.Manifest.permission.CAMERA).withListener(
-
                 object : MultiplePermissionsListener {
                     override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
 
@@ -205,14 +143,12 @@ class HappyActivity : AppCompatActivity() {
                             }
                         }
                     }
-
                     override fun onPermissionRationaleShouldBeShown(
                         p0: MutableList<PermissionRequest>?,
                         p1: PermissionToken?
                     ) {
                         showRelationalDialogForPermission()
                     }
-
                 }
         ).onSameThread().check()
     }
@@ -242,7 +178,6 @@ class HappyActivity : AppCompatActivity() {
                 return imagePath
             }
         }
-
         return null
     }
 
@@ -266,32 +201,18 @@ class HappyActivity : AppCompatActivity() {
         return stream.toByteArray()
     }
 
-
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)  {
         super.onActivityResult(requestCode, resultCode, data)
-
         if (resultCode == Activity.RESULT_OK && requestCode == CAMERA_REQUEST_CODE){
-                    val bitmap = data?.extras?.get("data") as Bitmap
+            val bitmap = data?.extras?.get("data") as Bitmap
             bitmap?.let {
                 // Convert the bitmap to a byte array
                 byteArray = bitmapToByteArray(it)
-
             }
-            //imageView.setImageBitmap(bitmap)
-
-
-
-
-            }
+        }
         else {
             byteArray = byteArrayOf(0x00)
-
         }
-
-
-
-
     }
 
 
@@ -313,7 +234,6 @@ class HappyActivity : AppCompatActivity() {
             .setNegativeButton("CANCEL") {dialog, _ ->
                 dialog.dismiss()
             }.show()
-
     }
 
 
