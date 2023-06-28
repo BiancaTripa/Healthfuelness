@@ -156,8 +156,6 @@ public class ArduinoActivity extends AppCompatActivity {
                             listName.add(deviceName);
                             listMacAddress.add(macAddress);
                         }
-
-                        //populate spinner with bluetooth paired devices
                         arrayAdapterPairedDevices = new ArrayAdapter<String>(getApplicationContext(), com.google.android.material.R.layout.support_simple_spinner_dropdown_item, listName);
                         arrayAdapterPairedDevices.setDropDownViewResource(com.karumi.dexter.R.layout.support_simple_spinner_dropdown_item);
                         spinnerPairedDevices.setAdapter(arrayAdapterPairedDevices);
@@ -246,9 +244,7 @@ public class ArduinoActivity extends AppCompatActivity {
                 }
                 try {
                     String result = readRawData(BTSocket.getInputStream());
-                    //Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
-                    String[] dates = result.split("\\s");//splits the string based on whitespace
-                    //using java foreach loop to print elements of string array
+                    String[] dates = result.split("\\s");
                     if (receivedData == null) {
                         Data aux = new Data(dates[0], dates[1], dates[2], dates[3], dates[4], dates[5], dates[6], dates[7], dates[8], dates[9]);
                         receivedData = aux;
@@ -271,8 +267,6 @@ public class ArduinoActivity extends AppCompatActivity {
                     setValueAndStatus();
                     //save data in dataToBeSaved object
                     setDataToBeSaved();
-
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -454,8 +448,24 @@ public class ArduinoActivity extends AppCompatActivity {
     }
 
     void setValueAndStatus() {
-        temperatureValue.setText(receivedData.getTemperature());
-        humidityValue.setText(receivedData.getHumidity());
+        String temperature = receivedData.getTemperature();
+        temperatureValue.setText(temperature);
+        if (temperature.compareTo("20") < 0) {
+            setStatus(temperatureStatus, "Scazut", ColorStateList.valueOf(getResources().getColor(R.color.yellow)));
+        } if (temperature.compareTo("25") <= 0) {
+            setStatus(temperatureStatus, "Perfect", ColorStateList.valueOf(getResources().getColor(R.color.green)));
+        } else {
+            setStatus(temperatureStatus, "Ridicat", ColorStateList.valueOf(getResources().getColor(R.color.red)));
+        }
+        String humidity = receivedData.getHumidity();
+        humidityValue.setText(humidity);
+        if (humidity.compareTo("30") < 0) {
+            setStatus(humidityStatus, "Scazut", ColorStateList.valueOf(getResources().getColor(R.color.yellow)));
+        } if (humidity.compareTo("60") <= 0) {
+            setStatus(humidityStatus, "Perfect", ColorStateList.valueOf(getResources().getColor(R.color.green)));
+        } else {
+            setStatus(humidityStatus, "Ridicat", ColorStateList.valueOf(getResources().getColor(R.color.red)));
+        }
         String uvLevel = receivedData.getUvLevel();
         uvLevelValue.setText(uvLevel);
         if (uvLevel.compareTo("1") < 0) {
@@ -473,66 +483,88 @@ public class ArduinoActivity extends AppCompatActivity {
         int airQuality = 0;
 
         String toluene = receivedData.getToluene();
+        Double tolueneAsDouble = Double.valueOf(toluene);
         tolueneValue.setText(toluene);
-        if (toluene.compareTo("100") > 0) {
-            setStatus(tolueneStatus, "Ridicat", ColorStateList.valueOf(getResources().getColor(R.color.red)));
-            airQuality = 2;
-        } else if (toluene.compareTo("50") > 0) {
-            setStatus(tolueneStatus, "Moderat", ColorStateList.valueOf(getResources().getColor(R.color.yellow)));
-            airQuality = 1;
-        } else {
+        if (tolueneAsDouble < 50.00) {
             setStatus(tolueneStatus, "Perfect", ColorStateList.valueOf(getResources().getColor(R.color.green)));
+        } else if (tolueneAsDouble < 100.00) {
+            setStatus(tolueneStatus, "Moderat", ColorStateList.valueOf(getResources().getColor(R.color.yellow)));
+            if (airQuality == 0) {
+                airQuality = 1;
+            }
+        } else {
+            setStatus(tolueneStatus, "Ridicat", ColorStateList.valueOf(getResources().getColor(R.color.red)));
+            if (airQuality != 2) {
+                airQuality = 2;
+            }
         }
 
         String acetone = receivedData.getAcetone();
+        Double acetoneAsDouble = Double.valueOf(acetone);
         acetoneValue.setText(acetone);
-        if (toluene.compareTo("500") > 0) {
-            setStatus(acetoneStatus, "Ridicat", ColorStateList.valueOf(getResources().getColor(R.color.red)));
-            airQuality = 2;
-        } else {
+        if (acetoneAsDouble < 500.00) {
             setStatus(acetoneStatus, "Perfect", ColorStateList.valueOf(getResources().getColor(R.color.green)));
+        } else {
+            setStatus(acetoneStatus, "Ridicat", ColorStateList.valueOf(getResources().getColor(R.color.red)));
+            if (airQuality != 2) {
+                airQuality = 2;
+            }
         }
 
         String ammonia = receivedData.getAmmonia();
+        Double ammoniaAsDouble = Double.valueOf(ammonia);
         ammoniaValue.setText(ammonia);
-        if (ammonia.compareTo("50") > 0) {
-            setStatus(ammoniaStatus, "Ridicat", ColorStateList.valueOf(getResources().getColor(R.color.red)));
-            airQuality = 2;
-        } else if (ammonia.compareTo("20") > 0) {
-            setStatus(ammoniaStatus, "Moderat", ColorStateList.valueOf(getResources().getColor(R.color.yellow)));
-            airQuality = 1;
-        } else {
+        if (ammoniaAsDouble < 20.00) {
             setStatus(ammoniaStatus, "Perfect", ColorStateList.valueOf(getResources().getColor(R.color.green)));
+        } else if (ammoniaAsDouble < 50.00) {
+            setStatus(ammoniaStatus, "Moderat", ColorStateList.valueOf(getResources().getColor(R.color.yellow)));
+            if (airQuality == 0) {
+                airQuality = 1;
+            }
+        } else {
+            setStatus(ammoniaStatus, "Ridicat", ColorStateList.valueOf(getResources().getColor(R.color.red)));
+            if (airQuality != 2) {
+                airQuality = 2;
+            }
         }
 
         String alcohol = receivedData.getAlcohol();
         alcoholValue.setText(alcohol);
-        if (alcohol.compareTo("800") > 0) {
-            setStatus(alcoholStatus, "Ridicat", ColorStateList.valueOf(getResources().getColor(R.color.red)));
-            airQuality = 2;
-        } else if (alcohol.compareTo("400") > 0) {
-            setStatus(alcoholStatus, "Moderat", ColorStateList.valueOf(getResources().getColor(R.color.yellow)));
-            airQuality = 1;
-        } else {
+        if (alcohol.compareTo("400") < 0) {
             setStatus(alcoholStatus, "Perfect", ColorStateList.valueOf(getResources().getColor(R.color.green)));
+        } else if (alcohol.compareTo("800") < 0) {
+            setStatus(alcoholStatus, "Moderat", ColorStateList.valueOf(getResources().getColor(R.color.yellow)));
+            if (airQuality == 0) {
+                airQuality = 1;
+            }
+        } else {
+            setStatus(alcoholStatus, "Ridicat", ColorStateList.valueOf(getResources().getColor(R.color.red)));
+            if (airQuality != 2) {
+                airQuality = 2;
+            }
         }
 
         String hydrogen = receivedData.getHydrogen();
+        Double hydrogenAsDouble = Double.valueOf(hydrogen);
         hydrogenValue.setText(hydrogen);
-        if (hydrogen.compareTo("4100") > 0) {
-            setStatus(hydrogenStatus, "Ridicat", ColorStateList.valueOf(getResources().getColor(R.color.red)));
-            airQuality = 2;
-        } else {
+        if (hydrogenAsDouble < 4100.00) {
             setStatus(hydrogenStatus, "Perfect", ColorStateList.valueOf(getResources().getColor(R.color.green)));
+        } else {
+            setStatus(hydrogenStatus, "Ridicat", ColorStateList.valueOf(getResources().getColor(R.color.red)));
+            if (airQuality != 2) {
+                airQuality = 2;
+            }
         }
 
         String dioxideCarbon = receivedData.getDioxideCarbon();
         dioxideCarbonValue.setText(dioxideCarbon);
-        if (dioxideCarbon.compareTo("5000") > 0) {
-            setStatus(dioxideCarbonStatus, "Ridicat", ColorStateList.valueOf(getResources().getColor(R.color.red)));
-            airQuality = 2;
-        } else {
+        if (dioxideCarbon.compareTo("5000") < 0) {
             setStatus(dioxideCarbonStatus, "Perfect", ColorStateList.valueOf(getResources().getColor(R.color.green)));
+        } else {
+            setStatus(dioxideCarbonStatus, "Ridicat", ColorStateList.valueOf(getResources().getColor(R.color.red)));
+            if (airQuality != 2) {
+                airQuality = 2;
+            }
         }
 
         if (airQuality == 0) {

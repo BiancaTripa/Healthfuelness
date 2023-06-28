@@ -28,24 +28,28 @@ class MoreDetailsActivity: AppCompatActivity() {
     private val previousDate4 = User.getDate4()
     private val previous5Days =  arrayOf<String>(selectedDate, previousDate1, previousDate2, previousDate3, previousDate4)
 
-    private val textPopupToluene = "\t" + "\t" +  "Este important să se evite expunerea prelungită și repetată la toluen," +
-            " deoarece poate provoca efecte cumulative și daune grave sănătății. " + "\n" +
-            "\t" +  "\t" + "Poate provoca iritații respiratorii, neurologice și cutanate, precum și efecte asupra ochilor și sistemului cardiovascular." + "\n" +
-            "\t" +  "\t" + "În cazul în care suspectați o expunere la toluen și dezvoltați simptome neobișnuite,"  +
-            " este recomandat să căutați asistență medicală și să discutați cu un profesionist de sănătate calificat pentru evaluare și tratament adecvat."
-    private val textPopupAcetone = "Info"
-    private val textPopupAmmonia = "Info"
-    private val textPopupAlcohol = "Info"
-    private val textPopupHydrogen = "Info"
-    private val textPopupCO2 = "Info"
-
+    private val textPopupToluene = "\t" + "\t" +  "Toluene can adversely affect human health by causing respiratory irritation, central nervous system disorders, headaches, dizziness, and long-term exposure may lead to more severe effects on organs such as the liver and kidneys."
+    private val textPopupAcetone = "\t" + "\t" + "Acetone can impact human health by causing irritation to the eyes, skin, and respiratory system. " +
+            "\n" + "\t" + "\t" +  "Inhalation or ingestion of acetone can lead to headaches, dizziness, nausea, and in high concentrations, it may cause central nervous system depression."
+    private val textPopupAmmonia = "\t" + "\t" + "Ammonia can cause respiratory irritation, eye irritation, and skin burns. " +
+            "\n" + "\t" + "\t" + "High levels of exposure may lead to lung damage, coughing, and difficulty breathing. " +
+            "\n" + "\t" + "\t" + "Seek medical attention if exposed to ammonia and experiencing symptoms."
+    private val textPopupAlcohol = "\t" + "\t" + "Inhaling alcohol vapor can irritate the respiratory system, leading to coughing, sore throat, and difficulty breathing. " +
+            "\n" + "\t" + "\t" + "It can also cause headaches, dizziness, and nausea. " +
+            "\n" + "+\t" + "\t" + "Prolonged exposure may result in organ damage. " +
+            "\n" + "\t" + "\t" + "Seek medical help if necessary."
+    private val textPopupHydrogen = "\t" + "\t" + "Hydrogen gas is generally not harmful when inhaled in small quantities. " +
+            "\n" + "\t" + "\t" + "However, high concentrations of hydrogen can displace oxygen, leading to asphyxiation. " +
+            "\n" + "\t" + "\t" + "It is important to ensure proper ventilation when working with or around hydrogen gas."
+    private val textPopupCO2 = "\t" + "\t" + "Exposure to high levels of carbon dioxide can cause dizziness, headache, confusion, shortness of breath, and even loss of consciousness. " +
+            "\n" + "\t" + "\t" + "It is important to ensure proper ventilation and avoid prolonged exposure to elevated carbon dioxide levels."
 
     private var previous5ValuesToluene = Previous5Values(0F,0F,0F,0F,0F)
-    private var previous5ValuesAcetone = Previous5Values(1F, 1F, 1F, 1F,1F)
-    private var previous5ValuesAmmonia = Previous5Values(2F, 2F, 2F, 2F,2F)
-    private var previous5ValuesAlcohol = Previous5Values(3F, 3F, 3F, 3F,3F)
-    private var previous5ValuesHydrogen = Previous5Values(4F, 4F, 4F, 4F,4F)
-    private var previous5ValuesCO2 = Previous5Values(5F, 5F, 5F, 5F,5F)
+    private var previous5ValuesAcetone = Previous5Values(0F,0F,0F,0F,0F)
+    private var previous5ValuesAmmonia = Previous5Values(0F,0F,0F,0F,0F)
+    private var previous5ValuesAlcohol = Previous5Values(0F,0F,0F,0F,0F)
+    private var previous5ValuesHydrogen = Previous5Values(0F,0F,0F,0F,0F)
+    private var previous5ValuesCO2 = Previous5Values(0F,0F,0F,0F,0F)
 
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,62 +111,87 @@ class MoreDetailsActivity: AppCompatActivity() {
                                 .child("tolueneMin").value.toString()
                             textViewTolueneMax.text = snapshot.child("dataFromArduino").child(selectedDate)
                                 .child("tolueneMax").value.toString()
-                            ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                            val cox = snapshot.child("dataFromArduino").child(selectedDate)
-                                .child("tolueneMax").value.toString().toFloat()
-                            println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-                            println("$cox")
-                            println("inaine ${previous5ValuesToluene.getCurrent()}")
-                            previous5ValuesToluene.setCurrent(cox)
-                            println("dupa ${previous5ValuesToluene.getCurrent()}")
-                            println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                            previous5ValuesToluene.setCurrent(snapshot.child("dataFromArduino").child(selectedDate)
+                                .child("tolueneMax").value.toString().toFloat())
 
                             // Acetone
                             textViewAcetoneMin.text = snapshot.child("dataFromArduino").child(selectedDate)
                                 .child("acetoneMin").value.toString()
                             textViewAcetoneMax.text = snapshot.child("dataFromArduino").child(selectedDate)
                                 .child("acetoneMax").value.toString()
-                            ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                            previous5ValuesAcetone.setCurrent(snapshot.child("dataFromArduino").child(selectedDate)
+                                .child("acetoneMax").value.toString().toFloat())
 
                             // Ammonia
                             textViewAmmoniaMin.text = snapshot.child("dataFromArduino").child(selectedDate)
                                 .child("ammoniaMin").value.toString()
                             textViewAmmoniaMax.text = snapshot.child("dataFromArduino").child(selectedDate)
                                 .child("ammoniaMax").value.toString()
-                            ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                            previous5ValuesAmmonia.setCurrent(snapshot.child("dataFromArduino").child(selectedDate)
+                                .child("ammoniaMax").value.toString().toFloat())
 
                             // Alcohol
                             textViewAlcoholMin.text = snapshot.child("dataFromArduino").child(selectedDate)
                                 .child("alcoholMin").value.toString()
                             textViewAlcoholMax.text = snapshot.child("dataFromArduino").child(selectedDate)
                                 .child("alcoholMax").value.toString()
-                            ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                            previous5ValuesAlcohol.setCurrent(snapshot.child("dataFromArduino").child(selectedDate)
+                                .child("alcoholMax").value.toString().toFloat())///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
                             // Hydrogen
                             textViewHydrogenMin.text = snapshot.child("dataFromArduino").child(selectedDate)
                                 .child("hydrogenMin").value.toString()
                             textViewHydrogenMax.text = snapshot.child("dataFromArduino").child(selectedDate)
                                 .child("hydrogenMax").value.toString()
-                            ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                            previous5ValuesHydrogen.setCurrent(snapshot.child("dataFromArduino").child(selectedDate)
+                                .child("hydrogenMax").value.toString().toFloat())
 
                             // CO2
                             textViewCO2Min.text = snapshot.child("dataFromArduino").child(selectedDate)
                                 .child("dioxideCarbonMin").value.toString()
                             textViewCO2Max.text = snapshot.child("dataFromArduino").child(selectedDate)
                                 .child("dioxideCarbonMax").value.toString()
-                            ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
                         }
 
                         if (snapshot.child("dataFromArduino").hasChild(previousDate1)) { // data exist for this user, in this date
                             //Toluene
                             previous5ValuesToluene.setPrevious1(snapshot.child("dataFromArduino").child(previousDate1)
                                 .child("tolueneMax").value.toString().toFloat())
+                            // Acetone
+                            previous5ValuesAcetone.setPrevious1(snapshot.child("dataFromArduino").child(previousDate1)
+                                .child("acetoneMax").value.toString().toFloat())
+                            // Ammonia
+                            previous5ValuesAmmonia.setPrevious1(snapshot.child("dataFromArduino").child(previousDate1)
+                                .child("ammoniaMax").value.toString().toFloat())
+                            // Alcohol
+                            previous5ValuesAlcohol.setPrevious1(snapshot.child("dataFromArduino").child(previousDate1)
+                                .child("alcoholMax").value.toString().toFloat())
+                            // Hydrogen
+                            previous5ValuesHydrogen.setPrevious1(snapshot.child("dataFromArduino").child(previousDate1)
+                                .child("hydrogenMax").value.toString().toFloat())
+
                         }
 
                         if (snapshot.child("dataFromArduino").hasChild(previousDate2)) { // data exist for this user, in this date
                             //Toluene
                             previous5ValuesToluene.setPrevious2(snapshot.child("dataFromArduino").child(previousDate2)
                                 .child("tolueneMax").value.toString().toFloat())
+                            // Acetone
+                            previous5ValuesAcetone.setPrevious2(snapshot.child("dataFromArduino").child(previousDate2)
+                                .child("acetoneMax").value.toString().toFloat())
+                            // Ammonia
+                            previous5ValuesAmmonia.setPrevious2(snapshot.child("dataFromArduino").child(previousDate2)
+                                .child("ammoniaMax").value.toString().toFloat())
+                            // Alcohol
+                            previous5ValuesAlcohol.setPrevious2(snapshot.child("dataFromArduino").child(previousDate2)
+                                .child("alcoholMax").value.toString().toFloat())
+                            // Alcohol
+                            previous5ValuesAlcohol.setPrevious2(snapshot.child("dataFromArduino").child(previousDate2)
+                                .child("alcoholMax").value.toString().toFloat())
+                            // Hydrogen
+                            previous5ValuesHydrogen.setPrevious2(snapshot.child("dataFromArduino").child(previousDate2)
+                                .child("hydrogenMax").value.toString().toFloat())
 
                         }
 
@@ -170,12 +199,38 @@ class MoreDetailsActivity: AppCompatActivity() {
                             //Toluene
                             previous5ValuesToluene.setPrevious3(snapshot.child("dataFromArduino").child(previousDate3)
                                 .child("tolueneMax").value.toString().toFloat())
+                            // Acetone
+                            previous5ValuesAcetone.setPrevious3(snapshot.child("dataFromArduino").child(previousDate3)
+                                .child("acetoneMax").value.toString().toFloat())
+                            // Ammonia
+                            previous5ValuesAmmonia.setPrevious3(snapshot.child("dataFromArduino").child(previousDate3)
+                                .child("ammoniaMax").value.toString().toFloat())
+                            // Alcohol
+                            previous5ValuesAlcohol.setPrevious3(snapshot.child("dataFromArduino").child(previousDate3)
+                                .child("alcoholMax").value.toString().toFloat())
+                            // Hydrogen
+                            previous5ValuesHydrogen.setPrevious3(snapshot.child("dataFromArduino").child(previousDate3)
+                                .child("hydrogenMax").value.toString().toFloat())
+
                         }
 
                         if (snapshot.child("dataFromArduino").hasChild(previousDate4)) { // data exist for this user, in this date
                             //Toluene
                             previous5ValuesToluene.setPrevious4(snapshot.child("dataFromArduino").child(previousDate4)
                                 .child("tolueneMax").value.toString().toFloat())
+                            // Acetone
+                            previous5ValuesAcetone.setPrevious4(snapshot.child("dataFromArduino").child(previousDate4)
+                                .child("acetoneMax").value.toString().toFloat())
+                            // Ammonia
+                            previous5ValuesAmmonia.setPrevious4(snapshot.child("dataFromArduino").child(previousDate4)
+                                .child("ammoniaMax").value.toString().toFloat())
+                            // Alcohol
+                            previous5ValuesAlcohol.setPrevious4(snapshot.child("dataFromArduino").child(previousDate4)
+                                .child("alcoholMax").value.toString().toFloat())
+                            // Hydrogen
+                            previous5ValuesHydrogen.setPrevious4(snapshot.child("dataFromArduino").child(previousDate4)
+                                .child("hydrogenMax").value.toString().toFloat())
+
                         }
 
                         barChartForToluene.animation.duration = 1000L
@@ -185,6 +240,47 @@ class MoreDetailsActivity: AppCompatActivity() {
                             Pair(previous5Days[1], previous5ValuesToluene.getPrevious1()),
                             Pair(previous5Days[0], previous5ValuesToluene.getCurrent()))
                         barChartForToluene.animate(barSetToluene)
+
+                        barChartForAcetone.animation.duration = 1000L
+                        val barSetAcetone = listOf(Pair(previous5Days[4], previous5ValuesAcetone.getPrevious4()),
+                            Pair(previous5Days[3], previous5ValuesAcetone.getPrevious3()),
+                            Pair(previous5Days[2], previous5ValuesAcetone.getPrevious2()),
+                            Pair(previous5Days[1], previous5ValuesAcetone.getPrevious1()),
+                            Pair(previous5Days[0], previous5ValuesAcetone.getCurrent()))
+                        barChartForAcetone.animate(barSetAcetone)
+
+                        barChartForAmmonia.animation.duration = 1000L
+                        val barSetAmmonia = listOf(Pair(previous5Days[4], previous5ValuesAmmonia.getPrevious4()),
+                            Pair(previous5Days[3], previous5ValuesAmmonia.getPrevious3()),
+                            Pair(previous5Days[2], previous5ValuesAmmonia.getPrevious2()),
+                            Pair(previous5Days[1], previous5ValuesAmmonia.getPrevious1()),
+                            Pair(previous5Days[0], previous5ValuesAmmonia.getCurrent()))
+                        barChartForAmmonia.animate(barSetAmmonia)
+
+                        barChartForAlcohol.animation.duration = 1000L
+                        val barSetAlcohol = listOf(Pair(previous5Days[4], previous5ValuesAlcohol.getPrevious4()),
+                            Pair(previous5Days[3], previous5ValuesAlcohol.getPrevious3()),
+                            Pair(previous5Days[2], previous5ValuesAlcohol.getPrevious2()),
+                            Pair(previous5Days[1], previous5ValuesAlcohol.getPrevious1()),
+                            Pair(previous5Days[0], previous5ValuesAlcohol.getCurrent()))
+                        barChartForAlcohol.animate(barSetAlcohol)
+
+                        barChartForHydrogen.animation.duration = 1000L
+                        val barSetHydrogen = listOf(Pair(previous5Days[4], previous5ValuesHydrogen.getPrevious4()),
+                            Pair(previous5Days[3], previous5ValuesHydrogen.getPrevious3()),
+                            Pair(previous5Days[2], previous5ValuesHydrogen.getPrevious2()),
+                            Pair(previous5Days[1], previous5ValuesHydrogen.getPrevious1()),
+                            Pair(previous5Days[0], previous5ValuesHydrogen.getCurrent()))
+                        barChartForHydrogen.animate(barSetHydrogen)
+
+                        barChartForCO2.animation.duration = 1000L
+                        val barSetCO2= listOf(Pair(previous5Days[4], previous5ValuesCO2.getPrevious4()),
+                            Pair(previous5Days[3], previous5ValuesCO2.getPrevious3()),
+                            Pair(previous5Days[2], previous5ValuesCO2.getPrevious2()),
+                            Pair(previous5Days[1], previous5ValuesCO2.getPrevious1()),
+                            Pair(previous5Days[0], previous5ValuesCO2.getCurrent()))
+                        barChartForCO2.animate(barSetCO2)
+
                     }
                 }
 
@@ -287,60 +383,6 @@ class MoreDetailsActivity: AppCompatActivity() {
             window.showAsDropDown(openPopUpCO2)
         }
 
-        //Bar Charts
-        // Toluene
-       // barChartForToluene.animation.duration = 1000L
-     //   val barSetToluene = listOf(Pair(previous5Days[4], previous5ValuesToluene.getPrevious4()),
-     //                   Pair(previous5Days[3], previous5ValuesToluene.getPrevious3()),
-     //                   Pair(previous5Days[2], previous5ValuesToluene.getPrevious2()),
-     //                   Pair(previous5Days[1], previous5ValuesToluene.getPrevious1()),
-      //                  Pair(previous5Days[0], previous5ValuesToluene.getCurrent()))
-      //  barChartForToluene.animate(barSetToluene)
-
-        // Acetone
-        barChartForAcetone.animation.duration = 1000L
-        val barSetAcetone = listOf(Pair(previous5Days[4], previous5ValuesAcetone.getPrevious4()),
-            Pair(previous5Days[3], previous5ValuesAcetone.getPrevious3()),
-            Pair(previous5Days[2], previous5ValuesAcetone.getPrevious2()),
-            Pair(previous5Days[1], previous5ValuesAcetone.getPrevious1()),
-            Pair(previous5Days[0], previous5ValuesAcetone.getCurrent()))
-        barChartForAcetone.animate(barSetAcetone)
-
-        // Ammonia
-        barChartForAmmonia.animation.duration = 1000L
-        val barSetAmmonia = listOf(Pair(previous5Days[4], previous5ValuesAmmonia.getPrevious4()),
-            Pair(previous5Days[3], previous5ValuesAmmonia.getPrevious3()),
-            Pair(previous5Days[2], previous5ValuesAmmonia.getPrevious2()),
-            Pair(previous5Days[1], previous5ValuesAmmonia.getPrevious1()),
-            Pair(previous5Days[0], previous5ValuesAmmonia.getCurrent()))
-        barChartForAmmonia.animate(barSetAmmonia)
-
-        // Alcohol
-        barChartForAlcohol.animation.duration = 1000L
-        val barSetAlcohol = listOf(Pair(previous5Days[4], previous5ValuesAlcohol.getPrevious4()),
-            Pair(previous5Days[3], previous5ValuesAlcohol.getPrevious3()),
-            Pair(previous5Days[2], previous5ValuesAlcohol.getPrevious2()),
-            Pair(previous5Days[1], previous5ValuesAlcohol.getPrevious1()),
-            Pair(previous5Days[0], previous5ValuesAlcohol.getCurrent()))
-        barChartForAlcohol.animate(barSetAlcohol)
-
-        // Hydrogen
-        barChartForHydrogen.animation.duration = 1000L
-        val barSetHydrogen= listOf(Pair(previous5Days[4], previous5ValuesHydrogen.getPrevious4()),
-            Pair(previous5Days[3], previous5ValuesHydrogen.getPrevious3()),
-            Pair(previous5Days[2], previous5ValuesHydrogen.getPrevious2()),
-            Pair(previous5Days[1], previous5ValuesHydrogen.getPrevious1()),
-            Pair(previous5Days[0], previous5ValuesHydrogen.getCurrent()))
-        barChartForHydrogen.animate(barSetHydrogen)
-
-        // CO2
-        barChartForCO2.animation.duration = 1000L
-        val barSetCO2 = listOf(Pair(previous5Days[4], previous5ValuesCO2.getPrevious4()),
-            Pair(previous5Days[3], previous5ValuesCO2.getPrevious3()),
-            Pair(previous5Days[2], previous5ValuesCO2.getPrevious2()),
-            Pair(previous5Days[1], previous5ValuesCO2.getPrevious1()),
-            Pair(previous5Days[0], previous5ValuesCO2.getCurrent()))
-        barChartForCO2.animate(barSetCO2)
     }
 
 }
